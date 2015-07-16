@@ -1,0 +1,196 @@
+apply plugin: 'com.android.library'
+apply plugin: 'maven'
+apply plugin: 'findbugs'
+apply plugin: 'pmd'
+apply plugin: 'checkstyle'
+
+version = "1.2.0-SNAPSHOT"
+group = "com.monits"
+
+if (version.endsWith('-SNAPSHOT')) {
+    ext.nexusRepo = 'http://nexus.monits.com/content/repositories/oss-snapshots'
+} else {
+    ext.nexusRepo = 'http://nexus.monits.com/content/repositories/oss-releases'
+}
+
+ext.nexusUsername = has("nexusUsername") ? nexusUsername : ""
+ext.nexusPassword = has("nexusPassword") ? nexusPassword : ""
+
+
+android {
+    compileSdkVersion 22
+    buildToolsVersion "22.0.1"
+
+    defaultConfig {
+        minSdkVersion 14
+        targetSdkVersion 22
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.txt'
+        }
+    }
+}
+
+dependencies {
+    compile 'com.android.support:appcompat-v7:22.2.0'
+    compile 'com.android.support:support-v4:22.2.0'
+
+    provided 'com.google.code.findbugs:annotations:3.0.0'
+
+    checkstyle 'com.puppycrawl.tools:checkstyle:6.7'
+
+    findbugs 'com.google.code.findbugs:findbugs:3.0.1'
+    findbugs configurations.findbugsPlugins.dependencies
+
+    // To keep everything tidy, we set these apart
+    findbugsPlugins('com.monits:findbugs-plugin:0.2.0-SNAPSHOT') {
+        transitive = false
+    }
+    findbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:6.2.1'
+}
+
+configurations {
+    archives {
+        extendsFrom configurations.default
+    }
+    provided {
+        dependencies.all { dep ->
+            configurations.default.exclude group: dep.group, module: dep.name
+        }
+    }
+    compile.extendsFrom provided
+}
+
+// linters!
+task downloadCheckstyleXml {
+    new File("${project.rootDir}/config/checkstyle/").mkdirs()
+    ant.get(src: 'http://static.monits.com/checkstyle.xml', dest: "${project.rootDir}/config/checkstyle/checkstyle.xml")
+}
+
+task checkstyle(type: Checkstyle, dependsOn: downloadCheckstyleXml) {
+    configFile file("${project.rootDir}/config/checkstyle/checkstyle.xml")
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    classpath = project.configurations.compile
+}
+
+task findbugs(type: FindBugs) {
+    dependsOn project.tasks.withType(JavaCompile)
+    classes = files("$project.buildDir/intermediates/classes/")
+    ignoreFailures = true
+    effort = "max"
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    excludeFilter = file("$rootProject.projectDir/config/findbugs/excludeFilter.xml")
+
+    reports {
+        xml {
+            destination "$project.buildDir/reports/findbugs/findbugs.xml"
+            xml.withMessages true
+        }
+    }
+
+    pluginClasspath = project.configurations.findbugsPlugins
+    classpath = project.configurations.compile
+}
+
+pmd {
+    toolVersion = '5.3.2'
+}
+
+task pmd(type: Pmd) {
+    ignoreFailures = true
+
+    source 'src'
+    include '**/*.java'
+    exclude '**/gen/**'
+
+    reports {
+        xml.enabled = true
+        html.enabled = false
+    }
+
+    ruleSets = ['http://static.monits.com/pmd.xml']
+}
+
+// add CPD to check
+check << {
+    File outDir = new File("$project.buildDir/reports/pmd/")
+    outDir.mkdirs()
+    ant.taskdef(name: 'cpd', classname: 'net.sourceforge.pmd.cpd.CPDTask',
+            classpath: configurations.pmd.asPath)
+    ant.cpd(minimumTokenCount: '100', format: 'xml',
+            outputFile: new File(outDir , 'cpd.xml')) {
+        fileset(dir: "src") {
+            include(name: '**/*.java')
+            exclude(name: '**/gen/**')
+        }
+    }
+}
+
+check.dependsOn 'checkstyle', 'pmd', 'findbugs'
+
+// Generate sources
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from 'src/main/java'
+}
+
+artifacts {
+    archives sourcesJar
+}
+
+// To upload artifact to Nexus
+uploadArchives {
+    configuration = configurations.archives
+    repositories {
+        mavenDeployer {
+            repository(url: project.ext.nexusRepo) {
+                authentication(userName: project.ext.nexusUsername, password: project.ext.nexusPassword)
+            }
+
+            pom.project {
+                name 'Android Skeletor'
+                packaging 'aar'
+                description 'Skeletor Library for Actionbar / Sidemenu applications'
+                url 'http://ph.monits.com/diffusion/MAS'
+
+                scm {
+                    url 'scm:git@monits.com:monits/android/skeletor.git'
+                    connection 'scm:git@monits.com:monits/android/skeletor.git'
+                    developerConnection 'scm:git@monits.com:monits/android/skeletor.git'
+                }
+
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                        distribution 'repo'
+                    }
+                }
+
+                developers {
+                    developer {
+                        id 'MartuPuri'
+                        name 'Martin Purita'
+                        email 'mpurita@monits.com'
+                    }
+                    developer {
+                        id 'DTecheira'
+                        name 'Damián Techeira'
+                        email 'dtecheira@monits.com'
+                    }
+                }
+            }
+        }
+    }
+}
