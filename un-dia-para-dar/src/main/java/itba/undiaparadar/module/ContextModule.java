@@ -9,7 +9,6 @@ import com.google.inject.Singleton;
 import itba.undiaparadar.UnDiaParaDarApplication;
 
 public class ContextModule extends AbstractModule {
-
 	@Override
 	protected void configure() {
 		bind(Context.class).toProvider(new Provider<Context>() {
@@ -18,7 +17,6 @@ public class ContextModule extends AbstractModule {
 			public Context get() {
 				return UnDiaParaDarApplication.getAppContext();
 			}
-		}).in(Singleton.class);		
+		}).in(Singleton.class);
 	}
-
 }

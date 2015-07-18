@@ -15,14 +15,14 @@ import itba.undiaparadar.module.GsonModule;
 import itba.undiaparadar.module.UnDiaParaDarModule;
 
 public class UnDiaParaDarApplication extends Application {
-	private static Injector injector;
+	protected static Injector injector;
 	private static UnDiaParaDarApplication mInstance;
 
 	private void setUpInjector() {
 		final List<Module> modules = new ArrayList<>();
-		modules.add(new UnDiaParaDarModule());
-		modules.add(new GsonModule());
 		modules.add(new ContextModule());
+		modules.add(new GsonModule());
+		modules.add(new UnDiaParaDarModule());
 
 		injector = Guice.createInjector(modules);
 	}
