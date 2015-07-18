@@ -1,1 +1,1 @@
-include ':un-dia-para-dar', ':skeletor', ':facebook'
+include ':un-dia-para-dar', ':skeletor'

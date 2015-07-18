@@ -1,0 +1,4 @@
+<resources>
+    <dimen name="m1">8dp</dimen>
+    <dimen name="m20">160dp</dimen>
+</resources>

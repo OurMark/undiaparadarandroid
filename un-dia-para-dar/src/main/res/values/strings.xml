@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">UnDiaParaDar</string>
+
+    <string name="title_activity_login">LoginActivity</string>
+    <string name="hashtag_un_dia_para_dar">#undiaparadar</string>
+    <string name="facebook_app_id">877005669054245</string>
+    <string name="loginFacebookButton">Ingresar con Facebook</string>
 </resources>
