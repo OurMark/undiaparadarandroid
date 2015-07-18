@@ -2,4 +2,6 @@
     <color name="black">#000000</color>
     <color name="white">#FFFFFF</color>
     <color name="orange">#FF9900</color>
+    <color name="action_bar_orange">#FF9000</color>
+    <color name="notification_orange">#FF8000</color>
 </resources>
