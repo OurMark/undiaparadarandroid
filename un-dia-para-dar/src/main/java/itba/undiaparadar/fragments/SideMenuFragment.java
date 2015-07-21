@@ -33,6 +33,9 @@ public class SideMenuFragment extends Fragment {
 	public SideMenuFragment() {
 		UnDiaParaDarApplication.injectMembers(this);
 		fragmentMap.put(R.id.profile_menu, new ProfileFragmentFactory());
+		fragmentMap.put(R.id.topics_menu, new TopicsFragmentFactory());
+		fragmentMap.put(R.id.news_menu
+				, new NewsFragmentFactory());
 	}
 
 	@Override
@@ -72,6 +75,24 @@ public class SideMenuFragment extends Fragment {
 		@Override
 		public Fragment newFragment() {
 			return ProfileFragment.newInstance();
+		}
+	}
+
+	private static class TopicsFragmentFactory implements FragmentFactory {
+		private static final long serialVersionUID = -7188229760615810973L;
+
+		@Override
+		public Fragment newFragment() {
+			return TopicsFragment.newInstance();
+		}
+	}
+
+	private static class NewsFragmentFactory implements FragmentFactory {
+		private static final long serialVersionUID = -7188229760615810973L;
+
+		@Override
+		public Fragment newFragment() {
+			return NewsFragment.newInstance();
 		}
 	}
 }

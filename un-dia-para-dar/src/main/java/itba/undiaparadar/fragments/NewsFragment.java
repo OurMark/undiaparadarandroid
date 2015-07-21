@@ -9,16 +9,16 @@ import android.view.ViewGroup;
 
 import itba.undiaparadar.R;
 
-public class ProfileFragment extends Fragment {
+public class NewsFragment extends Fragment {
 
 	public static Fragment newInstance() {
-		return new ProfileFragment();
+		return new NewsFragment();
 	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
-		return inflater.inflate(R.layout.fragment_profile, container, false);
+		return inflater.inflate(R.layout.fragment_news, container, false);
 	}
 
 
