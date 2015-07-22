@@ -57,7 +57,7 @@ public class SideMenuFragment extends Fragment {
 						profileImage.getHeight()).toString(),
 				imageLoader);
 		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
-		profileName.setText(userProfile.getName()   );
+		profileName.setText(userProfile.getName());
 
 		return root;
 	}

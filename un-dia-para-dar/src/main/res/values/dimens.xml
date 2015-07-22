@@ -6,4 +6,6 @@
     <dimen name="m5">40dp</dimen>
     <dimen name="m8">64dp</dimen>
     <dimen name="m20">160dp</dimen>
+    <dimen name="m25">200dp</dimen>
+    <dimen name="m32">256dp</dimen>
 </resources>

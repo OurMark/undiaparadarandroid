@@ -37,6 +37,9 @@ public class RoundedImageView extends NetworkImageView {
 			return;
 		}
 		final Bitmap b = ((BitmapDrawable) drawable).getBitmap();
+		if (b == null) {
+			return;
+		}
 		final Bitmap bitmap = b.copy(Bitmap.Config.ARGB_8888, true);
 
 		int w = getWidth();
