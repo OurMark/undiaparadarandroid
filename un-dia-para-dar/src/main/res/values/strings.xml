@@ -5,4 +5,8 @@
     <string name="map">Mapa</string>
     <string name="topics">Topics</string>
     <string name="news">Novedades</string>
+    <string name="title_activity_find_what_to_do">FindWhatToDo</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>

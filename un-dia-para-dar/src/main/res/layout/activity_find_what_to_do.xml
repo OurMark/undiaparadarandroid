@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="fill_parent"
+              android:layout_height="fill_parent"
+              android:background="@drawable/background_general"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageButton
+            android:id="@+id/imageButton1"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/voluntariado" />
+
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/plantar_arboles" />
+
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/formarse_para_ayudar" />
+    </LinearLayout>
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+         <ImageButton
+            android:id="@+id/imageButton4"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/publicacion_de_calle" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_telefonos_moviles" />
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/adopcion_de_mascotas" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/imageButton7"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/reutilizar" />
+
+        <ImageButton
+            android:id="@+id/imageButton8"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_plaquetas" />
+
+        <ImageButton
+            android:id="@+id/imageButton9"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_leche_materna" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageButton
+            android:id="@+id/imageButton10"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_alimentos" />
+
+        <ImageButton
+            android:id="@+id/imageButton11"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_articulos_usados" />
+
+        <ImageButton
+            android:id="@+id/imageButton12"
+            android:layout_weight="1"
+            android:layout_width="100dp"
+            android:layout_height="105dp"
+            android:layout_margin="5dp"
+            android:padding="0dp"
+            android:background="@drawable/donar_pelo" />
+    </LinearLayout>
+</LinearLayout>
