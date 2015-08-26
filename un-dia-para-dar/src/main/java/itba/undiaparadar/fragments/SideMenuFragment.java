@@ -22,7 +22,7 @@ import itba.undiaparadar.activities.MainActivity;
 
 public class SideMenuFragment extends Fragment {
 	private final SparseArray<FragmentFactory> fragmentMap = new SparseArray<>();
-	private Profile userProfile;
+//	private Profile userProfile;
 	@Inject
 	private ImageLoader imageLoader;
 
@@ -41,7 +41,7 @@ public class SideMenuFragment extends Fragment {
 	@Override
 	public void onCreate(final @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userProfile = Profile.getCurrentProfile();
+//		userProfile = Profile.getCurrentProfile();
 	}
 
 	@Nullable
@@ -50,14 +50,14 @@ public class SideMenuFragment extends Fragment {
 	                         final Bundle savedInstanceState) {
 		final View root = inflater.inflate(R.layout.side_menu, container, false);
 
-		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
-		profileImage.setImageUrl(userProfile
-				.getProfilePictureUri(
-						profileImage.getMaxWidth(),
-						profileImage.getHeight()).toString(),
-				imageLoader);
-		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
-		profileName.setText(userProfile.getName());
+//		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
+//		profileImage.setImageUrl(userProfile
+//				.getProfilePictureUri(
+//						profileImage.getMaxWidth(),
+//						profileImage.getHeight()).toString(),
+//				imageLoader);
+//		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
+//		profileName.setText(userProfile.getName());
 
 		return root;
 	}

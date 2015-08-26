@@ -13,6 +13,7 @@ import com.monits.skeletor.activity.SlideMenuStruct;
 import itba.undiaparadar.R;
 import itba.undiaparadar.fragments.ProfileFragment;
 import itba.undiaparadar.fragments.SideMenuFragment;
+import itba.undiaparadar.fragments.TopicsFragment;
 import itba.undiaparadar.interfaces.TitleProvider;
 
 public class MainActivity extends SlideMenuStruct {
@@ -34,13 +35,13 @@ public class MainActivity extends SlideMenuStruct {
 			final TitleProvider titleProvider = (TitleProvider) contentFragment;
 			return titleProvider.getTitle();
 		}
-		return getString(R.string.app_name);
+		return getString(R.string.hashtag_un_dia_para_dar);
 	}
 
 	@NonNull
 	@Override
 	protected Fragment newDefaultContentFragment() {
-		return ProfileFragment.newInstance();
+		return TopicsFragment.newInstance();
 	}
 
 	@NonNull
