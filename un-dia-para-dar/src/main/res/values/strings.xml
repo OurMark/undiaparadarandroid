@@ -6,4 +6,21 @@
     <string name="topics">Topics</string>
     <string name="news">Novedades</string>
     <string name="find_what_to_give">Encuentra que dar</string>
+    <string name="adopcion_mascotas">Mascotas</string>
+    <string name="asesor_directorio">Asesor directorio</string>
+    <string name="donante_de_medula_osea">Medula osea</string>
+    <string name="donar_alimentos">Alimentos</string>
+    <string name="donar_articulos_usados">Articulos usados</string>
+    <string name="donar_dinero">Dinero</string>
+    <string name="donar_leche_materna">Leche</string>
+    <string name="donar_millas_aereas">Millas</string>
+    <string name="donar_pelo">Pelo</string>
+    <string name="donar_plaquetas">Plaquetas</string>
+    <string name="donar_sangre">Sangre</string>
+    <string name="donar_telefonos_moviles">Celulares</string>
+    <string name="formarse_para_ayudar">Formarse para ayudar</string>
+    <string name="plantar_arboles">Plantar arboles</string>
+    <string name="publicacion_de_calle">Publicacion de calle</string>
+    <string name="reutilizar">Reutilizar</string>
+    <string name="voluntariado">Voluntariado</string>
 </resources>

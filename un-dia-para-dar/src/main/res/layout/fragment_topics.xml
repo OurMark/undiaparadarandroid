@@ -6,25 +6,25 @@
     android:orientation="vertical">
 
     <TextView
-        android:layout_marginTop="@dimen/m2"
-        android:layout_marginBottom="@dimen/m2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="32sp"
-        android:textStyle="bold"
+        android:layout_gravity="center"
+        android:layout_marginBottom="@dimen/m2"
+        android:layout_marginTop="@dimen/m2"
         android:text="@string/find_what_to_give"
-        android:layout_gravity="center"/>
+        android:textSize="32sp"
+        android:textStyle="bold" />
 
     <GridView
         android:id="@+id/topics_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
+        android:layout_marginLeft="@dimen/m2"
+        android:layout_marginRight="@dimen/m2"
         android:choiceMode="multipleChoice"
-        android:columnWidth="@dimen/m12.5"
         android:gravity="center"
-        android:horizontalSpacing="@dimen/m1.25"
-        android:numColumns="auto_fit"
+        android:horizontalSpacing="@dimen/m4"
+        android:numColumns="3"
         android:stretchMode="columnWidth"
-        android:verticalSpacing="@dimen/m1.5" />
+        android:verticalSpacing="@dimen/m4" />
 </LinearLayout>

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.model.Topic;
@@ -48,6 +49,7 @@ public class TopicsItemAdapter extends BaseAdapter {
             convertView = layoutInflater.inflate(R.layout.topics_item, null, false);
             viewHolder = new ViewHolder();
             viewHolder.topicImg = (ImageView) convertView.findViewById(R.id.topic_img);
+            viewHolder.topicName = (TextView) convertView.findViewById(R.id.topic_name);
 
             convertView.setTag(viewHolder);
         } else {
@@ -56,11 +58,13 @@ public class TopicsItemAdapter extends BaseAdapter {
         final Topic topic = getItem(position);
 
         viewHolder.topicImg.setImageResource(topic.getImageId());
+        viewHolder.topicName.setText(topic.getName());
 
         return convertView;
     }
 
     protected class ViewHolder {
         private ImageView topicImg;
+        private TextView topicName;
     }
 }
