@@ -14,9 +14,10 @@ import java.util.List;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.adapter.TopicsItemAdapter;
+import itba.undiaparadar.interfaces.TitleProvider;
 import itba.undiaparadar.model.Topic;
 
-public class TopicsFragment extends Fragment {
+public class TopicsFragment extends Fragment implements TitleProvider {
 	private View root;
 
 	public static Fragment newInstance() {
@@ -68,4 +69,8 @@ public class TopicsFragment extends Fragment {
 	}
 
 
+	@Override
+	public String getTitle() {
+		return getString(R.string.find_what_to_give);
+	}
 }

@@ -5,20 +5,11 @@
     android:background="@drawable/background_general"
     android:orientation="vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginBottom="@dimen/m2"
-        android:layout_marginTop="@dimen/m2"
-        android:text="@string/find_what_to_give"
-        android:textSize="32sp"
-        android:textStyle="bold" />
-
     <GridView
         android:id="@+id/topics_grid"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_marginTop="@dimen/m2"
         android:layout_marginLeft="@dimen/m2"
         android:layout_marginRight="@dimen/m2"
         android:choiceMode="multipleChoice"
