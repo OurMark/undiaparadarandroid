@@ -23,4 +23,7 @@
     <string name="publicacion_de_calle">Publicacion de calle</string>
     <string name="reutilizar">Reutilizar</string>
     <string name="voluntariado">Voluntariado</string>
+    <string name="go_to_map">Ir al mapa</string>
+    <string name="empty_topics">Debes seleccionar al menos un topic</string>
+    <string name="profile">Perfil</string>
 </resources>

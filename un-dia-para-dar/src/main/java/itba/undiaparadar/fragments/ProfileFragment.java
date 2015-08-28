@@ -17,8 +17,9 @@ import javax.inject.Inject;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.interfaces.TitleProvider;
 
-public class ProfileFragment extends Fragment {
+public class ProfileFragment extends Fragment implements TitleProvider {
 	private Profile userProfile;
 	@Inject
 	private ImageLoader imageLoader;
@@ -47,5 +48,10 @@ public class ProfileFragment extends Fragment {
 		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
 		profileName.setText(userProfile.getName());
 		return root;
+	}
+
+	@Override
+	public String getTitle() {
+		return getString(R.string.profile);
 	}
 }

@@ -12,6 +12,8 @@ import com.google.inject.Singleton;
 import com.monits.volleyrequests.network.NullSafeImageLoader;
 
 import itba.undiaparadar.cache.BitmapLruCache;
+import itba.undiaparadar.services.TopicService;
+import itba.undiaparadar.services.TopicServiceImpl;
 
 public class UnDiaParaDarModule extends AbstractModule {
 
@@ -21,6 +23,10 @@ public class UnDiaParaDarModule extends AbstractModule {
 		bind(RequestQueue.class).toProvider(RequestQueueProvider.class).in(Singleton.class);
 		bind(ImageLoader.class).toProvider(ImageLoaderProvider.class).in(Singleton.class);
 		bind(BitmapLruCache.class).in(Singleton.class);
+
+		//Services
+
+		bind(TopicService.class).to(TopicServiceImpl.class).in(Singleton.class);
 	}
 
 	private static class RequestQueueProvider implements Provider<RequestQueue> {

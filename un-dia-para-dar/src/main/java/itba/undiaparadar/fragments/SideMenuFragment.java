@@ -34,14 +34,14 @@ public class SideMenuFragment extends Fragment {
 		UnDiaParaDarApplication.injectMembers(this);
 		fragmentMap.put(R.id.profile_menu, new ProfileFragmentFactory());
 		fragmentMap.put(R.id.topics_menu, new TopicsFragmentFactory());
-		fragmentMap.put(R.id.news_menu
-				, new NewsFragmentFactory());
+		fragmentMap.put(R.id.news_menu, new NewsFragmentFactory());
+		fragmentMap.put(R.id.map_menu, new MapFragmentFactory());
 	}
 
 	@Override
 	public void onCreate(final @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		userProfile = Profile.getCurrentProfile();
+//		userProfile = Profile.getCurrentProfile();
 	}
 
 	@Nullable
@@ -50,14 +50,14 @@ public class SideMenuFragment extends Fragment {
 	                         final Bundle savedInstanceState) {
 		final View root = inflater.inflate(R.layout.side_menu, container, false);
 
-		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
-		profileImage.setImageUrl(userProfile
-				.getProfilePictureUri(
-						profileImage.getMaxWidth(),
-						profileImage.getHeight()).toString(),
-				imageLoader);
-		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
-		profileName.setText(userProfile.getName());
+//		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
+//		profileImage.setImageUrl(userProfile
+//				.getProfilePictureUri(
+//						profileImage.getMaxWidth(),
+//						profileImage.getHeight()).toString(),
+//				imageLoader);
+//		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
+//		profileName.setText(userProfile.getName());
 
 		return root;
 	}
@@ -70,7 +70,7 @@ public class SideMenuFragment extends Fragment {
 	}
 
 	private static class ProfileFragmentFactory implements FragmentFactory {
-		private static final long serialVersionUID = -7188229760615810973L;
+		private static final long serialVersionUID = -7188229760615810974L;
 
 		@Override
 		public Fragment newFragment() {
@@ -88,11 +88,20 @@ public class SideMenuFragment extends Fragment {
 	}
 
 	private static class NewsFragmentFactory implements FragmentFactory {
-		private static final long serialVersionUID = -7188229760615810973L;
+		private static final long serialVersionUID = -7188229760615810971L;
 
 		@Override
 		public Fragment newFragment() {
 			return NewsFragment.newInstance();
+		}
+	}
+
+	private static class MapFragmentFactory implements FragmentFactory {
+		private static final long serialVersionUID = -7188229760615810972L;
+
+		@Override
+		public Fragment newFragment() {
+			return MapFragment.newInstance();
 		}
 	}
 }

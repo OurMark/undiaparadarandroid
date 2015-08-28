@@ -1,6 +1,5 @@
 package itba.undiaparadar.adapter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import android.content.Context;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import itba.undiaparadar.R;
@@ -57,7 +57,7 @@ public class TopicsItemAdapter extends BaseAdapter {
         }
         final Topic topic = getItem(position);
 
-        viewHolder.topicImg.setImageResource(topic.getImageId());
+        viewHolder.topicImg.setImageResource(topic.getDisableImageResId());
         viewHolder.topicName.setText(topic.getName());
 
         return convertView;
