@@ -15,7 +15,7 @@
             android:id="@+id/profile_menu"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/orange"
+            android:background="@color/dark_red"
             android:orientation="horizontal"
             android:paddingBottom="@dimen/m1.5"
             android:paddingTop="@dimen/m1.5">
@@ -86,7 +86,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/m1"
             android:layout_marginRight="@dimen/m1"
-            android:background="@color/orange"/>
+            android:background="@color/dark_red"/>
 
         <LinearLayout
             android:id="@+id/topics_menu"
@@ -126,7 +126,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/m1"
             android:layout_marginRight="@dimen/m1"
-            android:background="@color/orange"/>
+            android:background="@color/dark_red"/>
 
         <LinearLayout
             android:id="@+id/news_menu"
@@ -166,7 +166,7 @@
             android:layout_height="1dp"
             android:layout_marginLeft="@dimen/m1"
             android:layout_marginRight="@dimen/m1"
-            android:background="@color/orange"/>
+            android:background="@color/dark_red"/>
     </LinearLayout>
 
 
