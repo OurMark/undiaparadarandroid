@@ -4,7 +4,7 @@
     <item
         android:id="@+id/go_to_map"
         android:title="@string/go_to_map"
-        android:icon="@drawable/ic_map"
+        android:icon="@drawable/boton_corazon_gris"
         android:orderInCategory="100"
         app:showAsAction="always" />
 </menu>
