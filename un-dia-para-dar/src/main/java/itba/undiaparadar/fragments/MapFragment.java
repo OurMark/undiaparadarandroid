@@ -1,16 +1,26 @@
 package itba.undiaparadar.fragments;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.interfaces.TitleProvider;
 
 public class MapFragment extends Fragment implements TitleProvider {
+	private GoogleMap mMap;
+	private SupportMapFragment mapFragment;
 
 	public static Fragment newInstance() {
 		return new MapFragment();
@@ -22,6 +32,62 @@ public class MapFragment extends Fragment implements TitleProvider {
 		return inflater.inflate(R.layout.fragment_map, container, false);
 	}
 
+	@Override
+	public void onActivityCreated(final Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
+		final FragmentManager fm = getChildFragmentManager();
+
+		mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
+		if (mapFragment == null) {
+			mapFragment = SupportMapFragment.newInstance();
+      /*
+       * Map Initialization will come later, just making sure that, if we have a new instance of the fragment,
+       * Also have the GoogleMap reference from that fragment.
+       */
+			mMap = null;
+		}
+
+		fm.beginTransaction().replace(R.id.map, mapFragment).commit();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+		setupMapIfNeeded();
+	}
+
+	/**
+	 * Sets up the map configuration.
+	 *
+	 * This should be called after {@link MapFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)} otherwise,
+	 * map could return null and never set up at all.
+	 */
+	private void setupMapIfNeeded() {
+		// Do a null check to confirm that we have not already instantiated the map.
+		if (mMap == null) {
+			mMap = mapFragment.getMap();
+
+      /*
+       * Check if we were successful in obtaining the map. This can fail if GooglePlayServices are not available, or if
+       * StoresMapFragment has not gone through onCreateView.
+       */
+			if (mMap != null) {
+				setupMap();
+			}
+		}
+	}
+
+	private void setupMap() {
+		final LatLng sydney = new LatLng(-33.867, 151.206);
+
+		mMap.setMyLocationEnabled(true);
+		mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 13));
+
+		mMap.addMarker(new MarkerOptions()
+				.title("Sydney")
+				.snippet("The most populous city in Australia.")
+				.position(sydney));
+	}
 
 	@Override
 	public String getTitle() {
