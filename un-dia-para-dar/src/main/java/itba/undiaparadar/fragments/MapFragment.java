@@ -1,6 +1,7 @@
 package itba.undiaparadar.fragments;
 
 
+import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -58,7 +59,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 
     /**
      * Sets up the map configuration.
-     * <p/>
+     * <p>
      * This should be called after {@link MapFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)} otherwise,
      * map could return null and never set up at all.
      */
