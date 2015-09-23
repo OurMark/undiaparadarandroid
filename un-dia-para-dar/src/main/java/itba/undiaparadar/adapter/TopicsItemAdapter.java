@@ -12,8 +12,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+
 import itba.undiaparadar.R;
+import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.model.Topic;
+import itba.undiaparadar.services.TopicService;
 
 public class TopicsItemAdapter extends BaseAdapter {
 
@@ -57,7 +61,11 @@ public class TopicsItemAdapter extends BaseAdapter {
         }
         final Topic topic = getItem(position);
 
-        viewHolder.topicImg.setImageResource(topic.getDisableImageResId());
+        if (topic.isSelected()) {
+            viewHolder.topicImg.setImageResource(topic.getEnableImageResId());
+        } else {
+            viewHolder.topicImg.setImageResource(topic.getDisableImageResId());
+        };
         viewHolder.topicName.setText(topic.getName());
 
         return convertView;

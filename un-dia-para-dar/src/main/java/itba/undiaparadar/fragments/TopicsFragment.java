@@ -32,7 +32,6 @@ public class TopicsFragment extends Fragment implements TitleProvider {
     @Inject
     private TopicService topicService;
     private List<Topic> topics;
-    private MenuItem goToMap;
 
     public static Fragment newInstance() {
         return new TopicsFragment();
@@ -47,7 +46,6 @@ public class TopicsFragment extends Fragment implements TitleProvider {
                              Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_topics, container, false);
         populateGrid();
-        setHasOptionsMenu(true);
 
         return root;
     }
@@ -64,9 +62,9 @@ public class TopicsFragment extends Fragment implements TitleProvider {
                 final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
                 topicService.loadImageResId(adapter.getItem(position), img);
                 if (isAnyTopicSelected()) {
-                    goToMap.setIcon(R.drawable.boton_corazon);
+                    setHasOptionsMenu(true);
                 } else {
-                    goToMap.setIcon(R.drawable.boton_corazon_gris);
+                    setHasOptionsMenu(false);
                 }
             }
         });
@@ -125,7 +123,6 @@ public class TopicsFragment extends Fragment implements TitleProvider {
     @Override
     public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
         inflater.inflate(R.menu.menu_topic, menu);
-        goToMap = menu.getItem(0);
     }
 
     private List<Topic> getSelectedTopics() {

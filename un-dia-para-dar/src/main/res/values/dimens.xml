@@ -11,4 +11,5 @@
     <dimen name="m23">184dp</dimen>
     <dimen name="m25">200dp</dimen>
     <dimen name="m32">256dp</dimen>
+    <dimen name="m62.5">500dp</dimen>
 </resources>
