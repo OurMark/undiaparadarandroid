@@ -5,6 +5,7 @@ import android.location.Location;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ public class MapFragment extends Fragment implements TitleProvider {
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        final ActionBarActivity actionBarActivity = (ActionBarActivity) getActivity();
+        actionBarActivity.getSupportActionBar().setTitle(getTitle());
         final FragmentManager fm = getChildFragmentManager();
 
         mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);

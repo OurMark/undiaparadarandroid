@@ -16,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.inject.Inject;
+import com.monits.skeletor.base.BaseStruct;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -111,6 +112,7 @@ public class TopicsFragment extends Fragment implements TitleProvider {
             if (!selectedTopics.isEmpty()) {
                 getFragmentManager()
                         .beginTransaction()
+                        .setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right)
                         .replace(R.id.main_content, MapFragment.newInstance())
                         .commit();
             }
