@@ -3,8 +3,11 @@
     <string name="hashtag_un_dia_para_dar">#undiaparadar</string>
     <string name="facebook_app_id">877005669054245</string>
     <string name="map">Mapa</string>
-    <string name="topics">Topics</string>
-    <string name="news">Novedades</string>
+    <string name="topics">Inicio Encuentra que DAR</string>
+    <string name="statistics">Estadisticas</string>
+    <string name="achievements">Mis Logros</string>
+    <string name="what_is_udpd">Que es UDPD</string>
+    <string name="terms_and_conditions">Términos y Condiciones</string>
     <string name="find_what_to_give">Encuentra que dar</string>
     <string name="adopcion_mascotas">Mascotas</string>
     <string name="asesor_directorio">Asesor directorio</string>

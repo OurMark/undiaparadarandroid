@@ -1,6 +1,7 @@
 package itba.undiaparadar.module;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
@@ -11,7 +12,10 @@ import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.monits.volleyrequests.network.NullSafeImageLoader;
 
+import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.cache.BitmapLruCache;
+import itba.undiaparadar.services.SettingsService;
+import itba.undiaparadar.services.SettingsServiceImpl;
 import itba.undiaparadar.services.TopicService;
 import itba.undiaparadar.services.TopicServiceImpl;
 
@@ -27,6 +31,15 @@ public class UnDiaParaDarModule extends AbstractModule {
 		//Services
 
 		bind(TopicService.class).to(TopicServiceImpl.class).in(Singleton.class);
+		bind(SettingsService.class).to(SettingsServiceImpl.class).in(Singleton.class);
+
+		bind(SharedPreferences.class).toProvider(new Provider<SharedPreferences>() {
+
+			@Override
+			public SharedPreferences get() {
+				return UnDiaParaDarApplication.getSharedPreferences();
+			}
+		}).in(Singleton.class);
 	}
 
 	private static class RequestQueueProvider implements Provider<RequestQueue> {

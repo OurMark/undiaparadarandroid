@@ -19,4 +19,5 @@
         <item name="android:textStyle">bold</item>
         <item name="android:text">@string/hashtag_un_dia_para_dar</item>
     </style>
+
 </resources>

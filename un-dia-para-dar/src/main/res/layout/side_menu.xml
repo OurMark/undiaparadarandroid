@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView android:id="@+id/root_scroll"
-            xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/white"
-            android:fillViewport="true">
+<ScrollView
+    android:id="@+id/root_scroll"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:fillViewport="true">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -14,85 +15,67 @@
         <LinearLayout
             android:id="@+id/profile_menu"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/dark_red"
-            android:orientation="horizontal"
+            android:layout_height="@dimen/m25"
+            android:background="@drawable/menu_background"
+            android:orientation="vertical"
             android:paddingBottom="@dimen/m1.5"
             android:paddingTop="@dimen/m1.5">
 
             <itba.undiaparadar.utils.RoundedImageView
                 android:id="@+id/profile_img"
-                android:layout_width="@dimen/m8"
-                android:layout_height="@dimen/m8"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/m2"
-                android:scaleType="centerInside"/>
 
-            <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_width="@dimen/m12.5"
+                android:layout_height="@dimen/m12.5"
                 android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/m2"
-                android:layout_marginRight="@dimen/m2"
-                android:layout_weight="1"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:singleLine="false"/>
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/m2"
-                android:src="@drawable/chevron"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/map_menu"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/m4"
-            android:layout_marginBottom="@dimen/m2"
-            android:layout_marginTop="@dimen/m2"
-            android:orientation="horizontal">
-
-            <ImageView
-                android:layout_width="@dimen/m4"
-                android:layout_height="@dimen/m4"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/m2"
+                android:layout_marginLeft="@dimen/m4"
+                android:layout_marginTop="@dimen/m2"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_map"/>
+                android:background="@drawable/menu_profile_placeholder"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginLeft="@dimen/m1"
-                android:layout_weight="1"
-                android:lineSpacingExtra="0dp"
-                android:text="@string/map"/>
-
-            <ImageView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/m2"
-                android:src="@drawable/chevron"/>
-        </LinearLayout>
+                android:orientation="vertical"
+                android:layout_marginLeft="@dimen/m4"
+                android:layout_marginTop="@dimen/m2"
+                android:background="@color/red">
 
-        <View
-            android:layout_width="wrap_content"
-            android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/m1"
-            android:layout_marginRight="@dimen/m1"
-            android:background="@color/dark_red"/>
+                <TextView
+                    android:id="@+id/profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/m2"
+                    android:layout_marginRight="@dimen/m2"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textSize="22sp"
+                    android:textColor="@color/white"
+                    android:singleLine="false"/>
+
+                <TextView
+                    android:id="@+id/profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="@dimen/m2"
+                    android:layout_marginRight="@dimen/m2"
+                    android:ellipsize="end"
+                    android:maxLines="2"
+                    android:textSize="12sp"
+                    android:textColor="@color/white"
+                    android:singleLine="false"/>
+            </LinearLayout>
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/topics_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m4"
             android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
             android:layout_marginTop="@dimen/m2"
             android:orientation="horizontal">
 
@@ -102,34 +85,209 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/m2"
                 android:scaleType="centerInside"
-                android:src="@drawable/ic_topics"/>
+                android:src="@drawable/find_what_to_give"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/m1"
-                android:layout_weight="1"
-                android:lineSpacingExtra="0dp"
-                android:text="@string/topics"/>
 
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:layout_marginRight="@dimen/m2"
-                android:src="@drawable/chevron"/>
+                android:lineSpacingExtra="0dp"
+                android:text="@string/topics"
+                android:textStyle="bold"/>
         </LinearLayout>
 
         <View
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:layout_marginLeft="@dimen/m1"
-            android:layout_marginRight="@dimen/m1"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:background="@color/dark_red"/>
+
+        <LinearLayout
+            android:id="@+id/map_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m4"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:layout_marginTop="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m4"
+                android:layout_height="@dimen/m4"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m2"
+                android:scaleType="centerInside"
+                android:src="@drawable/map"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m1"
+                android:lineSpacingExtra="0dp"
+                android:text="@string/map"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:background="@color/dark_red"/>
+
+        <LinearLayout
+            android:id="@+id/statistics_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m4"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:layout_marginTop="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m4"
+                android:layout_height="@dimen/m4"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m2"
+                android:scaleType="centerInside"
+                android:src="@drawable/statistics"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m1"
+                android:lineSpacingExtra="0dp"
+                android:text="@string/statistics"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:background="@color/dark_red"/>
+
+        <LinearLayout
+            android:id="@+id/achievements_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m4"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:layout_marginTop="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m4"
+                android:layout_height="@dimen/m4"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m2"
+                android:scaleType="centerInside"
+                android:src="@drawable/achievements"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m1"
+                android:lineSpacingExtra="0dp"
+                android:text="@string/achievements"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:background="@color/dark_red"/>
+
+        <LinearLayout
+            android:id="@+id/what_is_udpd_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m4"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:layout_marginTop="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m4"
+                android:layout_height="@dimen/m4"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m2"
+                android:scaleType="centerInside"
+                android:src="@drawable/udpd"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m1"
+                android:lineSpacingExtra="0dp"
+                android:text="@string/what_is_udpd"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:background="@color/dark_red"/>
+
+        <LinearLayout
+            android:id="@+id/term_and_conditions_menu"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m4"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
+            android:layout_marginTop="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/m4"
+                android:layout_height="@dimen/m4"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m2"
+                android:scaleType="centerInside"
+                android:src="@drawable/term_conditions"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textColor="@color/black"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/m1"
+                android:lineSpacingExtra="0dp"
+                android:text="@string/terms_and_conditions"
+                android:textStyle="bold"/>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/m2"
+            android:layout_marginRight="@dimen/m2"
             android:background="@color/dark_red"/>
 
     </LinearLayout>
-
 
 
 </ScrollView>

@@ -2,6 +2,7 @@ package itba.undiaparadar;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -15,8 +16,11 @@ import itba.undiaparadar.module.GsonModule;
 import itba.undiaparadar.module.UnDiaParaDarModule;
 
 public class UnDiaParaDarApplication extends Application {
+	private static final String SHARED_PREFERENCES = "itba.undiaparadar.Preferences";
 	protected static Injector injector;
 	private static UnDiaParaDarApplication mInstance;
+	private static SharedPreferences sharedPreferences;
+
 
 	private void setUpInjector() {
 		final List<Module> modules = new ArrayList<>();
@@ -32,6 +36,7 @@ public class UnDiaParaDarApplication extends Application {
 		super.onCreate();
 		mInstance = this;
 		setUpInjector();
+		sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	}
 
 	public static void injectMembers(final Object object) {
@@ -40,5 +45,9 @@ public class UnDiaParaDarApplication extends Application {
 
 	public static Context getAppContext() {
 		return mInstance;
+	}
+
+	public static SharedPreferences getSharedPreferences() {
+		return UnDiaParaDarApplication.sharedPreferences;
 	}
 }

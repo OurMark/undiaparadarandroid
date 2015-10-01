@@ -12,14 +12,27 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.inject.Inject;
+
+import org.json.JSONObject;
 
 import itba.undiaparadar.R;
+import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.services.SettingsService;
 
 public class LoginActivity extends Activity {
 	private CallbackManager callbackManager;
 	private AccessTokenTracker accessTokenTracker;
+	@Inject
+	private SettingsService settingsService;
+
+	public LoginActivity() {
+		UnDiaParaDarApplication.injectMembers(this);
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -35,14 +48,25 @@ public class LoginActivity extends Activity {
 		};
 		callbackManager = CallbackManager.Factory.create();
 		final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-		loginButton.setReadPermissions("public_profile");
+		loginButton.setReadPermissions("public_profile", "email");
 		updateWithToken(AccessToken.getCurrentAccessToken());
 		loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
 			@Override
 			public void onSuccess(final LoginResult loginResult) {
 				if (loginResult.getAccessToken() != null) {
-					LoginActivity.this.startActivity(MainActivity.getIntent(LoginActivity.this));
-					finish();
+					GraphRequest.newMeRequest(
+							loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+								@Override
+								public void onCompleted(final JSONObject me, final GraphResponse response) {
+									if (response.getError() != null) {
+										// handle error
+									} else {
+										settingsService.saveEmail(me.optString("email"));
+										LoginActivity.this.startActivity(MainActivity.getIntent(LoginActivity.this));
+										finish();
+									}
+								}
+							}).executeAsync();
 				}
 			}
 
