@@ -111,6 +111,8 @@ public class MapFragment extends Fragment implements TitleProvider {
             });
             adapter = new MapFilterItemAdapter(getActivity(), selectedTopics);
             gridView.setAdapter(adapter);
+        } else {
+            topics = topicService.createTopics(getActivity());
         }
         return root;
     }

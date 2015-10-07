@@ -1,10 +1,12 @@
 package itba.undiaparadar.services;
 
+import android.content.Context;
 import android.widget.ImageView;
 
 import com.android.volley.Response;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
 
 import itba.undiaparadar.model.PositiveAction;
@@ -17,4 +19,6 @@ public interface TopicService {
 
     void getPositiveActionsForTopics(final Collection<Topic> topics, final Response.Listener<List<PositiveAction>> listener,
         final Response.ErrorListener errorListener);
+
+    HashMap<Long, Topic> createTopics(final Context context);
 }
