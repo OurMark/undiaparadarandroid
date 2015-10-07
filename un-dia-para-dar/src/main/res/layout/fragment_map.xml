@@ -4,10 +4,27 @@
                 android:orientation="vertical">
 
 
+    <GridView
+        android:id="@+id/selected_topics"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/m0.5"
+        android:layout_marginBottom="@dimen/m0.5"
+        android:layout_marginLeft="@dimen/m0.5"
+        android:layout_marginRight="@dimen/m0.5"
+        android:padding="@dimen/m1"
+        android:background="@drawable/rounder_border_grid"
+        android:columnWidth="@dimen/m3"
+        android:horizontalSpacing="@dimen/m2"
+        android:numColumns="auto_fit"
+        android:verticalSpacing="@dimen/m2"
+        android:visibility="gone"/>
+
     <FrameLayout
         android:id="@+id/map"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:layout_below="@id/selected_topics"/>
 
     <LinearLayout
         android:id="@+id/campaign_layout"
@@ -19,13 +36,14 @@
 
 
         <TextView
-            android:id="@+id/title"
+            android:id="@+id/subtitle"
             android:layout_width="@dimen/m36"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:ellipsize="end"
             android:gravity="center"
             android:paddingTop="@dimen/m1.5"
-            android:text="Sumate a nuestra campaña NOSelfie"
+            android:singleLine="true"
             android:textColor="@color/dark_red"
             android:textSize="16sp"/>
 
@@ -38,17 +56,19 @@
     </LinearLayout>
 
     <TextView
+        android:id="@+id/title"
         android:layout_width="@dimen/m36"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="@dimen/m5"
-        android:layout_centerHorizontal="true"
-        android:textColor="@color/white"
         android:layout_above="@id/campaign_layout"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/m5"
+        android:background="@drawable/rounder_border"
+        android:ellipsize="end"
         android:gravity="center"
-        android:textSize="16sp"
-        android:text="Fundacion Hemocentro Mar del Plata"
-        android:background="@drawable/rounder_border"/>
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"/>
 
 
 </RelativeLayout>

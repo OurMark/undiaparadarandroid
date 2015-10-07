@@ -29,4 +29,6 @@
     <string name="go_to_map">Ir al mapa</string>
     <string name="empty_topics">Debes seleccionar al menos un topic</string>
     <string name="profile">Perfil</string>
+    <string name="edit_filter">Editar filtro</string>
+    <string name="save_filter">Guardar filtro</string>
 </resources>

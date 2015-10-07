@@ -1,8 +1,10 @@
 <resources>
+    <dimen name="m0.5">4dp</dimen>
     <dimen name="m1">8dp</dimen>
     <dimen name="m1.25">10dp</dimen>
     <dimen name="m1.5">12dp</dimen>
     <dimen name="m2">16dp</dimen>
+    <dimen name="m3">24dp</dimen>
     <dimen name="m4">32dp</dimen>
     <dimen name="m5">40dp</dimen>
     <dimen name="m6">48dp</dimen>

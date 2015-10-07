@@ -1,53 +1,134 @@
 package itba.undiaparadar.fragments;
 
 
-import android.location.Location;
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.BaseAdapter;
+import android.widget.GridView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.inject.Inject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import itba.undiaparadar.R;
+import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.adapter.MapFilterItemAdapter;
 import itba.undiaparadar.interfaces.TitleProvider;
+import itba.undiaparadar.model.PositiveAction;
+import itba.undiaparadar.model.Topic;
+import itba.undiaparadar.model.UnDiaParaDarMarker;
+import itba.undiaparadar.services.TopicService;
 
 public class MapFragment extends Fragment implements TitleProvider {
+    private static final String TOPICS = "TOPICS";
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
+    private HashMap<Long, Topic> topics;
+    @Inject
+    private TopicService topicService;
+    private Map<Marker, UnDiaParaDarMarker> markers;
+    private List<Topic> selectedTopics;
+    private MapFilterItemAdapter adapter;
+    private boolean editable;
+    private Menu menu;
+    private View root;
+
+    public MapFragment() {
+        this.markers = new HashMap<>();
+    }
 
     public static Fragment newInstance() {
         return new MapFragment();
     }
 
+    public static Fragment newInstance(final HashMap<Long, Topic> topics) {
+        final Bundle bundle = new Bundle();
+        bundle.putSerializable(TOPICS, topics);
+        final Fragment fragment = new MapFragment();
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_map, container, false);
+    public void onCreate(final Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        UnDiaParaDarApplication.injectMembers(this);
+        final Bundle bundle = getArguments();
+        if (bundle != null) {
+            topics = (HashMap<Long, Topic>) bundle.getSerializable(TOPICS);
+            setHasOptionsMenu(true);
+        }
+    }
+
+    @Override
+    public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
+        final Bundle savedInstanceState) {
+        root = inflater.inflate(R.layout.fragment_map, container, false);
+
+        if (topics != null && !topics.isEmpty()) {
+            selectedTopics = topicService.getSelectedTopics(topics.values());
+            final GridView gridView = (GridView) root.findViewById(R.id.selected_topics);
+            gridView.setVisibility(View.VISIBLE);
+            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
+                    if (editable) {
+                        final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
+                        topicService.loadImageResId(adapter.getItem(position), img);
+                    }
+                }
+            });
+            adapter = new MapFilterItemAdapter(getActivity(), selectedTopics);
+            gridView.setAdapter(adapter);
+        }
+        return root;
     }
 
     @Override
     public void onActivityCreated(final Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        final ActionBarActivity actionBarActivity = (ActionBarActivity) getActivity();
+        final AppCompatActivity actionBarActivity = (AppCompatActivity) getActivity();
         actionBarActivity.getSupportActionBar().setTitle(getTitle());
         final FragmentManager fm = getChildFragmentManager();
 
         mapFragment = (SupportMapFragment) fm.findFragmentById(R.id.map);
         if (mapFragment == null) {
             mapFragment = SupportMapFragment.newInstance();
-      /*
-       * Map Initialization will come later, just making sure that, if we have a new instance of the fragment,
-       * Also have the GoogleMap reference from that fragment.
-       */
+        /*
+         * Map Initialization will come later, just making sure that, if we have a new instance of the fragment,
+         * Also have the GoogleMap reference from that fragment.
+         */
             mMap = null;
         }
 
@@ -81,21 +162,103 @@ public class MapFragment extends Fragment implements TitleProvider {
         }
     }
 
+    private void refreshMap() {
+        mMap.clear();
+        markers.clear();
+        setupMap();
+    }
+
     private void setupMap() {
-        final LatLng latLng = new LatLng(-33.796923, 150.922433);
+        final ProgressDialog dialog = new ProgressDialog(getActivity());
+        dialog.setTitle("Loading");
+        dialog.show();
         mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-        mMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title("My Spot")
-                .snippet("This is my spot!")
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
         mMap.getUiSettings().setCompassEnabled(true);
         mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+        if (selectedTopics != null) {
+            retrievePositiveActions(selectedTopics, dialog);
+        } else {
+            retrievePositiveActions(topics.values(), dialog);
+        }
+//        final LatLng latLng = new LatLng(-33.796923, 150.922433);
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+    }
+
+    private void retrievePositiveActions(final Collection<Topic> selectedTopics, final ProgressDialog dialog) {
+        topicService.getPositiveActionsForTopics(selectedTopics, new Response.Listener<List<PositiveAction>>() {
+            @Override
+            public void onResponse(final List<PositiveAction> positiveActions) {
+                dialog.dismiss();
+                for (final PositiveAction positiveAction : positiveActions) {
+                    final MarkerOptions markerOptions = new MarkerOptions();
+                    markerOptions.position(new LatLng(positiveAction.getLatitude(),
+                            positiveAction.getLongitude()));
+                    markerOptions.title(positiveAction.getTitle());
+                    final Topic topic = topics.get(new Long(positiveAction.getTopicId()));
+                    final Bitmap icon = BitmapFactory.decodeResource(getResources(), topic.getEnableImageResId());
+                    final int dimen = (int) getResources().getDimension(R.dimen.m2);
+                    markerOptions.icon(BitmapDescriptorFactory.fromBitmap(Bitmap.createScaledBitmap(icon,
+                            dimen, dimen, false)));
+                    final Marker marker = mMap.addMarker(markerOptions);
+                    markers.put(marker, new UnDiaParaDarMarker(topic, positiveAction));
+                    mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+                        @Override
+                        public boolean onMarkerClick(final Marker marker) {
+                            updatePositiveActionView(markers.get(marker));
+                            return true;
+                        }
+                    });
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(final VolleyError volleyError) {
+                dialog.dismiss();
+                Log.d("Error", "error: " + volleyError);
+            }
+        });
+    }
+
+    private void updatePositiveActionView(final UnDiaParaDarMarker unDiaParaDarMarker) {
+        final TextView title = (TextView) root.findViewById(R.id.title);
+        title.setText(unDiaParaDarMarker.getPositiveAction().getTitle());
+        final TextView subtitle = (TextView) root.findViewById(R.id.subtitle);
+        subtitle.setText(unDiaParaDarMarker.getPositiveAction().getSubtitle());
     }
 
     @Override
     public String getTitle() {
         return getString(R.string.map);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(final MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.edit_filter:
+                adapter.addUnselectedItems(topics.values());
+                final MenuItem saveItem = menu.findItem(R.id.save_filter);
+                saveItem.setVisible(true);
+                item.setVisible(false);
+                editable = true;
+                break;
+            case R.id.save_filter:
+                adapter.showSelectedTopics();
+                final MenuItem editItem = menu.findItem(R.id.edit_filter);
+                editItem.setVisible(true);
+                item.setVisible(false);
+                editable = false;
+                refreshMap();
+                break;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+    }
+
+    @Override
+    public void onCreateOptionsMenu(final Menu menu, final MenuInflater inflater) {
+        this.menu = menu;
+        this.menu.clear();
+        inflater.inflate(R.menu.menu_map, this.menu);
     }
 }

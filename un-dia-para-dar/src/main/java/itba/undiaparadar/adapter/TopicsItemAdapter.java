@@ -1,5 +1,6 @@
 package itba.undiaparadar.adapter;
 
+import java.util.Collection;
 import java.util.List;
 
 import android.content.Context;
@@ -22,22 +23,22 @@ import itba.undiaparadar.services.TopicService;
 public class TopicsItemAdapter extends BaseAdapter {
 
     private final Context context;
-    private final List<Topic> topics;
+    private final Topic[] topics;
 
-    public TopicsItemAdapter(final Context context, final List<Topic> topics) {
+    public TopicsItemAdapter(final Context context, final Collection<Topic> topics) {
         this.context = context;
-        this.topics = topics;
+        this.topics = topics.toArray(new Topic[topics.size()]);
     }
 
     @Override
     public int getCount() {
-        return topics == null ? 0 : topics.size();
+        return topics == null ? 0 : topics.length;
     }
 
     @Nullable
     @Override
     public Topic getItem(int position) {
-        return position > topics.size() ? null : topics.get(position);
+        return position > topics.length ? null : topics[position];
     }
 
     @Override
