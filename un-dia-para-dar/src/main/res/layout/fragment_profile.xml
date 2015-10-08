@@ -1,51 +1,69 @@
-<com.nirhart.parallaxscroll.views.ParallaxScrollView
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:parallax_factor="1.9">
+    android:orientation="vertical">
+
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/m36"
+        android:background="@drawable/red_background"
         android:orientation="vertical">
 
+        <itba.undiaparadar.utils.CircularImageView
+            android:id="@+id/profile_img"
+            android:layout_width="@dimen/m20"
+            android:layout_height="@dimen/m20"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/m2"
+            android:layout_marginTop="@dimen/m4"
+            android:scaleType="centerInside"/>
 
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="@dimen/m32"
-                      android:background="@drawable/profile_background"
-                      android:orientation="vertical">
+        <TextView
+            android:id="@+id/profile_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:ellipsize="end"
+            android:maxLines="2"
+            android:singleLine="false"
+            android:textColor="@color/white"
+            android:textSize="23sp"
+            android:gravity="center"
+            android:text="Martin Purita"
+            android:background="@color/alpha_black"
+            android:textStyle="bold"/>
+    </LinearLayout>
 
-            <itba.undiaparadar.utils.RoundedImageView
-                android:id="@+id/profile_img"
-                android:layout_marginTop="@dimen/m4"
-                android:layout_marginBottom="@dimen/m2"
-                android:layout_width="@dimen/m20"
-                android:layout_height="@dimen/m20"
-                android:layout_gravity="center"
-                android:scaleType="centerInside"/>
-
-            <TextView
-                android:id="@+id/profile_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:ellipsize="end"
-                android:maxLines="2"
-                android:singleLine="false"
-                android:textColor="@color/white"
-                android:text="Martin Purita"
-                android:textStyle="bold"
-                android:textSize="24sp"/>
-        </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@android:color/white"
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/m5">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:color/white"
             android:padding="5dp"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+            android:text="@string/last_pledge"
+            android:textColor="@color/dark_red"
             android:textSize="26sp"/>
-    </LinearLayout>
 
-</com.nirhart.parallaxscroll.views.ParallaxScrollView>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/m3"
+            android:src="@drawable/banda_colores"/>
+
+        <ListView
+            android:id="@+id/last_pledge_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/m3"
+            android:divider="@android:color/transparent"
+            android:dividerHeight="@dimen/m2"/>
+    </LinearLayout>
+</LinearLayout>

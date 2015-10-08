@@ -68,8 +68,6 @@ public class SideMenuFragment extends Fragment {
 				imageLoader);
 		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
 		profileName.setText(userProfile.getName());
-		final TextView profileEmail = (TextView) root.findViewById(R.id.profile_email);
-		profileEmail.setText(settingsService.retrieveEmail());
 		return root;
 	}
 
