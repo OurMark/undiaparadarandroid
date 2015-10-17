@@ -81,14 +81,24 @@ public class MapFilterItemAdapter extends BaseAdapter {
         notifyDataSetChanged();
     }
 
-    public void showSelectedTopics() {
+    public void showSelectedTopics(final ModifyItemsCallback modifyItemsCallback) {
         final List<Topic> selectedTopics = topicService.getSelectedTopics(topics);
-        setItems(selectedTopics);
+        if (selectedTopics.isEmpty()) {
+            modifyItemsCallback.emptyTopics();
+        } else {
+            setItems(selectedTopics);
+            modifyItemsCallback.fullTopics();
+        }
     }
 
     private void setItems(@NonNull final List<Topic> topics) {
         this.topics.clear();
         this.topics.addAll(topics);
         notifyDataSetChanged();
+    }
+
+    public static interface ModifyItemsCallback {
+        void emptyTopics();
+        void fullTopics();
     }
 }

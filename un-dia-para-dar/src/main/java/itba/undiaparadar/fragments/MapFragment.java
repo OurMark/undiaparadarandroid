@@ -23,6 +23,7 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -96,24 +97,27 @@ public class MapFragment extends Fragment implements TitleProvider {
         final Bundle savedInstanceState) {
         root = inflater.inflate(R.layout.fragment_map, container, false);
 
-        if (topics != null && !topics.isEmpty()) {
-            selectedTopics = topicService.getSelectedTopics(topics.values());
-            final GridView gridView = (GridView) root.findViewById(R.id.selected_topics);
-            gridView.setVisibility(View.VISIBLE);
-            gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                @Override
-                public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
-                    if (editable) {
-                        final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
-                        topicService.loadImageResId(adapter.getItem(position), img);
-                    }
-                }
-            });
-            adapter = new MapFilterItemAdapter(getActivity(), selectedTopics);
-            gridView.setAdapter(adapter);
-        } else {
+        if (topics == null) {
             topics = topicService.createTopics(getActivity());
+            for (final Topic topic : topics.values()) {
+                topic.select();
+            }
         }
+        selectedTopics = topicService.getSelectedTopics(topics.values());
+        final GridView gridView = (GridView) root.findViewById(R.id.selected_topics);
+        gridView.bringToFront();
+        gridView.invalidate();
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
+                if (editable) {
+                    final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
+                    topicService.loadImageResId(adapter.getItem(position), img);
+                }
+            }
+        });
+        adapter = new MapFilterItemAdapter(getActivity(), selectedTopics);
+        gridView.setAdapter(adapter);
         return root;
     }
 
@@ -224,8 +228,7 @@ public class MapFragment extends Fragment implements TitleProvider {
     private void updatePositiveActionView(final UnDiaParaDarMarker unDiaParaDarMarker) {
         final TextView title = (TextView) root.findViewById(R.id.title);
         title.setText(unDiaParaDarMarker.getPositiveAction().getTitle());
-        final TextView subtitle = (TextView) root.findViewById(R.id.subtitle);
-        subtitle.setText(unDiaParaDarMarker.getPositiveAction().getSubtitle());
+        title.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -244,12 +247,22 @@ public class MapFragment extends Fragment implements TitleProvider {
                 editable = true;
                 break;
             case R.id.save_filter:
-                adapter.showSelectedTopics();
-                final MenuItem editItem = menu.findItem(R.id.edit_filter);
-                editItem.setVisible(true);
-                item.setVisible(false);
-                editable = false;
-                refreshMap();
+                adapter.showSelectedTopics(new MapFilterItemAdapter.ModifyItemsCallback() {
+                    @Override
+                    public void emptyTopics() {
+                        Toast.makeText(getActivity(), getString(R.string.select_one_topic), Toast.LENGTH_SHORT)
+                                .show();
+                    }
+
+                    @Override
+                    public void fullTopics() {
+                        final MenuItem editItem = menu.findItem(R.id.edit_filter);
+                        editItem.setVisible(true);
+                        item.setVisible(false);
+                        editable = false;
+                        refreshMap();
+                    }
+                });
                 break;
             default:
                 return super.onOptionsItemSelected(item);

@@ -1,5 +1,7 @@
 <resources>
+    <dimen name="m0.125">1dp</dimen>
     <dimen name="m0.5">4dp</dimen>
+    <dimen name="m0.625">5dp</dimen>
     <dimen name="m1">8dp</dimen>
     <dimen name="m1.25">10dp</dimen>
     <dimen name="m1.5">12dp</dimen>

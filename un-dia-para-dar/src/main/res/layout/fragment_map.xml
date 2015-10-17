@@ -1,74 +1,48 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
 
     <GridView
         android:id="@+id/selected_topics"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/m0.5"
+        android:layout_alignParentTop="true"
         android:layout_marginBottom="@dimen/m0.5"
         android:layout_marginLeft="@dimen/m0.5"
         android:layout_marginRight="@dimen/m0.5"
-        android:padding="@dimen/m1"
+        android:layout_marginTop="@dimen/m0.5"
         android:background="@drawable/rounder_border_grid"
         android:columnWidth="@dimen/m3"
         android:horizontalSpacing="@dimen/m2"
         android:numColumns="auto_fit"
-        android:verticalSpacing="@dimen/m2"
+        android:padding="@dimen/m1"
+        android:verticalSpacing="@dimen/m2"/>
+
+    <TextView
+        android:id="@+id/title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:background="@color/dark_red"
+        android:drawableRight="@drawable/chevron"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:paddingBottom="@dimen/m1"
+        android:paddingRight="@dimen/m3"
+        android:paddingTop="@dimen/m1"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="16sp"
         android:visibility="gone"/>
 
     <FrameLayout
         android:id="@+id/map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/selected_topics"/>
-
-    <LinearLayout
-        android:id="@+id/campaign_layout"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/m6"
-        android:layout_alignParentBottom="true"
-        android:background="@color/white"
-        android:orientation="vertical">
-
-
-        <TextView
-            android:id="@+id/subtitle"
-            android:layout_width="@dimen/m36"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:ellipsize="end"
-            android:gravity="center"
-            android:paddingTop="@dimen/m1.5"
-            android:singleLine="true"
-            android:textColor="@color/dark_red"
-            android:textSize="16sp"/>
-
-        <ImageView
-            android:layout_width="@dimen/m32"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:src="@drawable/banda_colores"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/title"
-        android:layout_width="@dimen/m36"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/campaign_layout"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="@dimen/m5"
-        android:background="@drawable/rounder_border"
-        android:ellipsize="end"
-        android:gravity="center"
-        android:singleLine="true"
-        android:textColor="@color/white"
-        android:textSize="16sp"/>
+        android:layout_above="@id/title"
+        />
 
 
 </RelativeLayout>
