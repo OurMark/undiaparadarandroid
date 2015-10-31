@@ -2,14 +2,11 @@ package itba.undiaparadar.fragments;
 
 
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v7.app.ActionBarActivity;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,7 +16,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -27,7 +23,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
@@ -36,7 +31,6 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.inject.Inject;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +38,7 @@ import java.util.Map;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.activities.FilterActivity;
 import itba.undiaparadar.adapter.MapFilterItemAdapter;
 import itba.undiaparadar.interfaces.TitleProvider;
 import itba.undiaparadar.model.PositiveAction;
@@ -240,11 +235,12 @@ public class MapFragment extends Fragment implements TitleProvider {
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.edit_filter:
-                adapter.addUnselectedItems(topics.values());
-                final MenuItem saveItem = menu.findItem(R.id.save_filter);
-                saveItem.setVisible(true);
-                item.setVisible(false);
-                editable = true;
+//                adapter.addUnselectedItems(topics.values());
+//                final MenuItem saveItem = menu.findItem(R.id.save_filter);
+//                saveItem.setVisible(true);
+//                item.setVisible(false);
+//                editable = true;
+                startActivity(FilterActivity.getIntent(getActivity()));
                 break;
             case R.id.save_filter:
                 adapter.showSelectedTopics(new MapFilterItemAdapter.ModifyItemsCallback() {

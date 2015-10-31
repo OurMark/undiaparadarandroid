@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="itba.undiaparadar">
+<manifest package="itba.undiaparadar"
+          xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
@@ -16,27 +16,31 @@
             android:name=".activities.SplashScreen"
             android:theme="@style/AppTheme">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
+            android:value="@string/facebook_app_id"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
         <activity
             android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"/>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"></activity>
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".activities.FilterActivity"
+            android:theme="@style/FilterModal"/>
+
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0" />
+            android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>
     </application>
 
 </manifest>

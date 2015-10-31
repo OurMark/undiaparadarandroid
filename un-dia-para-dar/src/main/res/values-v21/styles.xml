@@ -8,9 +8,24 @@
 
     <!-- ActionBar styles -->
     <style name="MyActionBar"
-        parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
+           parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="background">@drawable/actionbar_background</item>
         <item name="displayOptions">showHome|useLogo|showTitle</item>
+    </style>
+
+    <style name="FilterModal" parent="Theme.AppCompat.Dialog">
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+
+    <style name="hashtag_un_dia_para_dar">
+        <item name="android:textColor">@color/dark_red</item>
+        <item name="android:textSize">30sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:text">@string/hashtag_un_dia_para_dar</item>
     </style>
 
 </resources>
