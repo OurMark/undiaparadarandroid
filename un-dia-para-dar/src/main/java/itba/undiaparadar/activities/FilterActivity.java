@@ -10,8 +10,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
-import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.SeekBar;
+import android.widget.Switch;
+import android.widget.TextView;
 
 import itba.undiaparadar.R;
 
@@ -21,6 +24,7 @@ import itba.undiaparadar.R;
 public class FilterActivity extends Activity {
 	private static final int CIRCULAR_REVEAL_TRANSITION = 500;
 	private FrameLayout rootView;
+	private ViewTreeObserver.OnGlobalLayoutListener viewTreeObserverListener;
 
 	public static Intent getIntent(final Context context) {
 		return new Intent(context, FilterActivity.class);
@@ -31,25 +35,60 @@ public class FilterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
 		setContentView(R.layout.filter_activity);
-		setFinishOnTouchOutside(false);
-		rootView = (FrameLayout) findViewById(R.id.root_layout);
-		final Button accept = (Button) findViewById(R.id.acept);
-		accept.setOnClickListener(new View.OnClickListener() {
+		if (savedInstanceState == null) {
+			initializeAnimation();
+		}
+		setUpView();
+	}
+
+	private void setUpView() {
+		final TextView radiusNumbers = (TextView) findViewById(R.id.radius_number);
+		final SeekBar radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
+		radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
+
+		radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+			int progress = 0;
+
 			@Override
-			public void onClick(View v) {
-				exitReveal();
+			public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+				progress = progresValue;
+				radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
+			}
+
+			@Override
+			public void onStartTrackingTouch(SeekBar seekBar) {
+			}
+
+			@Override
+			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
 		});
-		ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
+		final Switch radiusSwitch = (Switch) findViewById(R.id.radius_switch);
+		final TextView radiusTitle = (TextView) findViewById(R.id.radius_title);
+		radiusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
+				radiusSeekBar.setEnabled(isChecked);
+				radiusNumbers.setEnabled(isChecked);
+				radiusTitle.setEnabled(isChecked);
+			}
+		});
+	}
+
+	private void initializeAnimation() {
+		setFinishOnTouchOutside(false);
+		rootView = (FrameLayout) findViewById(R.id.root_layout);
+		final ViewTreeObserver viewTreeObserver = rootView.getViewTreeObserver();
 		if (viewTreeObserver.isAlive()) {
-			viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+			viewTreeObserverListener = new ViewTreeObserver.OnGlobalLayoutListener() {
 				@Override
 				public void onGlobalLayout() {
 					if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 						enterReveal();
 					}
 				}
-			});
+			};
+			viewTreeObserver.addOnGlobalLayoutListener(viewTreeObserverListener);
 		}
 	}
 
@@ -74,36 +113,40 @@ public class FilterActivity extends Activity {
 	}
 
 	private void revealAnimation(final int cx, final int cy, final int initialRadius,
-		final int finalRadius, final boolean isClosing) {
+	                             final int finalRadius, final boolean isClosing) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			// create the animator for this view (the start radius is zero)
 			Animator anim = ViewAnimationUtils.createCircularReveal(rootView, cx, cy, initialRadius, finalRadius);
 			anim.setDuration(CIRCULAR_REVEAL_TRANSITION);
-			if (isClosing) {
-				anim.addListener(new Animator.AnimatorListener() {
-					@Override
-					public void onAnimationStart(Animator animation) {
+			anim.addListener(new Animator.AnimatorListener() {
+				@Override
+				public void onAnimationStart(Animator animation) {
 
-					}
+				}
 
-					@Override
-					public void onAnimationEnd(Animator animation) {
+				@Override
+				public void onAnimationEnd(Animator animation) {
+					if (isClosing) {
 						rootView.setVisibility(View.INVISIBLE);
 						finish();
+					} else {
+						if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+							rootView.getViewTreeObserver().removeOnGlobalLayoutListener(viewTreeObserverListener);
+						}
 					}
+				}
 
-					@Override
-					public void onAnimationCancel(Animator animation) {
+				@Override
+				public void onAnimationCancel(Animator animation) {
 
-					}
+				}
 
-					@Override
-					public void onAnimationRepeat(Animator animation) {
+				@Override
+				public void onAnimationRepeat(Animator animation) {
 
-					}
-				});
-			}
+				}
+			});
 
 			// make the view visible and start the animation
 			rootView.setVisibility(rootView.VISIBLE);
