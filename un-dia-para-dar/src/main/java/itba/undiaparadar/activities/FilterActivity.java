@@ -10,31 +10,52 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import com.google.inject.Inject;
+
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+
 import itba.undiaparadar.R;
+import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.adapter.MapFilterItemAdapter;
+import itba.undiaparadar.model.Topic;
+import itba.undiaparadar.services.TopicService;
 
 /**
  * Created by mpurita on 10/31/15.
  */
 public class FilterActivity extends Activity {
+	private static final String TOPICS = "TOPICS";
 	private static final int CIRCULAR_REVEAL_TRANSITION = 500;
 	private FrameLayout rootView;
 	private ViewTreeObserver.OnGlobalLayoutListener viewTreeObserverListener;
+	private List<Topic> topics;
+	@Inject
+	private TopicService topicService;
 
-	public static Intent getIntent(final Context context) {
-		return new Intent(context, FilterActivity.class);
+	public static Intent getIntent(final Context context, final Collection<Topic> topics) {
+		final Intent intent = new Intent(context, FilterActivity.class);
+		intent.putExtra(TOPICS, new ArrayList<>(topics));
+		return intent;
 	}
 
 	@Override
 	protected void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		UnDiaParaDarApplication.injectMembers(this);
 		overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
 		setContentView(R.layout.filter_activity);
+		topics = (ArrayList<Topic>) getIntent().getSerializableExtra(TOPICS);
 		if (savedInstanceState == null) {
 			initializeAnimation();
 		}
@@ -73,6 +94,20 @@ public class FilterActivity extends Activity {
 				radiusTitle.setEnabled(isChecked);
 			}
 		});
+		setUpGridView();
+	}
+
+	private void setUpGridView() {
+		final GridView topicsGrid = (GridView) findViewById(R.id.grid_topics);
+		final MapFilterItemAdapter adapter = new MapFilterItemAdapter(this, topics, R.layout.filter_item);
+		topicsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
+				final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
+				topicService.loadImageResId(adapter.getItem(position), img);
+			}
+		});
+		topicsGrid.setAdapter(adapter);
 	}
 
 	private void initializeAnimation() {

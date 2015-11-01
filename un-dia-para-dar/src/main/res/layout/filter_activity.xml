@@ -1,62 +1,100 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/root_layout"
-    android:layout_width="320dp"
-    android:layout_height="480dp"
-    android:background="@color/dark_red"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="@dimen/m40"
+    android:layout_height="@dimen/m60"
+    android:background="@drawable/background_general"
     >
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp"
-        android:paddingTop="20dp"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:paddingLeft="@dimen/m1.25"
+        android:paddingRight="@dimen/m1.25">
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingLeft="10dp"
-            android:orientation="horizontal">
+            android:orientation="vertical"
+            android:paddingTop="@dimen/m2.5">
 
-            <TextView
-                android:id="@+id/radius_title"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/radius"
+                android:orientation="horizontal"
+                android:paddingLeft="@dimen/m1.25">
+
+                <TextView
+                    android:id="@+id/radius_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/radius"
+                    android:textColor="@color/enable_disable_textview"
+                    android:textSize="16sp"/>
+
+                <Switch
+                    android:id="@+id/radius_switch"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:checked="true"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/seek_bar_layout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m2.5"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/radius_seek_bar"
+                    android:layout_width="@dimen/m25"
+                    android:layout_height="wrap_content"
+                    android:maxHeight="@dimen/m0.25"
+                    android:progressDrawable="@drawable/progress"
+                    android:max="@integer/max_km"/>
+
+                <TextView
+                    android:id="@+id/radius_number"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:textColor="@color/enable_disable_textview"
+                    tools:text="1000 km"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/m1.25"
+            android:paddingTop="@dimen/m2.5">
+
+            <TextView
+                android:id="@+id/topics_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/topic"
                 android:textColor="@color/enable_disable_textview"
                 android:textSize="16sp"/>
 
-            <Switch
-                android:id="@+id/radius_switch"
-                android:layout_alignParentRight="true"
+            <GridView
+                android:id="@+id/grid_topics"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:checked="true"/>
-        </RelativeLayout>
+                android:layout_alignParentTop="true"
+                android:columnWidth="@dimen/m5"
+                android:horizontalSpacing="@dimen/m2"
+                android:numColumns="auto_fit"
+                android:padding="@dimen/m1"
+                android:verticalSpacing="@dimen/m0.5"/>
 
-        <RelativeLayout
-            android:id="@+id/seek_bar_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:orientation="horizontal">
-
-            <SeekBar
-                android:id="@+id/radius_seek_bar"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:max="100"/>
-
-            <TextView
-                android:id="@+id/radius_number"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="@color/enable_disable_textview"
-                android:layout_alignParentRight="true"/>
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 

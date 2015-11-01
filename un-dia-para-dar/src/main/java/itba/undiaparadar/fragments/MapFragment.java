@@ -31,6 +31,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.inject.Inject;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -47,6 +48,7 @@ import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.services.TopicService;
 
 public class MapFragment extends Fragment implements TitleProvider {
+    private static final int CHANGE_FILTER = 1;
     private static final String TOPICS = "TOPICS";
     private SupportMapFragment mapFragment;
     private GoogleMap mMap;
@@ -54,7 +56,7 @@ public class MapFragment extends Fragment implements TitleProvider {
     @Inject
     private TopicService topicService;
     private Map<Marker, UnDiaParaDarMarker> markers;
-    private List<Topic> selectedTopics;
+    private ArrayList<Topic> selectedTopics;
     private MapFilterItemAdapter adapter;
     private boolean editable;
     private Menu menu;
@@ -98,7 +100,7 @@ public class MapFragment extends Fragment implements TitleProvider {
                 topic.select();
             }
         }
-        selectedTopics = topicService.getSelectedTopics(topics.values());
+        selectedTopics = (ArrayList<Topic>) topicService.getSelectedTopics(topics.values());
         final GridView gridView = (GridView) root.findViewById(R.id.selected_topics);
         gridView.bringToFront();
         gridView.invalidate();
@@ -111,7 +113,7 @@ public class MapFragment extends Fragment implements TitleProvider {
                 }
             }
         });
-        adapter = new MapFilterItemAdapter(getActivity(), selectedTopics);
+        adapter = new MapFilterItemAdapter(getActivity(), selectedTopics, R.layout.map_filter_item);
         gridView.setAdapter(adapter);
         return root;
     }
@@ -240,7 +242,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 //                saveItem.setVisible(true);
 //                item.setVisible(false);
 //                editable = true;
-                startActivity(FilterActivity.getIntent(getActivity()));
+                startActivityForResult(FilterActivity.getIntent(getActivity(), topics.values()), CHANGE_FILTER);
                 break;
             case R.id.save_filter:
                 adapter.showSelectedTopics(new MapFilterItemAdapter.ModifyItemsCallback() {
