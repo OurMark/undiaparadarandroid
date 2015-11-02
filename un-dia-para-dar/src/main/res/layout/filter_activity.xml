@@ -72,7 +72,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:paddingLeft="@dimen/m1.25"
             android:paddingTop="@dimen/m2.5">
 
             <TextView
@@ -80,8 +79,36 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/topic"
+                android:paddingLeft="@dimen/m1.25"
                 android:textColor="@color/enable_disable_textview"
                 android:textSize="16sp"/>
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/m3"
+                android:layout_marginBottom="@dimen/m3">
+
+                <Button
+                    android:id="@+id/select_all"
+                    android:layout_width="@dimen/m16.25"
+                    android:layout_height="wrap_content"
+                    android:text="@string/select_all"
+                    android:layout_marginLeft="@dimen/m1"
+                    android:textSize="12sp"
+                    android:textColor="@color/enable_disable_button_text"
+                    android:background="@drawable/button_enable_disabled"/>
+
+                <Button
+                    android:id="@+id/unselect_all"
+                    android:layout_width="@dimen/m16.25"
+                    android:layout_height="wrap_content"
+                    android:text="@string/unselect_all"
+                    android:layout_marginLeft="@dimen/m3"
+                    android:textSize="12sp"
+                    android:textColor="@color/enable_disable_button_text"
+                    android:background="@drawable/button_enable_disabled"/>
+            </LinearLayout>
 
             <GridView
                 android:id="@+id/grid_topics"

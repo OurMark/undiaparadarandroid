@@ -36,4 +36,6 @@
     <string name="select_one_topic">Debes seleccionar por lo menos 1 topic</string>
     <string name="radius_covered">%1$s km</string>
     <string name="radius">Radio</string>
+    <string name="select_all">Marcar todo</string>
+    <string name="unselect_all">Desmarcar todo</string>
 </resources>

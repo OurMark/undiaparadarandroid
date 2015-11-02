@@ -11,6 +11,7 @@ import android.view.View;
 import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.GridView;
@@ -42,6 +43,7 @@ public class FilterActivity extends Activity {
 	private List<Topic> topics;
 	@Inject
 	private TopicService topicService;
+	private MapFilterItemAdapter adapter;
 
 	public static Intent getIntent(final Context context, final Collection<Topic> topics) {
 		final Intent intent = new Intent(context, FilterActivity.class);
@@ -63,6 +65,11 @@ public class FilterActivity extends Activity {
 	}
 
 	private void setUpView() {
+		setUpRadiusView();
+		setUpTopicsView();
+	}
+
+	private void setUpRadiusView() {
 		final TextView radiusNumbers = (TextView) findViewById(R.id.radius_number);
 		final SeekBar radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
 		radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
@@ -94,12 +101,11 @@ public class FilterActivity extends Activity {
 				radiusTitle.setEnabled(isChecked);
 			}
 		});
-		setUpGridView();
 	}
 
-	private void setUpGridView() {
+	private void setUpTopicsView() {
 		final GridView topicsGrid = (GridView) findViewById(R.id.grid_topics);
-		final MapFilterItemAdapter adapter = new MapFilterItemAdapter(this, topics, R.layout.filter_item);
+		adapter = new MapFilterItemAdapter(this, topics, R.layout.filter_item);
 		topicsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 			@Override
 			public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
@@ -108,6 +114,20 @@ public class FilterActivity extends Activity {
 			}
 		});
 		topicsGrid.setAdapter(adapter);
+		final Button selectAll = (Button) findViewById(R.id.select_all);
+		final Button unselectAll = (Button) findViewById(R.id.unselect_all);
+		selectAll.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				adapter.selectAllTopics();
+			}
+		});
+		unselectAll.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				adapter.unselectAllTopics();
+			}
+		});
 	}
 
 	private void initializeAnimation() {

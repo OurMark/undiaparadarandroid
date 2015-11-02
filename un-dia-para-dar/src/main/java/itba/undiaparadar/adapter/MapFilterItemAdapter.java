@@ -105,4 +105,18 @@ public class MapFilterItemAdapter extends BaseAdapter {
 
 		void fullTopics();
 	}
+
+	public void selectAllTopics() {
+		for (final Topic topic : topics) {
+			topic.select();
+		}
+		notifyDataSetChanged();
+	}
+
+	public void unselectAllTopics() {
+		for (final Topic topic : topics) {
+			topic.unselect();
+		}
+		notifyDataSetChanged();
+	}
 }
