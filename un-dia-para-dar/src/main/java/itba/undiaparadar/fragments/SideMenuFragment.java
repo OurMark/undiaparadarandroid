@@ -61,13 +61,15 @@ public class SideMenuFragment extends Fragment {
 
 		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
 		profileImage.setDefaultImageResId(R.drawable.menu_profile_placeholder);
-		profileImage.setImageUrl(userProfile
-						.getProfilePictureUri(
-								profileImage.getMaxWidth(),
-								profileImage.getHeight()).toString(),
-				imageLoader);
-		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
-		profileName.setText(userProfile.getName());
+		if (userProfile != null) {
+			profileImage.setImageUrl(userProfile
+							.getProfilePictureUri(
+									profileImage.getMaxWidth(),
+									profileImage.getHeight()).toString(),
+					imageLoader);
+			final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
+			profileName.setText(userProfile.getName());
+		}
 		return root;
 	}
 
