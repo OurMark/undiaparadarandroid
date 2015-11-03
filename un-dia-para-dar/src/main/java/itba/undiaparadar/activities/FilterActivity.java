@@ -13,12 +13,13 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.inject.Inject;
 
@@ -36,13 +37,17 @@ import itba.undiaparadar.services.TopicService;
  * Created by mpurita on 10/31/15.
  */
 public class FilterActivity extends Activity {
-	private static final String TOPICS = "TOPICS";
+	public static final int FILTER_RESULT = 1;
+	public static final String TOPICS = "TOPICS";
+	public static final String RADIUS = "RADIUS";
 	private static final int CIRCULAR_REVEAL_TRANSITION = 500;
+	@Inject
+	private TopicService topicService;
 	private FrameLayout rootView;
 	private ViewTreeObserver.OnGlobalLayoutListener viewTreeObserverListener;
 	private List<Topic> topics;
-	@Inject
-	private TopicService topicService;
+	private Switch radiusSwitch;
+	private SeekBar radiusSeekBar;
 	private MapFilterItemAdapter adapter;
 
 	public static Intent getIntent(final Context context, final Collection<Topic> topics) {
@@ -67,18 +72,52 @@ public class FilterActivity extends Activity {
 	private void setUpView() {
 		setUpRadiusView();
 		setUpTopicsView();
+		setUpContinueListeners();
+	}
+
+	private void setUpContinueListeners() {
+		final Button accept = (Button) findViewById(R.id.accept);
+		final Button cancel = (Button) findViewById(R.id.cancel);
+
+		cancel.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				exitReveal();
+			}
+		});
+
+		accept.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				final Intent data = new Intent();
+				final ArrayList<Topic> selectedTopic = (ArrayList<Topic>) topicService.getSelectedTopics(topics);
+				if (selectedTopic.isEmpty()
+						|| (radiusSwitch.isChecked() && radiusSeekBar.getProgress() == 0)) {
+					Toast.makeText(FilterActivity.this,
+							getString(R.string.select_one_topic_and_radius), Toast.LENGTH_LONG)
+							.show();
+				} else {
+					data.putExtra(TOPICS, selectedTopic);
+					if (radiusSwitch.isChecked()) {
+						data.putExtra(RADIUS, radiusSeekBar.getProgress());
+					}
+					setResult(FILTER_RESULT, data);
+					exitReveal();
+				}
+			}
+		});
 	}
 
 	private void setUpRadiusView() {
 		final TextView radiusNumbers = (TextView) findViewById(R.id.radius_number);
-		final SeekBar radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
+		radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
 		radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
 
 		radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			int progress = 0;
 
 			@Override
-			public void onProgressChanged(SeekBar seekBar, int progresValue, boolean fromUser) {
+			public void onProgressChanged(final SeekBar seekBar, final int progresValue, final boolean fromUser) {
 				progress = progresValue;
 				radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
 			}
@@ -91,16 +130,22 @@ public class FilterActivity extends Activity {
 			public void onStopTrackingTouch(SeekBar seekBar) {
 			}
 		});
-		final Switch radiusSwitch = (Switch) findViewById(R.id.radius_switch);
+		radiusSwitch = (Switch) findViewById(R.id.radius_switch);
 		final TextView radiusTitle = (TextView) findViewById(R.id.radius_title);
+		enableDisableRadiusFilter(radiusSwitch.isChecked(), radiusSeekBar, radiusNumbers, radiusTitle);
 		radiusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(final CompoundButton buttonView, final boolean isChecked) {
-				radiusSeekBar.setEnabled(isChecked);
-				radiusNumbers.setEnabled(isChecked);
-				radiusTitle.setEnabled(isChecked);
+				enableDisableRadiusFilter(isChecked, radiusSeekBar, radiusNumbers, radiusTitle);
 			}
 		});
+	}
+
+	private void enableDisableRadiusFilter(final boolean isChecked, final SeekBar radiusSeekBar,
+		final TextView radiusNumbers, final TextView radiusTitle) {
+		radiusSeekBar.setEnabled(isChecked);
+		radiusNumbers.setEnabled(isChecked);
+		radiusTitle.setEnabled(isChecked);
 	}
 
 	private void setUpTopicsView() {
@@ -168,7 +213,7 @@ public class FilterActivity extends Activity {
 	}
 
 	private void revealAnimation(final int cx, final int cy, final int initialRadius,
-	                             final int finalRadius, final boolean isClosing) {
+		final int finalRadius, final boolean isClosing) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			// create the animator for this view (the start radius is zero)

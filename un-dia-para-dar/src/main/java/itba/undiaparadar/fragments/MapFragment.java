@@ -2,6 +2,7 @@ package itba.undiaparadar.fragments;
 
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -48,6 +49,7 @@ import itba.undiaparadar.services.TopicService;
 
 public class MapFragment extends Fragment implements TitleProvider {
 	private static final int CHANGE_FILTER = 1;
+	private static final int NO_RADIUS = -1;
 	private static final String TOPICS = "TOPICS";
 	private SupportMapFragment mapFragment;
 	private GoogleMap mMap;
@@ -235,11 +237,21 @@ public class MapFragment extends Fragment implements TitleProvider {
 	@Override
 	public boolean onOptionsItemSelected(final MenuItem item) {
 		if (item.getItemId() == R.id.filter) {
-			startActivityForResult(FilterActivity.getIntent(getActivity(), topics.values()), CHANGE_FILTER);
+			startActivityForResult(FilterActivity.getIntent(getActivity(), getCurrentTopics()), CHANGE_FILTER);
 			return true;
 		} else {
 			return super.onOptionsItemSelected(item);
 		}
+	}
+
+	private ArrayList<Topic> getCurrentTopics() {
+		final List<Topic> adapterItems = adapter.getItems();
+		for (final Topic topic : topics.values()) {
+			if (!adapterItems.contains(topic)) {
+				adapterItems.add(topic);
+			}
+		}
+		return (ArrayList<Topic>) adapterItems;
 	}
 
 	@Override
@@ -247,5 +259,18 @@ public class MapFragment extends Fragment implements TitleProvider {
 		this.menu = menu;
 		this.menu.clear();
 		inflater.inflate(R.menu.menu_map, this.menu);
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == CHANGE_FILTER) {
+			if (resultCode == FilterActivity.FILTER_RESULT) {
+				final ArrayList<Topic> topicsFiltered = (ArrayList<Topic>) data
+						.getSerializableExtra(FilterActivity.TOPICS);
+				final int radius = data.getIntExtra(FilterActivity.RADIUS, NO_RADIUS);
+				adapter.setItems(topicsFiltered);
+			}
+		}
 	}
 }
