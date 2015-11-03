@@ -38,4 +38,6 @@
     <string name="radius">Radio</string>
     <string name="select_all">Marcar todo</string>
     <string name="unselect_all">Desmarcar todo</string>
+    <string name="accept">Aceptar</string>
+    <string name="cancel">Cancelar</string>
 </resources>

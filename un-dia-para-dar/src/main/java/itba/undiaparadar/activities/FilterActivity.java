@@ -13,9 +13,9 @@ import android.view.ViewTreeObserver;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.FrameLayout;
 import android.widget.GridView;
 import android.widget.ImageView;
+import android.widget.FrameLayout;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
@@ -56,7 +56,7 @@ public class FilterActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		UnDiaParaDarApplication.injectMembers(this);
 		overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
-		setContentView(R.layout.filter_activity);
+		setContentView(R.layout.filter_actiivty);
 		topics = (ArrayList<Topic>) getIntent().getSerializableExtra(TOPICS);
 		if (savedInstanceState == null) {
 			initializeAnimation();

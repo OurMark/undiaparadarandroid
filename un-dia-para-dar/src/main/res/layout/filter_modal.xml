@@ -1,16 +1,46 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    android:id="@+id/root_layout"
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="@dimen/m40"
-    android:layout_height="@dimen/m60"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/background_general"
     >
 
     <LinearLayout
+        android:id="@+id/continue_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="@dimen/m2"
+        android:layout_marginLeft="@dimen/m0.5"
+        android:layout_marginTop="@dimen/m0.5">
+
+        <Button
+            android:id="@+id/accept"
+            android:layout_width="@dimen/m16.25"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m1"
+            android:background="@drawable/button_enable_disabled_inverted"
+            android:text="@string/accept"
+            android:textColor="@color/enable_disable_button_text_inverted"
+            android:textSize="12sp"/>
+
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="@dimen/m16.25"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/m3"
+            android:background="@drawable/button_enable_disabled_inverted"
+            android:text="@string/cancel"
+            android:textColor="@color/enable_disable_button_text_inverted"
+            android:textSize="12sp"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/continue_button"
         android:orientation="vertical"
         android:paddingLeft="@dimen/m1.25"
         android:paddingRight="@dimen/m1.25">
@@ -54,9 +84,9 @@
                     android:id="@+id/radius_seek_bar"
                     android:layout_width="@dimen/m25"
                     android:layout_height="wrap_content"
+                    android:max="@integer/max_km"
                     android:maxHeight="@dimen/m0.25"
-                    android:progressDrawable="@drawable/progress"
-                    android:max="@integer/max_km"/>
+                    android:progressDrawable="@drawable/progress"/>
 
                 <TextView
                     android:id="@+id/radius_number"
@@ -78,36 +108,36 @@
                 android:id="@+id/topics_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/topic"
                 android:paddingLeft="@dimen/m1.25"
+                android:text="@string/topic"
                 android:textColor="@color/enable_disable_textview"
                 android:textSize="16sp"/>
 
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/m3"
-                android:layout_marginBottom="@dimen/m3">
+                android:layout_marginBottom="@dimen/m0.5"
+                android:layout_marginTop="@dimen/m3">
 
                 <Button
                     android:id="@+id/select_all"
                     android:layout_width="@dimen/m16.25"
                     android:layout_height="wrap_content"
-                    android:text="@string/select_all"
                     android:layout_marginLeft="@dimen/m1"
-                    android:textSize="12sp"
+                    android:background="@drawable/button_enable_disabled"
+                    android:text="@string/select_all"
                     android:textColor="@color/enable_disable_button_text"
-                    android:background="@drawable/button_enable_disabled"/>
+                    android:textSize="12sp"/>
 
                 <Button
                     android:id="@+id/unselect_all"
                     android:layout_width="@dimen/m16.25"
                     android:layout_height="wrap_content"
-                    android:text="@string/unselect_all"
                     android:layout_marginLeft="@dimen/m3"
-                    android:textSize="12sp"
+                    android:background="@drawable/button_enable_disabled"
+                    android:text="@string/unselect_all"
                     android:textColor="@color/enable_disable_button_text"
-                    android:background="@drawable/button_enable_disabled"/>
+                    android:textSize="12sp"/>
             </LinearLayout>
 
             <GridView
@@ -124,5 +154,4 @@
         </LinearLayout>
     </LinearLayout>
 
-
-</FrameLayout>
+</RelativeLayout>
