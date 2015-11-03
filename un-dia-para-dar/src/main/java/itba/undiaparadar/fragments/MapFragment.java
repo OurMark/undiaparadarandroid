@@ -1,10 +1,11 @@
 package itba.undiaparadar.fragments;
 
 
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -46,6 +47,8 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.model.Topic;
 import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.services.TopicService;
+import itba.undiaparadar.utils.GifDrawable;
+import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
 public class MapFragment extends Fragment implements TitleProvider {
 	private static final int CHANGE_FILTER = 1;
@@ -173,8 +176,8 @@ public class MapFragment extends Fragment implements TitleProvider {
 	}
 
 	private void setupMap() {
-		final ProgressDialog dialog = new ProgressDialog(getActivity());
-		dialog.setTitle("Loading");
+		final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, getActivity());
+		final Dialog dialog = new UnDiaParaDarDialog(getActivity(), imageDrawable);
 		dialog.show();
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		mMap.getUiSettings().setCompassEnabled(true);
@@ -188,7 +191,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 //        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
 	}
 
-	private void retrievePositiveActions(final Collection<Topic> selectedTopics, final ProgressDialog dialog) {
+	private void retrievePositiveActions(final Collection<Topic> selectedTopics, final Dialog dialog) {
 		topicService.getPositiveActionsForTopics(selectedTopics, new Response.Listener<List<PositiveAction>>() {
 			@Override
 			public void onResponse(final List<PositiveAction> positiveActions) {
