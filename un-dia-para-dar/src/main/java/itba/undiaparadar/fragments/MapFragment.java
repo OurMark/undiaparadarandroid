@@ -95,7 +95,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-	                         final Bundle savedInstanceState) {
+		final Bundle savedInstanceState) {
 		root = inflater.inflate(R.layout.fragment_map, container, false);
 
 		if (topics == null) {
@@ -273,6 +273,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 						.getSerializableExtra(FilterActivity.TOPICS);
 				final int radius = data.getIntExtra(FilterActivity.RADIUS, NO_RADIUS);
 				adapter.setItems(topicsFiltered);
+				refreshMap();
 			}
 		}
 	}

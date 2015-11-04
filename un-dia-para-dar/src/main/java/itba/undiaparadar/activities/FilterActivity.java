@@ -19,7 +19,7 @@ import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.Switch;
 import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.google.inject.Inject;
 
@@ -40,6 +40,7 @@ public class FilterActivity extends Activity {
 	public static final int FILTER_RESULT = 1;
 	public static final String TOPICS = "TOPICS";
 	public static final String RADIUS = "RADIUS";
+	private static final int MIN_RADIUS = 100;
 	private static final int CIRCULAR_REVEAL_TRANSITION = 500;
 	@Inject
 	private TopicService topicService;
@@ -49,6 +50,7 @@ public class FilterActivity extends Activity {
 	private Switch radiusSwitch;
 	private SeekBar radiusSeekBar;
 	private MapFilterItemAdapter adapter;
+	private Button accept;
 
 	public static Intent getIntent(final Context context, final Collection<Topic> topics) {
 		final Intent intent = new Intent(context, FilterActivity.class);
@@ -76,7 +78,7 @@ public class FilterActivity extends Activity {
 	}
 
 	private void setUpContinueListeners() {
-		final Button accept = (Button) findViewById(R.id.accept);
+		accept = (Button) findViewById(R.id.accept);
 		final Button cancel = (Button) findViewById(R.id.cancel);
 
 		cancel.setOnClickListener(new View.OnClickListener() {
@@ -91,19 +93,12 @@ public class FilterActivity extends Activity {
 			public void onClick(final View v) {
 				final Intent data = new Intent();
 				final ArrayList<Topic> selectedTopic = (ArrayList<Topic>) topicService.getSelectedTopics(topics);
-				if (selectedTopic.isEmpty()
-						|| (radiusSwitch.isChecked() && radiusSeekBar.getProgress() == 0)) {
-					Toast.makeText(FilterActivity.this,
-							getString(R.string.select_one_topic_and_radius), Toast.LENGTH_LONG)
-							.show();
-				} else {
-					data.putExtra(TOPICS, selectedTopic);
-					if (radiusSwitch.isChecked()) {
-						data.putExtra(RADIUS, radiusSeekBar.getProgress());
-					}
-					setResult(FILTER_RESULT, data);
-					exitReveal();
+				data.putExtra(TOPICS, selectedTopic);
+				if (radiusSwitch.isChecked()) {
+					data.putExtra(RADIUS, radiusSeekBar.getProgress() + MIN_RADIUS);
 				}
+				setResult(FILTER_RESULT, data);
+				exitReveal();
 			}
 		});
 	}
@@ -111,7 +106,7 @@ public class FilterActivity extends Activity {
 	private void setUpRadiusView() {
 		final TextView radiusNumbers = (TextView) findViewById(R.id.radius_number);
 		radiusSeekBar = (SeekBar) findViewById(R.id.radius_seek_bar);
-		radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
+		radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress() + MIN_RADIUS));
 
 		radiusSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
 			int progress = 0;
@@ -119,7 +114,7 @@ public class FilterActivity extends Activity {
 			@Override
 			public void onProgressChanged(final SeekBar seekBar, final int progresValue, final boolean fromUser) {
 				progress = progresValue;
-				radiusNumbers.setText(getString(R.string.radius_covered, radiusSeekBar.getProgress()));
+				radiusNumbers.setText(getString(R.string.radius_covered, MIN_RADIUS + radiusSeekBar.getProgress()));
 			}
 
 			@Override
@@ -149,6 +144,26 @@ public class FilterActivity extends Activity {
 	}
 
 	private void setUpTopicsView() {
+		final ToggleButton selectAll = (ToggleButton) findViewById(R.id.select_all);
+		final ToggleButton unselectAll = (ToggleButton) findViewById(R.id.unselect_all);
+		selectAll.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				selectAll.setChecked(true);
+				unselectAll.setChecked(false);
+				accept.setEnabled(true);
+				adapter.selectAllTopics();
+			}
+		});
+		unselectAll.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				unselectAll.setChecked(true);
+				selectAll.setChecked(false);
+				accept.setEnabled(false);
+				adapter.unselectAllTopics();
+			}
+		});
 		final GridView topicsGrid = (GridView) findViewById(R.id.grid_topics);
 		adapter = new MapFilterItemAdapter(this, topics, R.layout.filter_item);
 		topicsGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -156,23 +171,12 @@ public class FilterActivity extends Activity {
 			public void onItemClick(final AdapterView<?> adapterView, final View view, final int position, final long l) {
 				final ImageView img = (ImageView) view.findViewById(R.id.topic_img);
 				topicService.loadImageResId(adapter.getItem(position), img);
+				accept.setEnabled(!topicService.getSelectedTopics(adapter.getItems()).isEmpty());
+				selectAll.setChecked(false);
+				unselectAll.setChecked(false);
 			}
 		});
 		topicsGrid.setAdapter(adapter);
-		final Button selectAll = (Button) findViewById(R.id.select_all);
-		final Button unselectAll = (Button) findViewById(R.id.unselect_all);
-		selectAll.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				adapter.selectAllTopics();
-			}
-		});
-		unselectAll.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				adapter.unselectAllTopics();
-			}
-		});
 	}
 
 	private void initializeAnimation() {
@@ -213,7 +217,7 @@ public class FilterActivity extends Activity {
 	}
 
 	private void revealAnimation(final int cx, final int cy, final int initialRadius,
-		final int finalRadius, final boolean isClosing) {
+	                             final int finalRadius, final boolean isClosing) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			// create the animator for this view (the start radius is zero)
