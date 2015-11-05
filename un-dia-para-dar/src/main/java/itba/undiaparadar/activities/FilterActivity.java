@@ -31,6 +31,7 @@ import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.adapter.MapFilterItemAdapter;
 import itba.undiaparadar.model.Topic;
+import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.TopicService;
 
 /**
@@ -44,6 +45,8 @@ public class FilterActivity extends Activity {
 	private static final int CIRCULAR_REVEAL_TRANSITION = 500;
 	@Inject
 	private TopicService topicService;
+	@Inject
+	private SettingsService settingService;
 	private FrameLayout rootView;
 	private ViewTreeObserver.OnGlobalLayoutListener viewTreeObserverListener;
 	private List<Topic> topics;
@@ -126,6 +129,7 @@ public class FilterActivity extends Activity {
 			}
 		});
 		radiusSwitch = (Switch) findViewById(R.id.radius_switch);
+		radiusSwitch.setChecked(settingService.retrieveRadiusFilter());
 		final TextView radiusTitle = (TextView) findViewById(R.id.radius_title);
 		enableDisableRadiusFilter(radiusSwitch.isChecked(), radiusSeekBar, radiusNumbers, radiusTitle);
 		radiusSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {

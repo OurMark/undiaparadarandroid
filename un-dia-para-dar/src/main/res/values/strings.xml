@@ -42,4 +42,5 @@
     <string name="cancel">Cancelar</string>
     <string name="select_one_topic_and_radius">Debes seleccionar por lo menos un topic
         y el radio debe ser mayor que cero</string>
+    <string name="location_permission">Necesito este permiso para que puedas ubicarte en el mapa</string>
 </resources>

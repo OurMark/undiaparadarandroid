@@ -8,4 +8,8 @@ public interface SettingsService {
     void saveEmail(final String email);
 
     String retrieveEmail();
+
+    void saveRadiusFilter(final boolean radiusFilter);
+
+    boolean retrieveRadiusFilter();
 }

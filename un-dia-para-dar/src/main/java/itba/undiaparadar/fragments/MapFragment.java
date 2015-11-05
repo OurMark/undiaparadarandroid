@@ -1,8 +1,10 @@
 package itba.undiaparadar.fragments;
 
 
+import android.Manifest;
 import android.app.Dialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
@@ -87,9 +89,11 @@ public class MapFragment extends Fragment implements TitleProvider {
 		super.onCreate(savedInstanceState);
 		UnDiaParaDarApplication.injectMembers(this);
 		final Bundle bundle = getArguments();
-		if (bundle != null) {
+		setHasOptionsMenu(true);
+		if (bundle == null) {
+			topics = topicService.createTopics(getActivity());
+		} else {
 			topics = (HashMap<Long, Topic>) bundle.getSerializable(TOPICS);
-			setHasOptionsMenu(true);
 		}
 	}
 
@@ -182,6 +186,15 @@ public class MapFragment extends Fragment implements TitleProvider {
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		mMap.getUiSettings().setCompassEnabled(true);
 		mMap.getUiSettings().setZoomControlsEnabled(true);
+
+		if (getActivity().checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+				== PackageManager.PERMISSION_GRANTED) {
+			mMap.setMyLocationEnabled(true);
+		} else {
+			getActivity()
+				.enforceCallingOrSelfPermission(getString(R.string.location_permission),
+						Manifest.permission.ACCESS_FINE_LOCATION);
+		}
 		if (selectedTopics != null) {
 			retrievePositiveActions(selectedTopics, dialog);
 		} else {
