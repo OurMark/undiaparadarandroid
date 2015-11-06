@@ -9,8 +9,10 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -53,6 +55,7 @@ import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
 public class MapFragment extends Fragment implements TitleProvider {
+	private static final int LOCATION_REQUEST_CODE = 2;
 	private static final int CHANGE_FILTER = 1;
 	private static final int NO_RADIUS = -1;
 	private static final String TOPICS = "TOPICS";
@@ -187,21 +190,27 @@ public class MapFragment extends Fragment implements TitleProvider {
 		mMap.getUiSettings().setCompassEnabled(true);
 		mMap.getUiSettings().setZoomControlsEnabled(true);
 
-		if (getActivity().checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
 				== PackageManager.PERMISSION_GRANTED) {
-			mMap.setMyLocationEnabled(true);
+			enableGoogleMapMyLocation();
 		} else {
-			getActivity()
-				.enforceCallingOrSelfPermission(getString(R.string.location_permission),
-						Manifest.permission.ACCESS_FINE_LOCATION);
+			ActivityCompat.requestPermissions(getActivity(), new String[]{
+							Manifest.permission.ACCESS_FINE_LOCATION
+					},
+					LOCATION_REQUEST_CODE);
 		}
 		if (selectedTopics != null) {
 			retrievePositiveActions(selectedTopics, dialog);
 		} else {
 			retrievePositiveActions(topics.values(), dialog);
 		}
-//        final LatLng latLng = new LatLng(-33.796923, 150.922433);
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+//final LatLng latLng = new LatLng(-33.796923, 150.922433);
+//mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+	}
+
+	private void enableGoogleMapMyLocation() {
+		mMap.setMyLocationEnabled(true);
+		mMap.getUiSettings().setMyLocationButtonEnabled(true);
 	}
 
 	private void retrievePositiveActions(final Collection<Topic> selectedTopics, final Dialog dialog) {
@@ -289,5 +298,20 @@ public class MapFragment extends Fragment implements TitleProvider {
 				refreshMap();
 			}
 		}
+	}
+
+	@Override
+	public void onRequestPermissionsResult(final int requestCode,
+		final String[] permissions, final int[] grantResults) {
+		if (requestCode == LOCATION_REQUEST_CODE) {
+			if (permissions.length == 1 &&
+					permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+					grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+				mMap.setMyLocationEnabled(true);
+			} else {
+				// Permission was denied. Display an error message.
+			}
+		}
+		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 	}
 }
