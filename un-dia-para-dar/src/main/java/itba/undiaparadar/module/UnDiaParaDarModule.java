@@ -6,11 +6,13 @@ import android.content.SharedPreferences;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 import com.google.inject.AbstractModule;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.google.inject.Singleton;
 import com.monits.volleyrequests.network.NullSafeImageLoader;
+import com.monits.volleyrequests.restsupport.Rest;
 
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.cache.BitmapLruCache;
@@ -30,7 +32,7 @@ public class UnDiaParaDarModule extends AbstractModule {
 
 		//Services
 
-		bind(TopicService.class).to(TopicServiceImpl.class).in(Singleton.class);
+		bind(TopicService.class).toProvider(TopicServiceProvider.class).in(Singleton.class);
 		bind(SettingsService.class).to(SettingsServiceImpl.class).in(Singleton.class);
 
 		bind(SharedPreferences.class).toProvider(new Provider<SharedPreferences>() {
@@ -54,6 +56,21 @@ public class UnDiaParaDarModule extends AbstractModule {
 		@Override
 		public RequestQueue get() {
 			return Volley.newRequestQueue(context);
+		}
+	}
+
+	private static class TopicServiceProvider implements Provider<TopicService> {
+		private final RequestQueue requestQueue;
+
+		@Inject
+		public TopicServiceProvider(final Gson gson, final RequestQueue requestQueue) {
+			this.requestQueue = requestQueue;
+			Rest.setGson(gson);
+		}
+
+		@Override
+		public TopicService get() {
+			return new TopicServiceImpl(requestQueue);
 		}
 	}
 

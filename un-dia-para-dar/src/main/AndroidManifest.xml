@@ -40,14 +40,14 @@
             android:theme="@style/FilterModal"/>
 
         <!-- Mac -->
-        <!--<meta-data-->
-            <!--android:name="com.google.android.geo.API_KEY"-->
-            <!--android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>-->
-
-        <!-- Monits -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyBPK3p7POMppVae8lp2vHWbAhldo1njTGI"/>
+            android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>
+
+        <!-- Monits -->
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyBPK3p7POMppVae8lp2vHWbAhldo1njTGI"/>-->
     </application>
 
 </manifest>

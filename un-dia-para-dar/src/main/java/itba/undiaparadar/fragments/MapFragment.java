@@ -9,7 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -194,11 +194,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 				== PackageManager.PERMISSION_GRANTED) {
 			enableGoogleMapMyLocation();
 		} else {
-			ActivityCompat.requestPermissions(getActivity(), new String[]{
-							Manifest.permission.ACCESS_FINE_LOCATION
-					},
-					LOCATION_REQUEST_CODE);
+			requestLocationPermission();
 		}
+
 		if (selectedTopics != null) {
 			retrievePositiveActions(selectedTopics, dialog);
 		} else {
@@ -206,6 +204,13 @@ public class MapFragment extends Fragment implements TitleProvider {
 		}
 //final LatLng latLng = new LatLng(-33.796923, 150.922433);
 //mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+	}
+
+	private void requestLocationPermission() {
+		requestPermissions(new String[]{
+						Manifest.permission.ACCESS_FINE_LOCATION
+				},
+				LOCATION_REQUEST_CODE);
 	}
 
 	private void enableGoogleMapMyLocation() {
@@ -305,11 +310,20 @@ public class MapFragment extends Fragment implements TitleProvider {
 		final String[] permissions, final int[] grantResults) {
 		if (requestCode == LOCATION_REQUEST_CODE) {
 			if (permissions.length == 1 &&
-					permissions[0] == Manifest.permission.ACCESS_FINE_LOCATION &&
+					permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
 					grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-				mMap.setMyLocationEnabled(true);
+				refreshMap();
+				enableGoogleMapMyLocation();
 			} else {
-				// Permission was denied. Display an error message.
+				Snackbar.make(getView(),
+						getString(R.string.location_permission), Snackbar.LENGTH_INDEFINITE)
+						.setAction(getString(R.string.location_permission_retry), new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								requestLocationPermission();
+							}
+						})
+						.show();
 			}
 		}
 		super.onRequestPermissionsResult(requestCode, permissions, grantResults);
