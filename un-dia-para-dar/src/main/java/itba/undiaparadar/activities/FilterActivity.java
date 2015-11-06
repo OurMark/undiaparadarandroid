@@ -101,6 +101,7 @@ public class FilterActivity extends Activity {
 					data.putExtra(RADIUS, radiusSeekBar.getProgress() + MIN_RADIUS);
 				}
 				setResult(FILTER_RESULT, data);
+				settingService.saveRadiusFilter(radiusSwitch.isChecked());
 				exitReveal();
 			}
 		});

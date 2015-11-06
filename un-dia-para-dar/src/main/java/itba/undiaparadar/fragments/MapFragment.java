@@ -9,12 +9,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -28,9 +28,11 @@ import android.widget.TextView;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CircleOptions;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -51,6 +53,7 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.model.Topic;
 import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.services.TopicService;
+import itba.undiaparadar.utils.GPSTracker;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -70,6 +73,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 	private boolean editable;
 	private Menu menu;
 	private View root;
+	private LatLng myLatLng;
+	private GPSTracker gpsTracker;
+	private int radius = NO_RADIUS;
 
 	public MapFragment() {
 		this.markers = new HashMap<>();
@@ -93,10 +99,19 @@ public class MapFragment extends Fragment implements TitleProvider {
 		UnDiaParaDarApplication.injectMembers(this);
 		final Bundle bundle = getArguments();
 		setHasOptionsMenu(true);
+		updateLatLng();
 		if (bundle == null) {
 			topics = topicService.createTopics(getActivity());
 		} else {
 			topics = (HashMap<Long, Topic>) bundle.getSerializable(TOPICS);
+		}
+	}
+
+	private void updateLatLng() {
+		gpsTracker = new GPSTracker(getActivity());
+
+		if (gpsTracker.getIsGPSTrackingEnabled()) {
+			myLatLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
 		}
 	}
 
@@ -140,7 +155,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 		if (mapFragment == null) {
 			mapFragment = SupportMapFragment.newInstance();
 		/*
-	     * Map Initialization will come later, just making sure that, if we have a new instance of the fragment,
+		 * Map Initialization will come later, just making sure that, if we have a new instance of the fragment,
          * Also have the GoogleMap reference from that fragment.
          */
 			mMap = null;
@@ -157,7 +172,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 
 	/**
 	 * Sets up the map configuration.
-	 * <p>
+	 * <p/>
 	 * This should be called after {@link MapFragment#onCreateView(LayoutInflater, ViewGroup, Bundle)} otherwise,
 	 * map could return null and never set up at all.
 	 */
@@ -202,8 +217,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 		} else {
 			retrievePositiveActions(topics.values(), dialog);
 		}
-//final LatLng latLng = new LatLng(-33.796923, 150.922433);
-//mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 10));
+		if (myLatLng != null) {
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 10));
+		}
 	}
 
 	private void requestLocationPermission() {
@@ -219,7 +235,46 @@ public class MapFragment extends Fragment implements TitleProvider {
 	}
 
 	private void retrievePositiveActions(final Collection<Topic> selectedTopics, final Dialog dialog) {
-		topicService.getPositiveActionsForTopics(selectedTopics, new Response.Listener<List<PositiveAction>>() {
+		final Response.Listener<List<PositiveAction>> responseListener = getResponseListener(dialog);
+		final Response.ErrorListener errorListener = getErrorListener(dialog);
+		if (radius == NO_RADIUS) {
+			topicService.getPositiveActionsForTopics(selectedTopics, responseListener, errorListener);
+		} else {
+			if (myLatLng == null) {
+				Snackbar.make(getView(),
+					getString(R.string.enable_gps), Snackbar.LENGTH_INDEFINITE)
+					.setAction(getString(R.string.retry), new View.OnClickListener() {
+							@Override
+							public void onClick(View v) {
+								requestLocationPermission();
+							}
+						})
+					.show();
+			} else {
+				mMap.addCircle(new CircleOptions()
+						.center(myLatLng)
+						.radius(radius * 1000)
+						.strokeWidth(0f)
+						.fillColor(getResources().getColor(R.color.radius_map)));
+				topicService.getPositiveActionsForTopicsAndRadius(selectedTopics, radius, myLatLng,
+						responseListener, errorListener);
+			}
+		}
+	}
+
+	@NonNull
+	private Response.ErrorListener getErrorListener(final Dialog dialog) {
+		return new Response.ErrorListener() {
+			@Override
+			public void onErrorResponse(final VolleyError volleyError) {
+				responseErrorListener(dialog);
+			}
+		};
+	}
+
+	@NonNull
+	private Response.Listener<List<PositiveAction>> getResponseListener(final Dialog dialog) {
+		return new Response.Listener<List<PositiveAction>>() {
 			@Override
 			public void onResponse(final List<PositiveAction> positiveActions) {
 				dialog.dismiss();
@@ -244,13 +299,20 @@ public class MapFragment extends Fragment implements TitleProvider {
 					});
 				}
 			}
-		}, new Response.ErrorListener() {
-			@Override
-			public void onErrorResponse(final VolleyError volleyError) {
-				dialog.dismiss();
-				Log.d("Error", "error: " + volleyError);
-			}
-		});
+		};
+	}
+
+	private void responseErrorListener(Dialog dialog) {
+		dialog.dismiss();
+		Snackbar.make(getView(),
+				getString(R.string.generic_error), Snackbar.LENGTH_INDEFINITE)
+				.setAction(getString(R.string.retry), new View.OnClickListener() {
+					@Override
+					public void onClick(View v) {
+						requestLocationPermission();
+					}
+				})
+				.show();
 	}
 
 	private void updatePositiveActionView(final UnDiaParaDarMarker unDiaParaDarMarker) {
@@ -298,7 +360,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 			if (resultCode == FilterActivity.FILTER_RESULT) {
 				final ArrayList<Topic> topicsFiltered = (ArrayList<Topic>) data
 						.getSerializableExtra(FilterActivity.TOPICS);
-				final int radius = data.getIntExtra(FilterActivity.RADIUS, NO_RADIUS);
+				radius = data.getIntExtra(FilterActivity.RADIUS, NO_RADIUS);
 				adapter.setItems(topicsFiltered);
 				refreshMap();
 			}
@@ -313,11 +375,12 @@ public class MapFragment extends Fragment implements TitleProvider {
 					permissions[0].equals(Manifest.permission.ACCESS_FINE_LOCATION) &&
 					grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 				refreshMap();
+				updateLatLng();
 				enableGoogleMapMyLocation();
 			} else {
 				Snackbar.make(getView(),
 						getString(R.string.location_permission), Snackbar.LENGTH_INDEFINITE)
-						.setAction(getString(R.string.location_permission_retry), new View.OnClickListener() {
+						.setAction(getString(R.string.retry), new View.OnClickListener() {
 							@Override
 							public void onClick(View v) {
 								requestLocationPermission();
