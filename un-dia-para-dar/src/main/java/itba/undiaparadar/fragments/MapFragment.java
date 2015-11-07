@@ -137,6 +137,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 				}
 			}
 		});
+		if (selectedTopics.isEmpty()) {
+			selectedTopics = new ArrayList<>(topics.values());
+		}
 		adapter = new MapFilterItemAdapter(getActivity(), selectedTopics, R.layout.map_filter_item);
 		gridView.setAdapter(adapter);
 		return root;

@@ -68,7 +68,7 @@ public class SideMenuFragment extends Fragment {
 	@Nullable
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-	                         final Bundle savedInstanceState) {
+		final Bundle savedInstanceState) {
 		root = inflater.inflate(R.layout.side_menu, container, false);
 
 		updateView();
@@ -138,7 +138,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance("Logros");//AchievementsFragment.newInstance();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance("Estadisticas");//AchievementsFragment.newInstance();
 		}
 	}
 
@@ -156,7 +156,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance("Que es UDPD?");//AchievementsFragment.newInstance();
 		}
 	}
 }

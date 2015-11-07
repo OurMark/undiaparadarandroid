@@ -1,6 +1,5 @@
 package itba.undiaparadar.activities;
 
-import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
@@ -8,6 +7,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -29,7 +29,7 @@ import itba.undiaparadar.utils.UnDiaParaDarDialog;
 /**
  * Created by mpurita on 11/6/15.
  */
-public class PositiveActionDetail extends Activity {
+public class PositiveActionDetail extends AppCompatActivity {
 	private static final int NO_DRAWABLE = -1;
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
 	private static final String TOPIC_IMG_RES = "TOPIC_IMG_RES";
@@ -56,6 +56,12 @@ public class PositiveActionDetail extends Activity {
 		setUpView();
 		setUpShareButton();
 		setUpPledgeButton();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		setTitle(getString(R.string.detail));
 	}
 
 	private void setUpView() {

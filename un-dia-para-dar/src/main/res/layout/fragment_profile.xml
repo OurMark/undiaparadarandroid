@@ -5,16 +5,33 @@
     android:orientation="vertical">
 
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/m36"
-        android:background="@drawable/white_background"
-        android:orientation="vertical">
+        android:background="@drawable/white_background">
+
+        <com.facebook.share.widget.ShareButton
+            android:id="@+id/share_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentTop="true"
+            android:layout_marginRight="@dimen/m3"
+            android:layout_marginTop="@dimen/m3"/>
+
+        <com.facebook.share.widget.LikeView
+            android:id="@+id/like_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="@dimen/m3"/>
 
         <itba.undiaparadar.utils.CircularImageView
             android:id="@+id/profile_img"
             android:layout_width="@dimen/m20"
             android:layout_height="@dimen/m20"
+            android:layout_centerInParent="true"
             android:layout_gravity="center"
             android:layout_marginBottom="@dimen/m2"
             android:layout_marginTop="@dimen/m4"
@@ -24,19 +41,20 @@
             android:id="@+id/profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_below="@id/profile_img"
             android:layout_gravity="center"
             android:background="@color/alpha_black"
             android:ellipsize="end"
             android:gravity="center"
             android:maxLines="2"
-            android:paddingTop="@dimen/m1"
             android:paddingBottom="@dimen/m1"
+            android:paddingTop="@dimen/m1"
             android:singleLine="false"
             android:text="Martin Purita"
             android:textColor="@color/white"
             android:textSize="23sp"
             android:textStyle="bold"/>
-    </LinearLayout>
+    </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"

@@ -47,4 +47,5 @@
     <string name="enable_gps">Habilite el GPS</string>
     <string name="generic_error">Ocurrió un problema</string>
     <string name="no_connection">No hay conexión a internet</string>
+    <string name="detail">Detalle</string>
 </resources>

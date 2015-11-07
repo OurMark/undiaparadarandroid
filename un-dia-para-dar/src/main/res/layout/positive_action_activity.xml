@@ -12,7 +12,7 @@
         android:layout_height="@dimen/m32"
         android:background="@drawable/red_background_white">
 
-        <ImageView
+        <itba.undiaparadar.utils.CircularImageView
             android:id="@+id/topic_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
