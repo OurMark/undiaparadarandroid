@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -54,7 +55,6 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.model.Topic;
 import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.services.TopicService;
-import itba.undiaparadar.utils.GPSTracker;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -75,7 +75,6 @@ public class MapFragment extends Fragment implements TitleProvider {
 	private Menu menu;
 	private View root;
 	private LatLng myLatLng;
-	private GPSTracker gpsTracker;
 	private int radius = NO_RADIUS;
 
 	public MapFragment() {
@@ -100,7 +99,6 @@ public class MapFragment extends Fragment implements TitleProvider {
 		UnDiaParaDarApplication.injectMembers(this);
 		final Bundle bundle = getArguments();
 		setHasOptionsMenu(true);
-		updateLatLng();
 		if (bundle == null) {
 			topics = topicService.createTopics(getActivity());
 		} else {
@@ -109,10 +107,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 	}
 
 	private void updateLatLng() {
-		gpsTracker = new GPSTracker(getActivity());
-
-		if (gpsTracker.getIsGPSTrackingEnabled()) {
-			myLatLng = new LatLng(gpsTracker.getLatitude(), gpsTracker.getLongitude());
+		final Location location = mMap.getMyLocation();
+		if (location != null) {
+			myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
 		}
 	}
 
@@ -205,6 +202,13 @@ public class MapFragment extends Fragment implements TitleProvider {
 		mMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
 		mMap.getUiSettings().setCompassEnabled(true);
 		mMap.getUiSettings().setZoomControlsEnabled(true);
+		mMap.setOnMyLocationChangeListener(new GoogleMap.OnMyLocationChangeListener() {
+
+			@Override
+			public void onMyLocationChange(final Location location) {
+				myLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+			}
+		});
 
 		if (ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION)
 				== PackageManager.PERMISSION_GRANTED) {
@@ -232,6 +236,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 
 	private void enableGoogleMapMyLocation() {
 		mMap.setMyLocationEnabled(true);
+		updateLatLng();
 		mMap.getUiSettings().setMyLocationButtonEnabled(true);
 	}
 

@@ -8,15 +8,17 @@ import android.support.v4.app.Fragment;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookSdk;
 import com.monits.skeletor.activity.SlideMenuStruct;
 
 import itba.undiaparadar.R;
-import itba.undiaparadar.fragments.ProfileFragment;
 import itba.undiaparadar.fragments.SideMenuFragment;
 import itba.undiaparadar.fragments.TopicsFragment;
 import itba.undiaparadar.interfaces.TitleProvider;
 
 public class MainActivity extends SlideMenuStruct {
+	private CallbackManager callbackManager;
 
 	public static Intent getIntent(final Context context) {
 		return new Intent(context, MainActivity.class);
@@ -25,6 +27,8 @@ public class MainActivity extends SlideMenuStruct {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FacebookSdk.sdkInitialize(this);
+		callbackManager = CallbackManager.Factory.create();
 	}
 
 	@NonNull
@@ -68,5 +72,11 @@ public class MainActivity extends SlideMenuStruct {
 	@Override
 	protected void postReplaceFragment(@NonNull Fragment f, @NonNull Intent intent) {
 
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		callbackManager.onActivityResult(requestCode, resultCode, data);
 	}
 }

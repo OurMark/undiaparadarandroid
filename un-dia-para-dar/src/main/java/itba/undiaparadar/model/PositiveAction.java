@@ -3,6 +3,7 @@ package itba.undiaparadar.model;
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
 
 /**
  * Created by mpurita on 10/7/15.
@@ -50,7 +51,7 @@ public class PositiveAction implements Serializable {
     }
 
     public String getTitle() {
-        return title;
+        return encodedString(title);
     }
 
     public String getSubtitle() {
@@ -58,11 +59,11 @@ public class PositiveAction implements Serializable {
     }
 
     public String getDescription() {
-        return description;
+        return encodedString(description);
     }
 
     public String getOrganizationName() {
-        return organizationName;
+        return encodedString(organizationName);
     }
 
     public long getOrganizationId() {
@@ -75,5 +76,13 @@ public class PositiveAction implements Serializable {
 
     public String getExternalUrl() {
         return externalUrl;
+    }
+
+    private String encodedString(final String s) {
+        try {
+            return new String(s.getBytes(), "UTF-8");
+        } catch (final UnsupportedEncodingException e) {
+            return "";
+        }
     }
 }

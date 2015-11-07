@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.android.volley.toolbox.ImageLoader;
 import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.monits.skeletor.interfaces.FragmentFactory;
 
 import javax.inject.Inject;
@@ -31,6 +32,7 @@ public class SideMenuFragment extends Fragment {
 	private ImageLoader imageLoader;
 	@Inject
 	private SettingsService settingsService;
+	private View root;
 
 	public static SideMenuFragment newInstance() {
 		return new SideMenuFragment();
@@ -51,14 +53,28 @@ public class SideMenuFragment extends Fragment {
 	public void onCreate(final @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		userProfile = Profile.getCurrentProfile();
+		final ProfileTracker profileTracker = new ProfileTracker() {
+			@Override
+			protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+				userProfile = currentProfile;
+				updateView();
+			}
+		};
+		profileTracker.startTracking();
+
 	}
 
 	@Nullable
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 	                         final Bundle savedInstanceState) {
-		final View root = inflater.inflate(R.layout.side_menu, container, false);
+		root = inflater.inflate(R.layout.side_menu, container, false);
 
+		updateView();
+		return root;
+	}
+
+	private void updateView() {
 		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
 		profileImage.setDefaultImageResId(R.drawable.menu_profile_placeholder);
 		if (userProfile != null) {
@@ -70,7 +86,6 @@ public class SideMenuFragment extends Fragment {
 			final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
 			profileName.setText(userProfile.getName());
 		}
-		return root;
 	}
 
 	@Override
