@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/background_general"
+                android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/broken_heart"
+        android:layout_width="@dimen/m30"
+        android:layout_height="@dimen/m30"
+        android:layout_centerInParent="true"
+        tools:src="@drawable/no_coonection"/>
+
+    <TextView
+        android:id="@+id/no_connection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/broken_heart"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m2"
+        android:text="@string/no_connection"
+        android:textColor="@color/gray"
+        android:textSize="20sp"/>
+
+    <Button
+        android:id="@+id/connection_retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/no_connection"
+        android:layout_marginTop="@dimen/m5"
+        android:text="@string/retry"
+        android:background="@drawable/rounder_border_button"
+        android:layout_centerHorizontal="true"/>
+
+</RelativeLayout>

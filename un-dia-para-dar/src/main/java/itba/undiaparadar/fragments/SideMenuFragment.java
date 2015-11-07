@@ -23,6 +23,7 @@ import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.activities.MainActivity;
 import itba.undiaparadar.listeners.BrowserListener;
 import itba.undiaparadar.services.SettingsService;
+import itba.undiaparadar.utils.NetworkUtils;
 
 public class SideMenuFragment extends Fragment {
 	private static final String TERMS_AND_CONDITIONS_URL = "http://undiaparadar.net/tyc/#.VgNBu49Vikq";
@@ -122,7 +123,13 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return MapFragment.newInstance();
+			final Fragment fragment;
+			if (NetworkUtils.isInternetConnection(UnDiaParaDarApplication.getAppContext())) {
+				fragment = MapFragment.newInstance();
+			} else {
+				fragment = NoConnectionFragment.newInstance(this);
+			}
+			return fragment;
 		}
 	}
 

@@ -16,7 +16,7 @@
             android:id="@+id/profile_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m25"
-            android:background="@drawable/red_background"
+            android:background="@drawable/red_background_white"
             android:orientation="vertical">
 
             <itba.undiaparadar.utils.CircularImageView

@@ -217,13 +217,13 @@ public class MapFragment extends Fragment implements TitleProvider {
 			requestLocationPermission();
 		}
 
-		if (selectedTopics != null) {
+		if (selectedTopics != null && !selectedTopics.isEmpty()) {
 			retrievePositiveActions(selectedTopics, dialog);
 		} else {
 			retrievePositiveActions(topics.values(), dialog);
 		}
 		if (myLatLng != null) {
-			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 10));
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 100));
 		}
 	}
 
