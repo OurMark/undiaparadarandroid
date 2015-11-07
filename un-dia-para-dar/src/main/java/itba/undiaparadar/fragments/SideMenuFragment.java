@@ -138,7 +138,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return null;//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
 		}
 	}
 
@@ -147,7 +147,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return null;//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
 		}
 	}
 
@@ -156,7 +156,7 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return null;//AchievementsFragment.newInstance();
+			return ComingSoonFragment.newInstance();//AchievementsFragment.newInstance();
 		}
 	}
 }

@@ -1,6 +1,5 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical">
@@ -9,7 +8,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/m36"
-        android:background="@drawable/red_background"
+        android:background="@drawable/white_background"
         android:orientation="vertical">
 
         <itba.undiaparadar.utils.CircularImageView
@@ -26,44 +25,31 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:background="@color/alpha_black"
             android:ellipsize="end"
+            android:gravity="center"
             android:maxLines="2"
+            android:paddingTop="@dimen/m1"
+            android:paddingBottom="@dimen/m1"
             android:singleLine="false"
+            android:text="Martin Purita"
             android:textColor="@color/white"
             android:textSize="23sp"
-            android:gravity="center"
-            android:text="Martin Purita"
-            android:background="@color/alpha_black"
             android:textStyle="bold"/>
     </LinearLayout>
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/m5">
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="5dp"
-            android:text="@string/last_pledge"
-            android:textColor="@color/dark_red"
-            android:textSize="26sp"/>
-
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="@dimen/m3"
-            android:src="@drawable/banda_colores"/>
+            android:layout_alignParentBottom="true"
+            android:src="@drawable/coming_soon"/>
 
-        <ListView
-            android:id="@+id/last_pledge_list"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="@dimen/m3"
-            android:divider="@android:color/transparent"
-            android:dividerHeight="@dimen/m2"/>
-    </LinearLayout>
+    </RelativeLayout>
 </LinearLayout>

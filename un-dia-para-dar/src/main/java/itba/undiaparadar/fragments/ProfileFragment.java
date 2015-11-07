@@ -7,24 +7,17 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
-import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.Profile;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.facebook.ProfileTracker;
 
 import javax.inject.Inject;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
-import itba.undiaparadar.adapter.LastPledgeItemAdapter;
 import itba.undiaparadar.interfaces.TitleProvider;
-import itba.undiaparadar.model.Topic;
-import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.utils.CircularImageView;
 
 public class ProfileFragment extends Fragment implements TitleProvider {
@@ -33,6 +26,7 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 	private Profile userProfile;
 	@Inject
 	private ImageLoader imageLoader;
+	private View root;
 
 	public static Fragment newInstance() {
 		return new ProfileFragment();
@@ -42,13 +36,26 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 	public void onCreate(final @Nullable Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		UnDiaParaDarApplication.injectMembers(this);
+		final ProfileTracker profileTracker = new ProfileTracker() {
+			@Override
+			protected void onCurrentProfileChanged(Profile oldProfile, Profile currentProfile) {
+				userProfile = currentProfile;
+				updateView();
+			}
+		};
 		userProfile = Profile.getCurrentProfile();
 	}
 
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
 		final Bundle savedInstanceState) {
-		final View root = inflater.inflate(R.layout.fragment_profile, container, false);
+		root = inflater.inflate(R.layout.fragment_profile, container, false);
+		updateView();
+
+		return root;
+	}
+
+	private void updateView() {
 		final CircularImageView profileImage = (CircularImageView) root.findViewById(R.id.profile_img);
 		profileImage.setBorderWidth(BORDER_WIDTH);
 		profileImage.setImageUrl(userProfile
@@ -58,18 +65,6 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 				imageLoader);
 		final TextView profileName = (TextView) root.findViewById(R.id.profile_name);
 		profileName.setText(userProfile.getName());
-
-		final ListView listView = (ListView) root.findViewById(R.id.last_pledge_list);
-		final LastPledgeItemAdapter adapter = new LastPledgeItemAdapter(getActivity());
-		final List<UnDiaParaDarMarker> topics = new ArrayList<>();
-		topics.add(new UnDiaParaDarMarker(new Topic(14, R.drawable.adopcion_de_mascotas, getString(R.string.adopcion_mascotas), R.drawable.adopcion_de_mascotas_gris), null));
-		topics.add(new UnDiaParaDarMarker(new Topic(14, R.drawable.adopcion_de_mascotas, getString(R.string.adopcion_mascotas), R.drawable.adopcion_de_mascotas_gris), null));
-		topics.add(new UnDiaParaDarMarker(new Topic(14, R.drawable.adopcion_de_mascotas, getString(R.string.adopcion_mascotas), R.drawable.adopcion_de_mascotas_gris), null));
-		adapter.setItems(topics);
-		listView.setAdapter(adapter);
-
-
-		return root;
 	}
 
 	@Override
