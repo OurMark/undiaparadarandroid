@@ -2,10 +2,12 @@ package itba.undiaparadar.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
+
 /**
  * Created by mpurita on 10/7/15.
  */
-public class PositiveAction {
+public class PositiveAction implements Serializable {
     private long id;
     @SerializedName("latlng_0_coordinate")
     private double latitude;

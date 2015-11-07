@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:clipChildren="false"
+                android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/m32"
+        android:background="@drawable/red_background_white">
+
+        <ImageView
+            android:id="@+id/topic_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            tools:src="@drawable/plantar_arboles"/>
+
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/positive_action_title"
+        android:layout_width="@dimen/m40"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="@dimen/m30"
+        android:background="@drawable/rounder_border_medium_red"
+        android:ellipsize="end"
+        android:gravity="center"
+        android:maxLines="1"
+        android:padding="@dimen/m0.5"
+        android:textSize="16sp"
+        tools:text="Nos ponemos verdes"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/positive_action_title"
+        android:layout_marginLeft="@dimen/m2"
+        android:layout_marginRight="@dimen/m2"
+        android:layout_marginTop="@dimen/m3"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/m2"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/share"
+                android:layout_weight="1"
+                android:layout_width="@dimen/m5"
+                android:layout_height="@dimen/m5"
+                android:scaleType="centerInside"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:src="@drawable/share_toggle"/>
+
+            <ImageButton
+                android:id="@+id/pledge"
+                android:layout_weight="1"
+                android:layout_width="@dimen/m5"
+                android:layout_height="@dimen/m5"
+                android:scaleType="centerInside"
+                android:saveEnabled="false"
+                android:layout_gravity="center_horizontal"
+                android:background="@android:color/transparent"
+                android:src="@drawable/pledge_toggle"/>
+
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/banda_colores"/>
+
+        <TextView
+            android:id="@+id/positive_action_description"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/m3"
+            android:layout_marginTop="@dimen/m3"
+            android:gravity="center"
+            android:minHeight="@dimen/m16.25"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            tools:text="Desde el grupo, sumamos nuestras actividades en las plazas y nos sumamos plantando arboles ."/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/m0.5"
+            android:background="@color/dark_red">
+        </View>
+    </LinearLayout>
+
+</RelativeLayout>

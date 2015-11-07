@@ -47,6 +47,7 @@ import java.util.Map;
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.activities.FilterActivity;
+import itba.undiaparadar.activities.PositiveActionDetail;
 import itba.undiaparadar.adapter.MapFilterItemAdapter;
 import itba.undiaparadar.interfaces.TitleProvider;
 import itba.undiaparadar.model.PositiveAction;
@@ -244,11 +245,11 @@ public class MapFragment extends Fragment implements TitleProvider {
 				Snackbar.make(getView(),
 					getString(R.string.enable_gps), Snackbar.LENGTH_INDEFINITE)
 					.setAction(getString(R.string.retry), new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								requestLocationPermission();
-							}
-						})
+						@Override
+						public void onClick(View v) {
+							requestLocationPermission();
+						}
+					})
 					.show();
 			} else {
 				mMap.addCircle(new CircleOptions()
@@ -319,6 +320,13 @@ public class MapFragment extends Fragment implements TitleProvider {
 		final TextView title = (TextView) root.findViewById(R.id.title);
 		title.setText(unDiaParaDarMarker.getPositiveAction().getTitle());
 		title.setVisibility(View.VISIBLE);
+		title.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(final View v) {
+				startActivity(PositiveActionDetail.getIntent(getActivity(),
+						unDiaParaDarMarker.getTopic().getEnableImageResId(), unDiaParaDarMarker.getPositiveAction()));
+			}
+		});
 	}
 
 	@Override

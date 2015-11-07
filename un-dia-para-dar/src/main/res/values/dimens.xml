@@ -19,6 +19,7 @@
     <dimen name="m20">160dp</dimen>
     <dimen name="m23">184dp</dimen>
     <dimen name="m25">200dp</dimen>
+    <dimen name="m30">240dp</dimen>
     <dimen name="m32">256dp</dimen>
     <dimen name="m36">288dp</dimen>
     <dimen name="m40">320dp</dimen>

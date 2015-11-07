@@ -39,6 +39,14 @@
             android:name=".activities.FilterActivity"
             android:theme="@style/FilterModal"/>
 
+        <activity
+            android:name=".activities.PositiveActionDetail"
+            android:theme="@style/AppTheme"/>
+
+        <provider android:authorities="com.facebook.app.FacebookContentProvider877005669054245"
+                  android:name="com.facebook.FacebookContentProvider"
+                  android:exported="true"/>
+
         <!-- Mac -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
