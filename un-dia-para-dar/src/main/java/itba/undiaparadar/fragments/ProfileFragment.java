@@ -22,7 +22,7 @@ import javax.inject.Inject;
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.interfaces.TitleProvider;
-import itba.undiaparadar.utils.CircularImageView;
+import itba.undiaparadar.utils.CircularNetworkImageView;
 
 public class ProfileFragment extends Fragment implements TitleProvider {
 	private static final String UDPD_FACEBOOK = "https://www.facebook.com/UndiaparadarArgentina/?fref=ts";
@@ -72,7 +72,7 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 	}
 
 	private void updateView() {
-		final CircularImageView profileImage = (CircularImageView) root.findViewById(R.id.profile_img);
+		final CircularNetworkImageView profileImage = (CircularNetworkImageView) root.findViewById(R.id.profile_img);
 		profileImage.setBorderWidth(BORDER_WIDTH);
 		profileImage.setImageUrl(userProfile
 						.getProfilePictureUri(

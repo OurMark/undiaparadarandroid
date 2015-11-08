@@ -8,9 +8,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.AppCompatActivity;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.facebook.CallbackManager;
@@ -23,6 +23,7 @@ import com.facebook.share.widget.ShareDialog;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.model.PositiveAction;
+import itba.undiaparadar.utils.CircularImageView;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -53,6 +54,8 @@ public class PositiveActionDetail extends AppCompatActivity {
 		callbackManager = CallbackManager.Factory.create();
 		positiveAction = (PositiveAction) getIntent().getSerializableExtra(POSITIVE_ACTION);
 		topicImgRes = getIntent().getIntExtra(TOPIC_IMG_RES, NO_DRAWABLE);
+		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+		getSupportActionBar().setDisplayShowHomeEnabled(true);
 		setUpView();
 		setUpShareButton();
 		setUpPledgeButton();
@@ -65,7 +68,7 @@ public class PositiveActionDetail extends AppCompatActivity {
 	}
 
 	private void setUpView() {
-		final ImageView topicImg = (ImageView) findViewById(R.id.topic_img);
+		final CircularImageView topicImg = (CircularImageView) findViewById(R.id.topic_img);
 		if (topicImgRes != NO_DRAWABLE) {
 			topicImg.setImageResource(topicImgRes);
 		}
@@ -139,5 +142,16 @@ public class PositiveActionDetail extends AppCompatActivity {
 	protected void onActivityResult(final int requestCode, final int resultCode, final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		callbackManager.onActivityResult(requestCode, resultCode, data);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+			// Respond to the action bar's Up/Home button
+			case android.R.id.home:
+				onBackPressed();
+				return true;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 }

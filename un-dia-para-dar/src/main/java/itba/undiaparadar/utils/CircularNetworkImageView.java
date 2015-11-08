@@ -10,9 +10,10 @@ import android.graphics.Paint;
 import android.graphics.Shader;
 import android.graphics.drawable.BitmapDrawable;
 import android.util.AttributeSet;
-import android.widget.ImageView;
 
-public class CircularImageView extends ImageView {
+import com.android.volley.toolbox.NetworkImageView;
+
+public class CircularNetworkImageView extends NetworkImageView {
 
     private int borderWidth = 5;
     private int viewWidth;
@@ -22,17 +23,17 @@ public class CircularImageView extends ImageView {
     private Paint paintBorder;
     private BitmapShader shader;
 
-    public CircularImageView(Context context) {
+    public CircularNetworkImageView(Context context) {
         super(context);
         setup();
     }
 
-    public CircularImageView(Context context, AttributeSet attrs) {
+    public CircularNetworkImageView(Context context, AttributeSet attrs) {
         super(context, attrs);
         setup();
     }
 
-    public CircularImageView(Context context, AttributeSet attrs, int defStyle) {
+    public CircularNetworkImageView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         setup();
     }

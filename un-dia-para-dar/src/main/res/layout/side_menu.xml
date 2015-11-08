@@ -19,7 +19,7 @@
             android:background="@drawable/red_background_white"
             android:orientation="vertical">
 
-            <itba.undiaparadar.utils.CircularImageView
+            <itba.undiaparadar.utils.CircularNetworkImageView
                 android:id="@+id/profile_img"
                 android:layout_width="@dimen/m12.5"
                 android:layout_height="@dimen/m12.5"
