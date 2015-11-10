@@ -4,6 +4,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,6 +37,8 @@ public class NoConnectionFragment extends Fragment {
 	public void onCreate(@Nullable final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setHasOptionsMenu(false);
+		final AppCompatActivity actionBarActivity = (AppCompatActivity) getActivity();
+		actionBarActivity.getSupportActionBar().setTitle(getString(R.string.map));
 	}
 
 	@Nullable

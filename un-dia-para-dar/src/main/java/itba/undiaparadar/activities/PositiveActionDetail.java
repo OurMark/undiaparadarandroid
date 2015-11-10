@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -74,8 +75,20 @@ public class PositiveActionDetail extends AppCompatActivity {
 		}
 		final TextView positiveActionTitle = (TextView) findViewById(R.id.positive_action_title);
 		positiveActionTitle.setText(positiveAction.getTitle());
+		final TextView positiveActionSubtitle = (TextView) findViewById(R.id.positive_action_subtitle);
+		positiveActionSubtitle.setText(positiveAction.getSubtitle());
 		final TextView positiveActionDescription = (TextView) findViewById(R.id.positive_action_description);
 		positiveActionDescription.setText(positiveAction.getDescription());
+		final TextView positiveActionLocation = (TextView) findViewById(R.id.location);
+		final String location = positiveAction.getCity() + ", " + positiveAction.getCountry();
+		positiveActionLocation.setText(location);
+		final TextView positiveActionWebUrl = (TextView) findViewById(R.id.web_url);
+		if (positiveAction.getExternalUrl() != null && !positiveAction.getExternalUrl().isEmpty()) {
+			positiveActionWebUrl.setVisibility(View.VISIBLE);
+			positiveActionWebUrl.setText(positiveAction.getExternalUrl());
+		} else {
+			positiveActionWebUrl.setVisibility(View.GONE);
+		}
 	}
 
 	private void setUpShareButton() {
@@ -85,10 +98,15 @@ public class PositiveActionDetail extends AppCompatActivity {
 		shareButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, PositiveActionDetail.this);
-				final Dialog dialog = new UnDiaParaDarDialog(PositiveActionDetail.this, imageDrawable);
-				dialog.show();
-				share(dialog);
+				if (positiveAction.getExternalUrl() != null && !positiveAction.getExternalUrl().isEmpty()) {
+					final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, PositiveActionDetail.this);
+					final Dialog dialog = new UnDiaParaDarDialog(PositiveActionDetail.this, imageDrawable);
+					dialog.show();
+					share(dialog);
+				} else {
+					Toast.makeText(PositiveActionDetail.this, "No puedes compartir esta acción", Toast.LENGTH_LONG)
+							.show();
+				}
 			}
 		});
 	}

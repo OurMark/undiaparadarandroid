@@ -29,6 +29,7 @@ public class PositiveAction implements Serializable {
     private long topicId;
     @SerializedName("external_url")
     private String externalUrl;
+    private String city;
 
     public long getId() {
         return id;
@@ -76,6 +77,10 @@ public class PositiveAction implements Serializable {
 
     public String getExternalUrl() {
         return externalUrl;
+    }
+
+    public String getCity() {
+        return city;
     }
 
     private String encodedString(final String s) {
