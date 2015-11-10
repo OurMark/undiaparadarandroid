@@ -76,7 +76,12 @@ public class PositiveActionDetail extends AppCompatActivity {
 		final TextView positiveActionTitle = (TextView) findViewById(R.id.positive_action_title);
 		positiveActionTitle.setText(positiveAction.getTitle());
 		final TextView positiveActionSubtitle = (TextView) findViewById(R.id.positive_action_subtitle);
-		positiveActionSubtitle.setText(positiveAction.getSubtitle());
+		if (positiveAction.getSubtitle() != null && !positiveAction.getSubtitle().isEmpty()) {
+			positiveActionSubtitle.setVisibility(View.VISIBLE);
+			positiveActionSubtitle.setText(positiveAction.getSubtitle());
+		} else {
+			positiveActionSubtitle.setVisibility(View.GONE);
+		}
 		final TextView positiveActionDescription = (TextView) findViewById(R.id.positive_action_description);
 		positiveActionDescription.setText(positiveAction.getDescription());
 		final TextView positiveActionLocation = (TextView) findViewById(R.id.location);
