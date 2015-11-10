@@ -250,6 +250,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 			topicService.getPositiveActionsForTopics(selectedTopics, responseListener, errorListener);
 		} else {
 			if (myLatLng == null) {
+				dialog.dismiss();
 				Snackbar.make(getView(),
 					getString(R.string.enable_gps), Snackbar.LENGTH_INDEFINITE)
 					.setAction(getString(R.string.retry), new View.OnClickListener() {
