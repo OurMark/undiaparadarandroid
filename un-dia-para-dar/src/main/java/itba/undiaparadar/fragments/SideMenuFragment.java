@@ -7,7 +7,6 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
@@ -21,7 +20,6 @@ import javax.inject.Inject;
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.activities.MainActivity;
-import itba.undiaparadar.listeners.BrowserListener;
 import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.utils.NetworkUtils;
 
@@ -47,6 +45,7 @@ public class SideMenuFragment extends Fragment {
 		fragmentMap.put(R.id.achievements_menu, new AchievementsFragmentFactory());
 		fragmentMap.put(R.id.statistics_menu, new StatisticsFragmentFactory());
 		fragmentMap.put(R.id.what_is_udpd_menu, new WhatIsUDPDFragmentFactory());
+		fragmentMap.put(R.id.term_and_conditions_menu, new TermAndConditionFragmentFactory());
 
 	}
 
@@ -94,10 +93,6 @@ public class SideMenuFragment extends Fragment {
 		super.onViewCreated(view, savedInstanceState);
 		final MainActivity topActivity = (MainActivity) getActivity();
 		topActivity.setSidebarListener(view, fragmentMap);
-
-		final LinearLayout terms = (LinearLayout) view.findViewById(R.id.term_and_conditions_menu);
-
-		terms.setOnClickListener(new BrowserListener(getActivity(), TERMS_AND_CONDITIONS_URL));
 	}
 
 	private static class ProfileFragmentFactory implements FragmentFactory {
@@ -156,7 +151,16 @@ public class SideMenuFragment extends Fragment {
 
 		@Override
 		public Fragment newFragment() {
-			return ComingSoonFragment.newInstance("Que es UDPD?");//AchievementsFragment.newInstance();
+			return WebViewFragment.newInstance("queEsUdpd.html");
+		}
+	}
+
+	private static class TermAndConditionFragmentFactory implements FragmentFactory {
+		private static final long serialVersionUID = -7188229760615810972L;
+
+		@Override
+		public Fragment newFragment() {
+			return WebViewFragment.newInstance("termsAndConditions.html");
 		}
 	}
 }

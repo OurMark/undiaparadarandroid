@@ -48,9 +48,16 @@
                   android:exported="true"/>
 
         <!-- Mac -->
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>-->
+
+        <!-- Masacre -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>
+            android:value="AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI"/>
+
+        AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI
 
         <!-- Monits -->
         <!--<meta-data-->

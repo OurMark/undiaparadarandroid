@@ -226,7 +226,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 			retrievePositiveActions(topics.values(), dialog);
 		}
 		if (myLatLng != null) {
-			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 100));
+			mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLatLng, 5));
 		}
 	}
 

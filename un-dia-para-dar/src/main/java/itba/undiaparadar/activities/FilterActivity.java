@@ -222,7 +222,7 @@ public class FilterActivity extends Activity {
 	}
 
 	private void revealAnimation(final int cx, final int cy, final int initialRadius,
-	                             final int finalRadius, final boolean isClosing) {
+		final int finalRadius, final boolean isClosing) {
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
 			// create the animator for this view (the start radius is zero)
@@ -260,6 +260,9 @@ public class FilterActivity extends Activity {
 			// make the view visible and start the animation
 			rootView.setVisibility(rootView.VISIBLE);
 			anim.start();
+		} else if (isClosing) {
+			rootView.setVisibility(View.INVISIBLE);
+			finish();
 		}
 	}
 
