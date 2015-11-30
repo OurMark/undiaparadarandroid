@@ -292,7 +292,8 @@ public class MapFragment extends Fragment implements TitleProvider {
 					final MarkerOptions markerOptions = new MarkerOptions();
 					markerOptions.position(new LatLng(positiveAction.getLatitude(),
 							positiveAction.getLongitude()));
-					markerOptions.title(positiveAction.getTitle());
+					markerOptions.title(positiveAction.getOrganizationName());
+					markerOptions.snippet(positiveAction.getTitle());
 					final Topic topic = topics.get(new Long(positiveAction.getTopicId()));
 					final Bitmap icon = BitmapFactory.decodeResource(getResources(), topic.getEnableImageResId());
 					final int dimen = (int) getResources().getDimension(R.dimen.m2);
@@ -303,6 +304,7 @@ public class MapFragment extends Fragment implements TitleProvider {
 					mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 						@Override
 						public boolean onMarkerClick(final Marker marker) {
+							marker.showInfoWindow();
 							updatePositiveActionView(markers.get(marker));
 							return true;
 						}

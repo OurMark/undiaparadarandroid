@@ -81,6 +81,18 @@
             </LinearLayout>
 
             <TextView
+                android:id="@+id/positive_action_organization_name"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="@dimen/m1"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                tools:text="Ayudanos a seguir investigando"/>
+
+            <TextView
                 android:id="@+id/positive_action_subtitle"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -118,32 +130,32 @@
 
             <TextView
                 android:id="@+id/location"
-                android:layout_width="@dimen/m30"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/m2"
+                android:layout_marginLeft="@dimen/m1"
                 android:layout_marginTop="@dimen/m2"
                 android:drawableLeft="@drawable/location"
                 android:drawablePadding="@dimen/m1"
                 android:ellipsize="end"
-                android:gravity="left"
+                android:gravity="center_vertical"
                 android:textColor="@color/black"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="Buenos Aires, AR"/>
 
             <TextView
                 android:id="@+id/web_url"
-                android:layout_width="@dimen/m30"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_gravity="center_horizontal"
                 android:layout_marginBottom="@dimen/m1"
+                android:layout_marginLeft="@dimen/m1"
                 android:drawableLeft="@drawable/web_url"
                 android:drawablePadding="@dimen/m1"
                 android:ellipsize="end"
-                android:gravity="left"
+                android:gravity="center_vertical"
                 android:textColor="@color/blue"
-                android:textSize="20sp"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 tools:text="http://leloir.org.ar"/>
         </LinearLayout>

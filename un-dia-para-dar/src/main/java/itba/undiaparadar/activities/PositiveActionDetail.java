@@ -75,6 +75,10 @@ public class PositiveActionDetail extends AppCompatActivity {
 		}
 		final TextView positiveActionTitle = (TextView) findViewById(R.id.positive_action_title);
 		positiveActionTitle.setText(positiveAction.getTitle());
+
+		final TextView positiveActionOrganizationName = (TextView) findViewById(R.id.positive_action_organization_name);
+		positiveActionOrganizationName.setText(positiveAction.getOrganizationName());
+
 		final TextView positiveActionSubtitle = (TextView) findViewById(R.id.positive_action_subtitle);
 		if (positiveAction.getSubtitle() != null && !positiveAction.getSubtitle().isEmpty()) {
 			positiveActionSubtitle.setVisibility(View.VISIBLE);
@@ -85,12 +89,38 @@ public class PositiveActionDetail extends AppCompatActivity {
 		final TextView positiveActionDescription = (TextView) findViewById(R.id.positive_action_description);
 		positiveActionDescription.setText(positiveAction.getDescription());
 		final TextView positiveActionLocation = (TextView) findViewById(R.id.location);
-		final String location = positiveAction.getCity() + ", " + positiveAction.getCountry();
-		positiveActionLocation.setText(location);
+		final StringBuilder locationBuilder = new StringBuilder();
+		if (positiveAction.getCity() != null && !positiveAction.getCity().isEmpty()) {
+			locationBuilder.append(positiveAction.getCity());
+			if (positiveAction.getCountry() != null && !positiveAction.getCountry().isEmpty()) {
+				locationBuilder.append(", ").append(positiveAction.getCountry());
+			}
+		} else {
+			if (positiveAction.getCountry() != null && !positiveAction.getCountry().isEmpty()) {
+				locationBuilder.append(positiveAction.getCountry());
+			}
+		}
+		if (locationBuilder.toString().isEmpty()) {
+			positiveActionLocation.setVisibility(View.GONE);
+		} else {
+			positiveActionLocation.setVisibility(View.VISIBLE);
+			positiveActionLocation.setText(locationBuilder.toString());
+		}
 		final TextView positiveActionWebUrl = (TextView) findViewById(R.id.web_url);
 		if (positiveAction.getExternalUrl() != null && !positiveAction.getExternalUrl().isEmpty()) {
 			positiveActionWebUrl.setVisibility(View.VISIBLE);
 			positiveActionWebUrl.setText(positiveAction.getExternalUrl());
+			positiveActionWebUrl.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					String url = positiveAction.getExternalUrl();
+					if (!url.startsWith("http://") && !url.startsWith("https://")) {
+						url = "http://" + url;
+					}
+					final Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+					startActivity(browserIntent);
+				}
+			});
 		} else {
 			positiveActionWebUrl.setVisibility(View.GONE);
 		}

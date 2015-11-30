@@ -1,5 +1,7 @@
 package itba.undiaparadar.model;
 
+import android.text.Html;
+
 import com.google.gson.annotations.SerializedName;
 
 import java.io.Serializable;
@@ -85,7 +87,8 @@ public class PositiveAction implements Serializable {
 
     private String encodedString(final String s) {
         try {
-            return new String(s.getBytes(), "UTF-8");
+            final String encodedString = new String(s.getBytes(), "UTF-8");
+            return Html.fromHtml(encodedString).toString();
         } catch (final UnsupportedEncodingException e) {
             return "";
         }
