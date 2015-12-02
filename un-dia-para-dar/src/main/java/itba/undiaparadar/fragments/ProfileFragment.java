@@ -68,7 +68,16 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 				UDPD_FACEBOOK,
 				LikeView.ObjectType.PAGE);
 
+		setupProfileInfo();
+
 		return root;
+	}
+
+	private void setupProfileInfo() {
+		final TextView positiveActionsShared = (TextView) root.findViewById(R.id.positive_actions_shared);
+		positiveActionsShared.setText(getString(R.string.positive_actions_shared, 5532));
+		final TextView positiveActionsDone = (TextView) root.findViewById(R.id.positive_actions_done);
+		positiveActionsDone.setText(getString(R.string.positive_actions_done, 314));
 	}
 
 	private void updateView() {

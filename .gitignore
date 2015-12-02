@@ -35,3 +35,6 @@ proguard/
 *.ipr
 *.iws
 .idea/
+
+.DS_Store
+un-dia-para-dar/.DS_Store

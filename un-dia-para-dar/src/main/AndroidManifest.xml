@@ -15,7 +15,8 @@
         android:theme="@style/Theme.AppCompat.NoActionBar">
         <activity
             android:name=".activities.SplashScreen"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
@@ -28,20 +29,25 @@
 
         <activity
             android:name="com.facebook.FacebookActivity"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.MainActivity"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.LoginActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+            android:theme="@style/Theme.AppCompat.NoActionBar"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activities.FilterActivity"
-            android:theme="@style/FilterModal"/>
+            android:theme="@style/FilterModal"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activities.PositiveActionDetail"
-            android:theme="@style/AppTheme"/>
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
 
         <provider android:authorities="com.facebook.app.FacebookContentProvider877005669054245"
                   android:name="com.facebook.FacebookContentProvider"
@@ -56,8 +62,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI"/>
-
-        AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI
 
         <!-- Monits -->
         <!--<meta-data-->

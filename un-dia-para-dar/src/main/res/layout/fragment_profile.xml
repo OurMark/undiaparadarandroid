@@ -39,36 +39,61 @@
             android:textStyle="bold"/>
     </RelativeLayout>
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@android:color/white"
         android:orientation="vertical"
         android:paddingLeft="@dimen/m5">
 
-        <com.facebook.share.widget.ShareButton
-            android:id="@+id/share_button"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginRight="@dimen/m3"
-            android:layout_marginTop="@dimen/m3"/>
+            android:layout_gravity="center"
+            android:layout_marginLeft="@dimen/m5"
+            android:layout_marginBottom="@dimen/m5">
 
-        <com.facebook.share.widget.LikeView
-            android:id="@+id/like_button"
-            android:layout_width="wrap_content"
+            <com.facebook.share.widget.ShareButton
+                android:id="@+id/share_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginRight="@dimen/m3"
+                android:layout_marginTop="@dimen/m3"/>
+
+            <com.facebook.share.widget.LikeView
+                android:id="@+id/like_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toLeftOf="@id/share_button"
+                android:layout_marginTop="@dimen/m3"
+                android:layout_marginRight="@dimen/m3"/>
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/positive_actions_done"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_toLeftOf="@id/share_button"
-            android:layout_marginTop="@dimen/m3"
-            android:layout_marginRight="@dimen/m3"/>
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/comprometerse"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:drawablePadding="@dimen/m2"
+            android:gravity="left|center_vertical"
+            android:layout_marginBottom="@dimen/m2"/>
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <TextView
+            android:id="@+id/positive_actions_shared"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/coming_soon"/>
+            android:layout_gravity="center_horizontal"
+            android:drawableLeft="@drawable/share"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:drawablePadding="@dimen/m2"
+            android:gravity="left|center_vertical"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 </LinearLayout>
