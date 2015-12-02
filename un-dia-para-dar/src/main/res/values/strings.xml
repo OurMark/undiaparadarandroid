@@ -48,6 +48,6 @@
     <string name="generic_error">Ocurrió un problema</string>
     <string name="no_connection">No hay conexión a internet</string>
     <string name="detail">Detalle</string>
-    <string name="positive_actions_shared">Accione positivas compartidas: %1$d</string>
-    <string name="positive_actions_done">Compromisos realizados: %1$d</string>
+    <string name="positive_actions_shared">Acciones positivas compartidas</string>
+    <string name="positive_actions_done">Compromisos realizados</string>
 </resources>

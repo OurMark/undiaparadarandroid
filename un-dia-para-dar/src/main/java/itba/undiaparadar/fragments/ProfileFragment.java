@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.ImageLoader;
+import com.android.volley.toolbox.NetworkImageView;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.share.model.ShareLinkContent;
@@ -22,7 +23,6 @@ import javax.inject.Inject;
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.interfaces.TitleProvider;
-import itba.undiaparadar.utils.CircularNetworkImageView;
 
 public class ProfileFragment extends Fragment implements TitleProvider {
 	private static final String UDPD_FACEBOOK = "https://www.facebook.com/UndiaparadarArgentina/?fref=ts";
@@ -75,14 +75,13 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 
 	private void setupProfileInfo() {
 		final TextView positiveActionsShared = (TextView) root.findViewById(R.id.positive_actions_shared);
-		positiveActionsShared.setText(getString(R.string.positive_actions_shared, 5532));
+		positiveActionsShared.setText(String.valueOf(5532));
 		final TextView positiveActionsDone = (TextView) root.findViewById(R.id.positive_actions_done);
-		positiveActionsDone.setText(getString(R.string.positive_actions_done, 314));
+		positiveActionsDone.setText(String.valueOf(314));
 	}
 
 	private void updateView() {
-		final CircularNetworkImageView profileImage = (CircularNetworkImageView) root.findViewById(R.id.profile_img);
-		profileImage.setBorderWidth(BORDER_WIDTH);
+		final NetworkImageView profileImage = (NetworkImageView) root.findViewById(R.id.profile_img);
 		profileImage.setImageUrl(userProfile
 						.getProfilePictureUri(
 								MAX_PHOTO_DIMENSION,

@@ -1,99 +1,116 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background_general"
     android:orientation="vertical">
-
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/m36"
-        android:background="@drawable/white_background">
+        android:layout_height="@dimen/m36">
 
-        <itba.undiaparadar.utils.CircularNetworkImageView
+        <com.android.volley.toolbox.NetworkImageView
             android:id="@+id/profile_img"
-            android:layout_width="@dimen/m20"
-            android:layout_height="@dimen/m20"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_centerInParent="true"
             android:layout_gravity="center"
-            android:layout_marginBottom="@dimen/m2"
-            android:layout_marginTop="@dimen/m4"
-            android:scaleType="centerInside"/>
+            android:scaleType="centerCrop"/>
 
         <TextView
             android:id="@+id/profile_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/profile_img"
             android:layout_gravity="center"
-            android:background="@color/alpha_black"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="@dimen/m3"
+            android:paddingLeft="@dimen/m3"
             android:ellipsize="end"
-            android:gravity="center"
+            android:gravity="left"
             android:maxLines="2"
-            android:paddingBottom="@dimen/m1"
-            android:paddingTop="@dimen/m1"
             android:singleLine="false"
             android:text="Martin Purita"
             android:textColor="@color/white"
-            android:textSize="23sp"
+            android:textSize="26sp"
             android:textStyle="bold"/>
     </RelativeLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@android:color/white"
-        android:orientation="vertical"
-        android:paddingLeft="@dimen/m5">
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="@dimen/m5"
-            android:layout_marginBottom="@dimen/m5">
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="@dimen/m2">
 
             <com.facebook.share.widget.ShareButton
                 android:id="@+id/share_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginRight="@dimen/m3"
+                android:layout_marginLeft="@dimen/m14"
+                android:layout_marginRight="@dimen/m5"
                 android:layout_marginTop="@dimen/m3"/>
 
             <com.facebook.share.widget.LikeView
                 android:id="@+id/like_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toLeftOf="@id/share_button"
-                android:layout_marginTop="@dimen/m3"
-                android:layout_marginRight="@dimen/m3"/>
+                android:layout_marginRight="@dimen/m3"
+                android:layout_marginTop="@dimen/m3"/>
 
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/positive_actions_done"
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/comprometerse"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:drawablePadding="@dimen/m2"
-            android:gravity="left|center_vertical"
-            android:layout_marginBottom="@dimen/m2"/>
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/positive_actions_shared"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:drawableLeft="@drawable/share"
-            android:textColor="@color/black"
-            android:textSize="16sp"
-            android:drawablePadding="@dimen/m2"
-            android:gravity="left|center_vertical"/>
+            <TextView
+                android:id="@+id/positive_actions_done"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:text="3452"/>
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/positive_actions_done"
+                android:textColor="@color/gray"/>
+
+            <View
+                android:layout_margin="@dimen/m3"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/m0.5"
+                android:background="@drawable/banda_colores"/>
+
+            <TextView
+                android:id="@+id/positive_actions_shared"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:textColor="@color/black"
+                android:textSize="30sp"
+                android:textStyle="bold"
+                tools:text="3452"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/positive_actions_shared"
+                android:textColor="@color/gray"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>
