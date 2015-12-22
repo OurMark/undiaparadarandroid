@@ -50,4 +50,10 @@
     <string name="detail">Detalle</string>
     <string name="positive_actions_shared">Acciones positivas compartidas</string>
     <string name="positive_actions_done">Compromisos realizados</string>
+    <string name="sit_relax_verification">Siéntese y relájese! Mientras verificamos
+        su código de compromiso</string>
+    <string name="code_instruction">(Ingrese el código que le proporcionaron despues
+        de realizar su compromiso)</string>
+    <string name="code_hint">Código</string>
+    <string name="verification_submit">Enviar</string>
 </resources>

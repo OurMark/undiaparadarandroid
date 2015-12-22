@@ -9,5 +9,6 @@
     <color name="gray_light">#ACACAC</color>
     <color name="blue_green">#7EC7C0</color>
     <color name="radius_map">#550000FF</color>
-    <color name="blue">#001aff</color>
+    <color name="blue">#001AFF</color>
+    <color name="light_blue">#3A9AD5</color>
 </resources>
