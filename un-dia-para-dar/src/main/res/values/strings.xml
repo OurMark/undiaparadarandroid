@@ -57,4 +57,8 @@
     <string name="code_hint">Código</string>
     <string name="verification_submit">Enviar</string>
     <string name="participate">Yo participo</string>
+    <string name="want_pledge">¿Quieres comprometerte con esta acción?</string>
+    <string name="pledge_description">Te enviaremos recordatorios, a medida la fecha de compromiso se acerca</string>
+    <string name="pledge_action">Me comprometo</string>
+    <string name="keep_looking">Seguir buscando</string>
 </resources>
