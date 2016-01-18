@@ -20,7 +20,7 @@
         <item name="android:text">@string/hashtag_un_dia_para_dar</item>
     </style>
 
-    <style name="FilterModal" parent="Theme.AppCompat.Dialog">
+    <style name="ModalTheme" parent="Theme.AppCompat.Dialog">
         <item name="android:windowIsTranslucent">true</item>
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="windowActionBar">false</item>
