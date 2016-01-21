@@ -43,7 +43,7 @@ public class SideMenuFragment extends Fragment {
 		fragmentMap.put(R.id.topics_menu, new TopicsFragmentFactory());
 		fragmentMap.put(R.id.map_menu, new MapFragmentFactory());
 		fragmentMap.put(R.id.achievements_menu, new AchievementsFragmentFactory());
-		fragmentMap.put(R.id.statistics_menu, new StatisticsFragmentFactory());
+		fragmentMap.put(R.id.pledge_verification_menu, new PledgeVerificationFragmentFactory());
 		fragmentMap.put(R.id.what_is_udpd_menu, new WhatIsUDPDFragmentFactory());
 		fragmentMap.put(R.id.term_and_conditions_menu, new TermAndConditionFragmentFactory());
 
@@ -137,12 +137,12 @@ public class SideMenuFragment extends Fragment {
 		}
 	}
 
-	private static class StatisticsFragmentFactory implements FragmentFactory {
+	private static class PledgeVerificationFragmentFactory implements FragmentFactory {
 		private static final long serialVersionUID = -7188229760615810972L;
 
 		@Override
 		public Fragment newFragment() {
-			return ComingSoonFragment.newInstance("Estadisticas");//AchievementsFragment.newInstance();
+			return PledgeVerificationFragment.newInstance();
 		}
 	}
 

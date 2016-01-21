@@ -148,7 +148,6 @@ public class PositiveActionDetail extends AppCompatActivity {
 
 	private void setUpPledgeButton() {
 		final ImageButton pledgeButton = (ImageButton) findViewById(R.id.pledge);
-		pledgeButton.setEnabled(false); //TODO: Modificar cuando se implemente el pledge
 		pledgeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
@@ -188,7 +187,7 @@ public class PositiveActionDetail extends AppCompatActivity {
 	}
 
 	private void pledge() {
-		//TODO: Implementar mas adelante
+		startActivity(PledgeActivity.getIntent(this, positiveAction));
 	}
 
 	@Override

@@ -4,18 +4,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
-import itba.undiaparadar.model.Topic;
+import itba.undiaparadar.model.PositiveAction;
 
 /**
  * Created by mpurita on 10/31/15.
  */
 public class PledgeActivity extends CircularRevealActivity {
-	private static final String TOPIC = "Topic";
+	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
 
-	public static Intent getIntent(final Context context, Topic topic) {
+	public static Intent getIntent(final Context context, PositiveAction positiveAction) {
 		final Intent intent = new Intent(context, PledgeActivity.class);
-		intent.putExtra(TOPIC, topic);
+		intent.putExtra(POSITIVE_ACTION, positiveAction);
 		return intent;
 	}
 
@@ -29,6 +30,6 @@ public class PledgeActivity extends CircularRevealActivity {
 
 	@Override
 	int getContentLayoutId() {
-		return 0;
+		return R.layout.pledge_actiivty;
 	}
 }
