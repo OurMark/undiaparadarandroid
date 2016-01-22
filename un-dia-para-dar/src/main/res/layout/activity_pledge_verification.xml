@@ -41,7 +41,7 @@
         android:id="@+id/inputOtp"
         android:layout_width="@dimen/m16.25"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="@drawable/blue_border"
         android:fontFamily="sans-serif-light"
         android:gravity="center_horizontal"
         android:hint="@string/code_hint"

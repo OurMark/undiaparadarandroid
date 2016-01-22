@@ -56,4 +56,5 @@
         de realizar su compromiso)</string>
     <string name="code_hint">Código</string>
     <string name="verification_submit">Enviar</string>
+    <string name="confirm_pledge">Confirmar compromiso</string>
 </resources>
