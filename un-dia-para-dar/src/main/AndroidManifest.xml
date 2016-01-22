@@ -42,8 +42,14 @@
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
             android:name=".activities.FilterActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/FilterModal"/>
+            android:theme="@style/ModalTheme"
+            android:screenOrientation="portrait"/>
+
+        <activity
+            android:name=".activities.PledgeActivity"
+            android:theme="@style/ModalTheme"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".activities.PositiveActionDetail"
             android:screenOrientation="portrait"
@@ -59,16 +65,15 @@
          android:name="com.google.android.geo.API_KEY"
          android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>
 
-
         <!-- Masacre -->
         <!--<meta-data-->
             <!--android:name="com.google.android.geo.API_KEY"-->
             <!--android:value="AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI"/>-->
 
-        <!-- Monits -->
-        <!-- <meta-data -->
-        <!-- android:name="com.google.android.geo.API_KEY" -->
-        <!-- android:value="AIzaSyBPK3p7POMppVae8lp2vHWbAhldo1njTGI"/> -->
+        <!-- OLX -->
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyBZWsOagGV6LCREJTyrKD_L4V9nVxX7R9M"/>-->
     </application>
 
 </manifest>

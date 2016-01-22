@@ -127,7 +127,7 @@
             android:background="@color/dark_red"/>
 
         <LinearLayout
-            android:id="@+id/confirm_pledge_menu"
+            android:id="@+id/pledge_verification_menu"
             android:layout_width="match_parent"
             android:layout_height="@dimen/m4"
             android:layout_marginBottom="@dimen/m2"
@@ -151,7 +151,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="@dimen/m1"
                 android:lineSpacingExtra="0dp"
-                android:text="@string/confirm_pledge"
+                android:text="@string/pledge_verification"
                 android:textStyle="bold"/>
         </LinearLayout>
 

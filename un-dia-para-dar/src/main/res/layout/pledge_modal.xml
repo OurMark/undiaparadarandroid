@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background_general"
+    android:layout_marginRight="@dimen/m2"
+    android:layout_marginLeft="@dimen/m2"
+    android:orientation="vertical">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_horizontal"
+        android:textAllCaps="true"
+        android:textColor="@color/dark_red"
+        android:textSize="32sp"
+        android:textStyle="bold"
+        android:layout_marginTop="@dimen/m3"
+        android:text="@string/participate"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/m3"
+        android:layout_marginRight="@dimen/m2"
+        android:layout_marginLeft="@dimen/m2"
+        android:src="@drawable/red_line"/>
+    
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="@string/want_pledge"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="@dimen/m3"
+        android:layout_marginRight="@dimen/m2"
+        android:layout_marginLeft="@dimen/m2"
+        android:textStyle="bold"
+        android:textColor="@color/black"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:singleLine="false"
+        android:text="@string/pledge_description"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_marginTop="@dimen/m3"
+        android:layout_marginRight="@dimen/m2"
+        android:layout_marginLeft="@dimen/m2"
+        android:textColor="@color/black"/>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/m12.5"
+        android:layout_marginLeft="@dimen/m3"
+        android:layout_marginRight="@dimen/m3"
+        android:layout_marginTop="@dimen/m3"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/m5"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginLeft="@dimen/m1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:src="@drawable/pledge"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/pledge_action"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginRight="@dimen/m1"
+            android:orientation="vertical">
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:layout_gravity="center"
+                android:src="@drawable/keep_searching"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="18sp"
+                android:text="@string/keep_looking"
+                android:gravity="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
