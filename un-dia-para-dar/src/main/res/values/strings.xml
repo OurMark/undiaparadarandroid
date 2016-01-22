@@ -62,4 +62,6 @@
     <string name="pledge_action">Me comprometo</string>
     <string name="keep_looking">Seguir buscando</string>
     <string name="pledge_verification">Confirmación de compromiso</string>
+    <string name="date">Fecha:</string>
+    <string name="schedule">Horario:</string>
 </resources>
