@@ -8,6 +8,7 @@ import android.support.multidex.MultiDexApplication;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
+import com.parse.Parse;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,10 @@ public class UnDiaParaDarApplication extends MultiDexApplication {
 	public void onCreate() {
 		super.onCreate();
 		mInstance = this;
+		// Enable Local Datastore.
+		Parse.enableLocalDatastore(this);
+
+		Parse.initialize(this);
 		setUpInjector();
 		sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	}

@@ -20,6 +20,8 @@ import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.SettingsServiceImpl;
 import itba.undiaparadar.services.TopicService;
 import itba.undiaparadar.services.TopicServiceImpl;
+import itba.undiaparadar.services.UserService;
+import itba.undiaparadar.services.UserServiceImpl;
 
 public class UnDiaParaDarModule extends AbstractModule {
 
@@ -34,6 +36,7 @@ public class UnDiaParaDarModule extends AbstractModule {
 
 		bind(TopicService.class).toProvider(TopicServiceProvider.class).in(Singleton.class);
 		bind(SettingsService.class).to(SettingsServiceImpl.class).in(Singleton.class);
+		bind(UserService.class).to(UserServiceImpl.class).in(Singleton.class);
 
 		bind(SharedPreferences.class).toProvider(new Provider<SharedPreferences>() {
 
