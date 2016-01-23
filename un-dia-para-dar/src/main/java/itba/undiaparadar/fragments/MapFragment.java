@@ -101,6 +101,9 @@ public class MapFragment extends Fragment implements TitleProvider {
 		setHasOptionsMenu(true);
 		if (bundle == null) {
 			topics = topicService.createTopics(getActivity());
+			for (final Topic topic : topics.values()) {
+				topic.select();
+			}
 		} else {
 			topics = (HashMap<Long, Topic>) bundle.getSerializable(TOPICS);
 		}

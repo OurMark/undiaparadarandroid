@@ -4,8 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background_general"
-    android:layout_marginRight="@dimen/m2"
-    android:layout_marginLeft="@dimen/m2"
+    android:paddingRight="@dimen/m2"
+    android:paddingLeft="@dimen/m2"
     android:orientation="vertical">
 
 
@@ -71,10 +71,12 @@
             android:text="@string/date"/>
 
         <TextView
+            android:id="@+id/date_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/m2"
             android:textColor="@color/black"
+            android:gravity="center"
             android:textSize="16sp"
             android:background="@drawable/blue_border"/>
 
@@ -97,10 +99,12 @@
             android:text="@string/schedule"/>
 
         <TextView
+            android:id="@+id/schedule_button"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/m2"
             android:textColor="@color/black"
+            android:gravity="center"
             android:textSize="16sp"
             android:background="@drawable/blue_border"/>
 
@@ -109,7 +113,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/m5"
+        android:layout_marginTop="@dimen/m8"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -120,6 +124,7 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/pledge_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
@@ -144,6 +149,7 @@
             android:orientation="vertical">
 
             <ImageButton
+                android:id="@+id/keep_searching_button"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
