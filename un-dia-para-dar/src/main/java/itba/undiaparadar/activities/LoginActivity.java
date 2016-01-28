@@ -25,7 +25,6 @@ import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.UserService;
 
 public class LoginActivity extends Activity {
-//	private CallbackManager callbackManager;
 	private AccessTokenTracker accessTokenTracker;
 	@Inject
 	private SettingsService settingsService;
@@ -49,7 +48,6 @@ public class LoginActivity extends Activity {
 				updateWithToken(newAccessToken);
 			}
 		};
-//		callbackManager = CallbackManager.Factory.create();
 		final LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
 		loginButton.setReadPermissions("public_profile", "email");
 		updateWithToken(AccessToken.getCurrentAccessToken());
@@ -81,7 +79,6 @@ public class LoginActivity extends Activity {
 	protected void onActivityResult(final int requestCode, final int resultCode,
 		final Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
-//		callbackManager.onActivityResult(requestCode, resultCode, data);
 		ParseFacebookUtils.onActivityResult(requestCode, resultCode, data);
 	}
 

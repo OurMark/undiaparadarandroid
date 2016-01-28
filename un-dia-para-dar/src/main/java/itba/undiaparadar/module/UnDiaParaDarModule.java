@@ -16,6 +16,8 @@ import com.monits.volleyrequests.restsupport.Rest;
 
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.cache.BitmapLruCache;
+import itba.undiaparadar.services.PledgeService;
+import itba.undiaparadar.services.PledgeServiceImpl;
 import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.SettingsServiceImpl;
 import itba.undiaparadar.services.TopicService;
@@ -37,6 +39,7 @@ public class UnDiaParaDarModule extends AbstractModule {
 		bind(TopicService.class).toProvider(TopicServiceProvider.class).in(Singleton.class);
 		bind(SettingsService.class).to(SettingsServiceImpl.class).in(Singleton.class);
 		bind(UserService.class).to(UserServiceImpl.class).in(Singleton.class);
+		bind(PledgeService.class).to(PledgeServiceImpl.class).in(Singleton.class);
 
 		bind(SharedPreferences.class).toProvider(new Provider<SharedPreferences>() {
 
