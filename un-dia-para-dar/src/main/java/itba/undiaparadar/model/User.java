@@ -3,10 +3,15 @@ package itba.undiaparadar.model;
 import android.graphics.Bitmap;
 
 public class User {
+	private String userId;
 	private String name;
 	private String email;
 	private String pictureUrl;
 	private Bitmap picture;
+
+	public String getUserId() {
+		return userId;
+	}
 
 	public String getName() {
 		return name;
@@ -26,6 +31,10 @@ public class User {
 
 	public String getPictureUrl() {
 		return pictureUrl;
+	}
+
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	public void setPictureUrl(String pictureUrl) {

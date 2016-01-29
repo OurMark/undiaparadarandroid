@@ -14,13 +14,19 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.model.PositiveAction;
 
 public class PledgeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
+	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MMM/yyyy");
+	private static final SimpleDateFormat time24Formatter = new SimpleDateFormat("hh:mm a");
+	private static final SimpleDateFormat time12Formatter = new SimpleDateFormat("HH:mm");
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
 	private PositiveAction positiveAction;
 	private TextView dateButton;
@@ -57,7 +63,22 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 		pledgeButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//TODO: connect with parse
+				final String dateString = dateButton.getText().toString();
+				final String timeString = scheduleButton.getText().toString();
+				try {
+					final Date date = dateFormatter.parse(dateString);
+					boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
+					final Date dateTime;
+					if (is24Hour) {
+						dateTime = time24Formatter.parse(timeString);
+					} else {
+						dateTime = time12Formatter.parse(timeString);
+					}
+					date.setHours(dateTime.getHours());
+					date.setMinutes(dateTime.getMinutes());
+				} catch (ParseException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 

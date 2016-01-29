@@ -48,6 +48,7 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 				updateView();
 			}
 		};
+		profileTracker.startTracking();
 		userProfile = Profile.getCurrentProfile();
 	}
 

@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void getUserDetailsFromFB() {
 		Bundle parameters = new Bundle();
-		parameters.putString("fields", "email,name,picture");
+		parameters.putString("fields", "email,name,picture,objectId");
 		new GraphRequest(
 				AccessToken.getCurrentAccessToken(),
 				"/me",
@@ -72,6 +72,8 @@ public class UserServiceImpl implements UserService {
 					public void onCompleted(GraphResponse response) {
          /* handle the result */
 						try {
+							String userId = response.getJSONObject().getString("objectId");
+							user.setUserId(userId);
 							String email = response.getJSONObject().getString("email");
 							user.setEmail(email);
 							String name = response.getJSONObject().getString("name");
