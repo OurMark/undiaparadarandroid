@@ -3,31 +3,35 @@ package itba.undiaparadar.model;
 import com.parse.ParseClassName;
 import com.parse.ParseObject;
 
-import java.util.Date;
-
 @ParseClassName("Pledge")
 public class Pledge extends ParseObject {
     private static final String USER_ID = "userId";
     private static final String TARGET_DATE = "targetDate";
+    private static final String POSITIVE_ACTION_TITLE = "positiveActionTitle";
     private static final String DONE = "done";
     private static final String POSITIVE_ACTION_ID = "positiveActionId";
     private static final String CODE = "code";
     private String userId;
+    private String positiveActionTitle;
     private String code;
-    private Date targetDate;
-    private boolean done;
+    private String targetDate;
+    private int done;
     private long positiveActionId;
 
     public String getUserId() {
         return getString(USER_ID);
     }
 
-    public Date getTargetDate() {
-        return getDate(TARGET_DATE);
+    public String getPositiveActionTitle() {
+        return getString(POSITIVE_ACTION_TITLE);
     }
 
-    public boolean getDone() {
-        return getBoolean(DONE);
+    public String getTargetDate() {
+        return getString(TARGET_DATE);
+    }
+
+    public int getDone() {
+        return getInt(DONE);
     }
 
     public long getPositiveActionId() {
@@ -42,11 +46,15 @@ public class Pledge extends ParseObject {
         put(USER_ID, userId);
     }
 
-    public void setTargetDate(final Date targetDate) {
+    public void setPositiveActionTitle(final String positiveActionTitle) {
+        put(POSITIVE_ACTION_TITLE, positiveActionTitle);
+    }
+
+    public void setTargetDate(final String targetDate) {
         put(TARGET_DATE, targetDate);
     }
 
-    public void setDone(final boolean done) {
+    public void setDone(final int done) {
         put(DONE, done);
     }
 

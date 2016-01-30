@@ -33,7 +33,6 @@ public class ComingSoonFragment extends Fragment implements TitleProvider {
 	@Override
 	public void onResume() {
 		super.onResume();
-
 	}
 
 	@Override

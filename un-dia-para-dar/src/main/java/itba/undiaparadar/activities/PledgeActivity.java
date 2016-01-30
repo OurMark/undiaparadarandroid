@@ -31,11 +31,11 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.model.Pledge;
+import itba.undiaparadar.model.PledgeStatus;
 import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
 import itba.undiaparadar.services.UserService;
@@ -47,6 +47,8 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private static final SimpleDateFormat time12Formatter = new SimpleDateFormat("hh:mm a");
 	private static final SimpleDateFormat time24Formatter = new SimpleDateFormat("HH:mm");
+	private final java.text.DateFormat date12Format = new SimpleDateFormat( "dd/MM/yyy hh:mm:ss aa");
+	private final java.text.DateFormat date24Format = new SimpleDateFormat( "dd/MM/yyyy hh:mm:ss");
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
 	@Inject
 	private PledgeService pledgeService;
@@ -106,8 +108,6 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 						final Date date = dateFormatter.parse(dateString);
 						boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
 						final Date dateTime;
-						time12Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-						time24Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 						if (is24Hour) {
 							dateTime = time24Formatter.parse(timeString);
 						} else {
@@ -119,8 +119,13 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 						pledge.setCode(RandomStringUtils.random(6, true, true).toUpperCase());
 						pledge.setUserId(userService.getUser().getUserId());
 						pledge.setPositiveActionId(positiveAction.getId());
-						pledge.setDone(false);
-						pledge.setTargetDate(date);
+						if (is24Hour) {
+							pledge.setTargetDate(date24Format.format(date));
+						} else {
+							pledge.setTargetDate(date12Format.format(date));
+						}
+						pledge.setDone(PledgeStatus.NEUTRAL.ordinal());
+						pledge.setPositiveActionTitle(positiveAction.getTitle());
 						initDialog();
 						pledgeService.savePledge(pledge, PledgeActivity.this);
 						dialog.show();
