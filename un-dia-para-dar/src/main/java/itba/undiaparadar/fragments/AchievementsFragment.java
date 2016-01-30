@@ -64,6 +64,7 @@ public class AchievementsFragment extends Fragment implements TitleProvider, Fin
 		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
+				adapter.clear();
 				mSwipeRefreshLayout.setRefreshing(false);
 				refreshItems();
 			}

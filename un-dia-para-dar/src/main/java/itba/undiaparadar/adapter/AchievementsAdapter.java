@@ -114,4 +114,9 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
         long diff = endDate.getTime() - startDate.getTime();
         return diff/(1000*60*60*24);
     }
+
+    public void clear() {
+        this.pledgeList.clear();
+        notifyDataSetChanged();
+    }
 }
