@@ -1,11 +1,17 @@
 package itba.undiaparadar.activities;
 
 import android.app.DatePickerDialog;
+import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
+import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.MenuItem;
@@ -31,6 +37,8 @@ import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
 import itba.undiaparadar.services.UserService;
+import itba.undiaparadar.utils.GifDrawable;
+import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
 public class PledgeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
 		TimePickerDialog.OnTimeSetListener, SaveCallback {
@@ -45,6 +53,9 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private PositiveAction positiveAction;
 	private TextView dateButton;
 	private TextView scheduleButton;
+	private CoordinatorLayout coordinatorLayout;
+	private Pledge pledge;
+	private Dialog dialog;
 
 	public static Intent getIntent(final Context context, PositiveAction positiveAction) {
 		final Intent intent = new Intent(context, PledgeActivity.class);
@@ -62,6 +73,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+		coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 		dateButton = (TextView) findViewById(R.id.date_button);
 		scheduleButton = (TextView) findViewById(R.id.schedule_button);
 		final ImageButton keepSearchingButton = (ImageButton) findViewById(R.id.keep_searching_button);
@@ -79,27 +91,38 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 			public void onClick(View v) {
 				final String dateString = dateButton.getText().toString();
 				final String timeString = scheduleButton.getText().toString();
-				try {
-					final Date date = dateFormatter.parse(dateString);
-					boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
-					final Date dateTime;
-					time12Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-					time24Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
-					if (is24Hour) {
-						dateTime = time24Formatter.parse(timeString);
-					} else {
-						dateTime = time12Formatter.parse(timeString);
+				if (TextUtils.isEmpty(dateString) || TextUtils.isEmpty(timeString)) {
+					final Snackbar snackbar = Snackbar
+							.make(coordinatorLayout, "Por favor complete la fecha y el horario", Snackbar.LENGTH_LONG);
+					final View sbView = snackbar.getView();
+					final TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+					textView.setTextColor(Color.YELLOW);
+					snackbar.show();
+				} else {
+					try {
+						final Date date = dateFormatter.parse(dateString);
+						boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
+						final Date dateTime;
+						time12Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+						time24Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+						if (is24Hour) {
+							dateTime = time24Formatter.parse(timeString);
+						} else {
+							dateTime = time12Formatter.parse(timeString);
+						}
+						date.setHours(dateTime.getHours());
+						date.setMinutes(dateTime.getMinutes());
+						pledge = new Pledge();
+						pledge.setUserId(userService.getUser().getUserId());
+						pledge.setPositiveActionId(positiveAction.getId());
+						pledge.setDone(false);
+						pledge.setTargetDate(date);
+						initDialog();
+						pledgeService.savePledge(pledge, PledgeActivity.this);
+						dialog.show();
+					} catch (ParseException e) {
+						e.printStackTrace();
 					}
-					date.setHours(dateTime.getHours());
-					date.setMinutes(dateTime.getMinutes());
-					final Pledge pledge = new Pledge();
-					pledge.setUserId(userService.getUser().getUserId());
-					pledge.setPositiveActionId(positiveAction.getId());
-					pledge.setDone(false);
-					pledge.setTargetDate(date);
-					pledgeService.savePledge(pledge, PledgeActivity.this);
-				} catch (ParseException e) {
-					e.printStackTrace();
 				}
 			}
 		});
@@ -126,6 +149,11 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 				timePickerDialog.show();
 			}
 		});
+	}
+
+	private void initDialog() {
+		final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, PledgeActivity.this);
+		dialog = new UnDiaParaDarDialog(PledgeActivity.this, imageDrawable);
 	}
 
 	@Override
@@ -167,10 +195,45 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	}
 
 	@Override
-	public void done(com.parse.ParseException e) {
-		Log.e("Save parse object", "Error", e);
-		if (e == null) {
-			finish();
+	public void done(final com.parse.ParseException e) {
+		if (dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
 		}
+		Log.e("Save parse object", "Error", e);
+		final String snackbarText;
+		final int duration;
+		if (e == null) {
+			snackbarText = "Compromiso guardado";
+			duration = Snackbar.LENGTH_SHORT;
+		} else {
+			snackbarText = "Hubo un problema reintentar luego";
+			duration = Snackbar.LENGTH_INDEFINITE;
+		}
+		final Snackbar snackbar = Snackbar
+				.make(coordinatorLayout, snackbarText, duration);
+		if (e != null) {
+			snackbar.setAction("Reintentar", new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					if (pledge != null) {
+						initDialog();
+						pledgeService.savePledge(pledge, PledgeActivity.this);
+					} else {
+						snackbar.dismiss();
+					}
+				}
+			});
+			snackbar.setActionTextColor(Color.RED);
+		}
+		snackbar.show();
+		snackbar.setCallback(new Snackbar.Callback() {
+			@Override
+			public void onDismissed(Snackbar snackbar, int event) {
+				super.onDismissed(snackbar, event);
+				if (e == null) {
+					finish();
+				}
+			}
+		});
 	}
 }
