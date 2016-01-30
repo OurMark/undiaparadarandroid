@@ -5,6 +5,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -49,7 +50,7 @@ public class AchievementsFragment extends Fragment implements TitleProvider, Fin
 	@Nullable
 	@Override
 	public View onCreateView(final LayoutInflater inflater, final ViewGroup container,
-	                         final Bundle savedInstanceState) {
+		final Bundle savedInstanceState) {
 		return inflater.inflate(R.layout.fragment_achievements, null, false);
 	}
 
@@ -59,12 +60,29 @@ public class AchievementsFragment extends Fragment implements TitleProvider, Fin
 		final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));
-		adapter = new AchievementsAdapter();
+		final SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
+		mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			@Override
+			public void onRefresh() {
+				mSwipeRefreshLayout.setRefreshing(false);
+				refreshItems();
+			}
+		});
+		adapter = new AchievementsAdapter(getActivity());
 		recyclerView.setAdapter(adapter);
+	}
+
+	private void refreshItems() {
+		pledgeService.retrievePledges(userService.getUser().getUserId(), this);
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
 		final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, getActivity());
 		dialog = new UnDiaParaDarDialog(getActivity(), imageDrawable);
 		dialog.show();
-		pledgeService.retrievePledges(userService.getUser().getUserId(), this);
+		refreshItems();
 	}
 
 	@Override
