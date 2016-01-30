@@ -89,6 +89,7 @@ public class LoginActivity extends Activity {
 
 				@Override
 				public void run() {
+					userService.getUserDetailsFromParse();
 					LoginActivity.this.startActivity(MainActivity.getIntent(LoginActivity.this));
 					finish();
 				}

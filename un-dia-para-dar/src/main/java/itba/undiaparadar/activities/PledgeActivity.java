@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.format.DateFormat;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.DatePicker;
@@ -14,20 +15,33 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.google.inject.Inject;
+import com.parse.SaveCallback;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PositiveAction;
+import itba.undiaparadar.services.PledgeService;
+import itba.undiaparadar.services.UserService;
 
-public class PledgeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener {
-	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MMM/yyyy");
-	private static final SimpleDateFormat time24Formatter = new SimpleDateFormat("hh:mm a");
-	private static final SimpleDateFormat time12Formatter = new SimpleDateFormat("HH:mm");
+public class PledgeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
+		TimePickerDialog.OnTimeSetListener, SaveCallback {
+	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
+	private static final SimpleDateFormat time12Formatter = new SimpleDateFormat("hh:mm a");
+	private static final SimpleDateFormat time24Formatter = new SimpleDateFormat("HH:mm");
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
+	@Inject
+	private PledgeService pledgeService;
+	@Inject
+	private UserService userService;
 	private PositiveAction positiveAction;
 	private TextView dateButton;
 	private TextView scheduleButton;
@@ -69,6 +83,8 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 					final Date date = dateFormatter.parse(dateString);
 					boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
 					final Date dateTime;
+					time12Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+					time24Formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
 					if (is24Hour) {
 						dateTime = time24Formatter.parse(timeString);
 					} else {
@@ -76,6 +92,12 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 					}
 					date.setHours(dateTime.getHours());
 					date.setMinutes(dateTime.getMinutes());
+					final Pledge pledge = new Pledge();
+					pledge.setUserId(userService.getUser().getUserId());
+					pledge.setPositiveActionId(positiveAction.getId());
+					pledge.setDone(false);
+					pledge.setTargetDate(date);
+					pledgeService.savePledge(pledge, PledgeActivity.this);
 				} catch (ParseException e) {
 					e.printStackTrace();
 				}
@@ -108,14 +130,19 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 
 	@Override
 	public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-		dateButton.setText(dayOfMonth + "/" + monthOfYear + "/" + year);
+		final GregorianCalendar gregorianCalendar = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+		dateButton.setText(dateFormatter.format(gregorianCalendar.getTime()));
 	}
 
 	@Override
 	public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 		boolean is24Hour = DateFormat.is24HourFormat(this);
 		StringBuilder builder = new StringBuilder();
-		builder.append(hourOfDay).append(":").append(minute);
+		builder.append(hourOfDay).append(":");
+		if (minute < 10) {
+			builder.append("0");
+		}
+		builder.append(minute);
 
 		if (!is24Hour) {
 			Calendar calendar = Calendar.getInstance();
@@ -137,5 +164,13 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 				return true;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	@Override
+	public void done(com.parse.ParseException e) {
+		Log.e("Save parse object", "Error", e);
+		if (e == null) {
+			finish();
+		}
 	}
 }

@@ -104,7 +104,10 @@ public class UserServiceImpl implements UserService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		user.setName(parseUser.getEmail());
-		user.setEmail(parseUser.getUsername());
+		if (parseUser != null) {
+			user.setUserId(parseUser.getObjectId());
+			user.setName(parseUser.getEmail());
+			user.setEmail(parseUser.getUsername());
+		}
 	}
 }

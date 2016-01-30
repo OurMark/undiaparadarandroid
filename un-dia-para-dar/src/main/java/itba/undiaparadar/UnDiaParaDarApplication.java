@@ -9,10 +9,12 @@ import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.parse.Parse;
+import com.parse.ParseObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.module.ContextModule;
 import itba.undiaparadar.module.GsonModule;
 import itba.undiaparadar.module.UnDiaParaDarModule;
@@ -41,6 +43,7 @@ public class UnDiaParaDarApplication extends MultiDexApplication {
 		Parse.enableLocalDatastore(this);
 
 		Parse.initialize(this);
+		ParseObject.registerSubclass(Pledge.class);
 		setUpInjector();
 		sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	}
