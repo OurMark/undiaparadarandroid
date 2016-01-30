@@ -24,6 +24,8 @@ import android.widget.TimePicker;
 import com.google.inject.Inject;
 import com.parse.SaveCallback;
 
+import org.apache.commons.lang3.RandomStringUtils;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -56,6 +58,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private CoordinatorLayout coordinatorLayout;
 	private Pledge pledge;
 	private Dialog dialog;
+
 
 	public static Intent getIntent(final Context context, PositiveAction positiveAction) {
 		final Intent intent = new Intent(context, PledgeActivity.class);
@@ -113,6 +116,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 						date.setHours(dateTime.getHours());
 						date.setMinutes(dateTime.getMinutes());
 						pledge = new Pledge();
+						pledge.setCode(RandomStringUtils.random(6, true, true).toUpperCase());
 						pledge.setUserId(userService.getUser().getUserId());
 						pledge.setPositiveActionId(positiveAction.getId());
 						pledge.setDone(false);

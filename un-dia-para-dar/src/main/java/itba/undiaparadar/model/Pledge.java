@@ -11,7 +11,9 @@ public class Pledge extends ParseObject {
     private static final String TARGET_DATE = "targetDate";
     private static final String DONE = "done";
     private static final String POSITIVE_ACTION_ID = "positiveActionId";
+    private static final String CODE = "code";
     private String userId;
+    private String code;
     private Date targetDate;
     private boolean done;
     private long positiveActionId;
@@ -32,6 +34,10 @@ public class Pledge extends ParseObject {
         return getInt(POSITIVE_ACTION_ID);
     }
 
+    public String getCode() {
+        return getString(CODE);
+    }
+
     public void setUserId(final String userId) {
         put(USER_ID, userId);
     }
@@ -46,5 +52,9 @@ public class Pledge extends ParseObject {
 
     public void setPositiveActionId(final long positiveActionId) {
         put(POSITIVE_ACTION_ID, positiveActionId);
+    }
+
+    public void setCode(final String code) {
+        put(CODE, code);
     }
 }

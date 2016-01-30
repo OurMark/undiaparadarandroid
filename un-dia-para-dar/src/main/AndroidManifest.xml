@@ -51,6 +51,11 @@
             android:screenOrientation="portrait"/>
 
         <activity
+            android:name=".activities.PledgeVerificationActivity"
+            android:theme="@style/AppTheme"
+            android:screenOrientation="portrait"/>
+
+        <activity
             android:name=".activities.PositiveActionDetail"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme"/>
