@@ -53,6 +53,7 @@
             android:maxLength="6"
             android:textStyle="bold"
             android:padding="10dp"
+            android:textAllCaps="true"
             android:textSize="18sp"/>
 
         <Button
