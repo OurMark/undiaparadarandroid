@@ -1,13 +1,17 @@
 package itba.undiaparadar.activities;
 
+import android.app.AlarmManager;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
+import android.app.Notification;
+import android.app.PendingIntent;
 import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
@@ -34,11 +38,13 @@ import java.util.GregorianCalendar;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.model.NotificationPublisher;
 import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PledgeStatus;
 import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
 import itba.undiaparadar.services.UserService;
+import itba.undiaparadar.utils.DateUtils;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -60,6 +66,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private CoordinatorLayout coordinatorLayout;
 	private Pledge pledge;
 	private Dialog dialog;
+	private Date pledgeDate;
 
 
 	public static Intent getIntent(final Context context, PositiveAction positiveAction) {
@@ -105,7 +112,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 					snackbar.show();
 				} else {
 					try {
-						final Date date = dateFormatter.parse(dateString);
+						pledgeDate = dateFormatter.parse(dateString);
 						boolean is24Hour = DateFormat.is24HourFormat(PledgeActivity.this);
 						final Date dateTime;
 						if (is24Hour) {
@@ -113,16 +120,16 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 						} else {
 							dateTime = time12Formatter.parse(timeString);
 						}
-						date.setHours(dateTime.getHours());
-						date.setMinutes(dateTime.getMinutes());
+						pledgeDate.setHours(dateTime.getHours());
+						pledgeDate.setMinutes(dateTime.getMinutes());
 						pledge = new Pledge();
 						pledge.setCode(RandomStringUtils.random(6, true, true).toUpperCase());
 						pledge.setUserId(userService.getUser().getUserId());
 						pledge.setPositiveActionId(positiveAction.getId());
 						if (is24Hour) {
-							pledge.setTargetDate(date24Format.format(date));
+							pledge.setTargetDate(date24Format.format(pledgeDate));
 						} else {
-							pledge.setTargetDate(date12Format.format(date));
+							pledge.setTargetDate(date12Format.format(pledgeDate));
 						}
 						pledge.setDone(PledgeStatus.NEUTRAL.ordinal());
 						pledge.setPositiveActionTitle(positiveAction.getTitle());
@@ -240,9 +247,39 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 			public void onDismissed(Snackbar snackbar, int event) {
 				super.onDismissed(snackbar, event);
 				if (e == null) {
+					setupReminder();
 					finish();
 				}
 			}
 		});
+	}
+
+	private void setupReminder() {
+		if (DateUtils.daysBetween(new Date(), pledgeDate) > 1) {
+			final Calendar calendar = Calendar.getInstance();
+			calendar.setTime(pledgeDate);
+			calendar.add(Calendar.DAY_OF_YEAR, -1);
+			scheduleNotification(getNotification(), calendar.getTimeInMillis());
+		}
+	}
+
+	private void scheduleNotification(Notification notification, long delay) {
+
+		Intent notificationIntent = new Intent(this, NotificationPublisher.class);
+		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
+		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		long futureInMillis = SystemClock.elapsedRealtime() + delay;
+		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
+		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+	}
+
+	private Notification getNotification() {
+		Notification.Builder builder = new Notification.Builder(this);
+		builder.setContentTitle("Tenes un compromiso");
+		builder.setContentText(pledge.getPositiveActionTitle());
+		builder.setSmallIcon(R.drawable.logo);
+		return builder.build();
 	}
 }

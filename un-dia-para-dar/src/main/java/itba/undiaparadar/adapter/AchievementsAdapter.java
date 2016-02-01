@@ -22,6 +22,7 @@ import itba.undiaparadar.activities.PledgeVerificationActivity;
 import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PledgeStatus;
 import itba.undiaparadar.services.PledgeService;
+import itba.undiaparadar.utils.DateUtils;
 
 public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
     private final java.text.DateFormat date12Format = new SimpleDateFormat( "dd/MM/yyy hh:mm:ss aa");
@@ -72,7 +73,7 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
                 startDate = date12Format.parse(pledge.getTargetDate());
                 holder.dateTime.setText(pledge.getTargetDate());
             }
-            if (daysBetween(endDate, startDate) > 7) {
+            if (DateUtils.daysBetween(endDate, startDate) > 7) {
                 pledge.setDone(PledgeStatus.FAILED.ordinal());
                 pledgeService.savePledge(pledge);
             }
@@ -108,11 +109,6 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
         this.pledgeList.clear();
         this.pledgeList.addAll(pledgeList);
         notifyDataSetChanged();
-    }
-
-    private long daysBetween(final Date endDate, final Date startDate) {
-        long diff = endDate.getTime() - startDate.getTime();
-        return diff/(1000*60*60*24);
     }
 
     public void clear() {
