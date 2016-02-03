@@ -55,7 +55,7 @@ public class LoginActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				ParseFacebookUtils.logInWithReadPermissionsInBackground(LoginActivity.this,
-						Arrays.asList("public_profile", "email") ,new LogInCallback() {
+						Arrays.asList("public_profile", "email") , new LogInCallback() {
 							@Override
 							public void done (ParseUser user, ParseException err){
 								if (user == null) {

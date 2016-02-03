@@ -11,9 +11,9 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.SystemClock;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -255,10 +255,12 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	}
 
 	private void setupReminder() {
-		if (DateUtils.daysBetween(new Date(), pledgeDate) > 1) {
+		if (DateUtils.daysBetween(pledgeDate, new Date()) > 1) {
 			final Calendar calendar = Calendar.getInstance();
 			calendar.setTime(pledgeDate);
-			calendar.add(Calendar.DAY_OF_YEAR, -1);
+			calendar.set(Calendar.HOUR_OF_DAY, 8);
+			calendar.set(Calendar.MINUTE, 0);
+			calendar.set(Calendar.SECOND, 0);
 			scheduleNotification(getNotification(), calendar.getTimeInMillis());
 		}
 	}
@@ -270,13 +272,12 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
-		long futureInMillis = SystemClock.elapsedRealtime() + delay;
 		AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-		alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
+		alarmManager.set(AlarmManager.RTC_WAKEUP, delay, pendingIntent);
 	}
 
 	private Notification getNotification() {
-		Notification.Builder builder = new Notification.Builder(this);
+		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setContentTitle("Tenes un compromiso");
 		builder.setContentText(pledge.getPositiveActionTitle());
 		builder.setSmallIcon(R.drawable.logo);
