@@ -12,4 +12,8 @@ public interface SettingsService {
     void saveRadiusFilter(final boolean radiusFilter);
 
     boolean retrieveRadiusFilter();
+
+    void incrementNotificationId();
+
+    int getNotificationId();
 }

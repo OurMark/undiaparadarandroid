@@ -43,6 +43,7 @@ import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PledgeStatus;
 import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
+import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.UserService;
 import itba.undiaparadar.utils.DateUtils;
 import itba.undiaparadar.utils.GifDrawable;
@@ -60,6 +61,8 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private PledgeService pledgeService;
 	@Inject
 	private UserService userService;
+	@Inject
+	private SettingsService settingsService;
 	private PositiveAction positiveAction;
 	private TextView dateButton;
 	private TextView scheduleButton;
@@ -268,7 +271,8 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private void scheduleNotification(Notification notification, long delay) {
 
 		Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
+		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, settingsService.getNotificationId());
+		settingsService.incrementNotificationId();
 		notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
 		PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 

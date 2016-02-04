@@ -1,5 +1,6 @@
 package itba.undiaparadar.activities;
 
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,9 +20,16 @@ import itba.undiaparadar.interfaces.TitleProvider;
 
 public class MainActivity extends SlideMenuStruct {
 	private CallbackManager callbackManager;
+	private static final String NOTIFICATION_ID = "NOTIFICATION_ID";
 
 	public static Intent getIntent(final Context context) {
 		return new Intent(context, MainActivity.class);
+	}
+
+	public static Intent getIntent(final Context context, final int notificationId) {
+		Intent intent = new Intent(context, MainActivity.class);
+		intent.putExtra(NOTIFICATION_ID, notificationId);
+		return intent;
 	}
 
 	@Override
@@ -29,6 +37,11 @@ public class MainActivity extends SlideMenuStruct {
 		super.onCreate(savedInstanceState);
 		FacebookSdk.sdkInitialize(this);
 		callbackManager = CallbackManager.Factory.create();
+		int notificationId = getIntent().getIntExtra(NOTIFICATION_ID, -1);
+		if (notificationId != -1) {
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancel(notificationId);
+		}
 	}
 
 	@NonNull

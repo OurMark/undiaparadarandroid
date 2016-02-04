@@ -10,6 +10,7 @@ import com.google.inject.Inject;
 public class SettingsServiceImpl implements SettingsService {
     private static final String EMAIL = "EMAIL";
     private static final String RADIUS_FILTER = "RADIUS_FILTER";
+    private static final String NOTIFICATION_ID = "NOTIFICATION_ID";
 
     @Inject
     private SharedPreferences sharedPreferences;
@@ -35,5 +36,18 @@ public class SettingsServiceImpl implements SettingsService {
     @Override
     public boolean retrieveRadiusFilter() {
         return sharedPreferences.getBoolean(RADIUS_FILTER, false);
+    }
+
+    @Override
+    public void incrementNotificationId() {
+        int notificationId = getNotificationId();
+        sharedPreferences.edit()
+                .putInt(NOTIFICATION_ID, ++notificationId)
+                .apply();
+    }
+
+    @Override
+    public int getNotificationId() {
+        return sharedPreferences.getInt(NOTIFICATION_ID, 0);
     }
 }

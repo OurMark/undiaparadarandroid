@@ -5,10 +5,12 @@ import android.content.SharedPreferences;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 
+import com.facebook.FacebookSdk;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.parse.Parse;
+import com.parse.ParseFacebookUtils;
 import com.parse.ParseObject;
 
 import java.util.ArrayList;
@@ -41,9 +43,10 @@ public class UnDiaParaDarApplication extends MultiDexApplication {
 		mInstance = this;
 		// Enable Local Datastore.
 		Parse.enableLocalDatastore(this);
-
 		Parse.initialize(this);
 		ParseObject.registerSubclass(Pledge.class);
+		FacebookSdk.sdkInitialize(this);
+		ParseFacebookUtils.initialize(this);
 		setUpInjector();
 		sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	}

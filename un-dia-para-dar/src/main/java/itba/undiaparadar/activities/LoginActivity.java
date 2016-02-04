@@ -9,7 +9,6 @@ import android.view.View;
 
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
-import com.facebook.FacebookSdk;
 import com.facebook.login.widget.LoginButton;
 import com.google.inject.Inject;
 import com.parse.LogInCallback;
@@ -38,8 +37,6 @@ public class LoginActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		FacebookSdk.sdkInitialize(this);
-		ParseFacebookUtils.initialize(this);
 		setContentView(R.layout.activity_login);
 		this.accessTokenTracker = new AccessTokenTracker() {
 			@Override
