@@ -135,4 +135,25 @@ public class TopicServiceImpl implements TopicService {
 		topics.put(new Long(24), new Topic(24, R.drawable.voluntariado, context.getString(R.string.voluntariado), R.drawable.voluntariado_gris));
 		return topics;
 	}
+
+	@Override
+	public void getPositiveActionById(long positiveActionId, Response.Listener<List<PositiveAction>> listener, Response.ErrorListener errorListener) {
+		final Map<String, String> queryParams = new HashMap<>();
+
+		queryParams.put("q", "id:(" + positiveActionId + ")");
+		queryParams.put("wt", "json");
+		queryParams.put("indent", "true");
+		queryParams.put("rows", "10000000");
+
+		final Request<List<PositiveAction>> request = Rest
+				.one("solr", "classfield_core")
+				.all("select")
+				.get(PositiveAction.class)
+				.query(queryParams)
+				.onSuccess(listener)
+				.onError(errorListener)
+				.request();
+
+		requestQueue.add(request);
+	}
 }

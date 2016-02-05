@@ -1,6 +1,7 @@
 package itba.undiaparadar.activities;
 
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
@@ -14,6 +15,8 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -21,9 +24,14 @@ import com.facebook.FacebookSdk;
 import com.facebook.share.Sharer;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareDialog;
+import com.google.inject.Inject;
+
+import java.util.List;
 
 import itba.undiaparadar.R;
+import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.model.PositiveAction;
+import itba.undiaparadar.services.TopicService;
 import itba.undiaparadar.utils.CircularImageView;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
@@ -34,10 +42,15 @@ import itba.undiaparadar.utils.UnDiaParaDarDialog;
 public class PositiveActionDetail extends AppCompatActivity {
 	private static final int NO_DRAWABLE = -1;
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
+	private static final String POSITIVE_ACTION_ID = "POSITIVE_ACTION_ID";
 	private static final String TOPIC_IMG_RES = "TOPIC_IMG_RES";
 	private PositiveAction positiveAction;
 	private CallbackManager callbackManager;
 	private int topicImgRes;
+	private static final String NOTIFICATION_ID = "NOTIFICATION_ID";
+	private static final String OBJECT_ID = "OBJECT_ID";
+	@Inject
+	private TopicService topicService;
 
 	public static Intent getIntent(final Context context, @DrawableRes int topicImgRes,
 		final PositiveAction positiveAction) {
@@ -47,9 +60,20 @@ public class PositiveActionDetail extends AppCompatActivity {
 		return intent;
 	}
 
+	public static Intent getIntent(final Context context, @DrawableRes int topicImgRes,
+		final long positiveActionId, final int notificationId, String objectId) {
+		final Intent intent = new Intent(context, PositiveActionDetail.class);
+		intent.putExtra(POSITIVE_ACTION_ID, positiveActionId);
+		intent.putExtra(TOPIC_IMG_RES, topicImgRes);
+		intent.putExtra(NOTIFICATION_ID, notificationId);
+		intent.putExtra(OBJECT_ID, objectId);
+		return intent;
+	}
+
 	@Override
 	public void onCreate(final Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		UnDiaParaDarApplication.injectMembers(this);
 		setContentView(R.layout.positive_action_activity);
 		FacebookSdk.sdkInitialize(getApplicationContext());
 		callbackManager = CallbackManager.Factory.create();
@@ -57,9 +81,39 @@ public class PositiveActionDetail extends AppCompatActivity {
 		topicImgRes = getIntent().getIntExtra(TOPIC_IMG_RES, NO_DRAWABLE);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
-		setUpView();
-		setUpShareButton();
-		setUpPledgeButton();
+		int notificationId = getIntent().getIntExtra(NOTIFICATION_ID, -1);
+		if (notificationId != -1) {
+			NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			notificationManager.cancel(notificationId);
+		}
+		if (positiveAction == null) {
+			long positiveActionId = getIntent().getLongExtra(POSITIVE_ACTION_ID, 0);
+			final String objectId = getIntent().getStringExtra(OBJECT_ID);
+			final Drawable imageDrawable = new GifDrawable(R.raw.logo_loading, this);
+			final Dialog dialog = new UnDiaParaDarDialog(this, imageDrawable);
+			dialog.show();
+			topicService.getPositiveActionById(positiveActionId, new Response.Listener<List<PositiveAction>>() {
+				@Override
+				public void onResponse(List<PositiveAction> positiveActions) {
+					positiveAction = positiveActions.get(0);
+					dialog.dismiss();
+					setUpView();
+					setUpShareButton();
+					setUpPledgeButton(false, objectId);
+				}
+			}, new Response.ErrorListener() {
+				@Override
+				public void onErrorResponse(VolleyError volleyError) {
+					dialog.dismiss();
+				}
+			});
+
+		} else {
+			setUpView();
+			setUpShareButton();
+			setUpPledgeButton(true, null);
+		}
+
 	}
 
 	@Override
@@ -146,14 +200,25 @@ public class PositiveActionDetail extends AppCompatActivity {
 		});
 	}
 
-	private void setUpPledgeButton() {
+	private void setUpPledgeButton(boolean flag, final String objectId) {
 		final ImageButton pledgeButton = (ImageButton) findViewById(R.id.pledge);
-		pledgeButton.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(final View v) {
-				pledge();
-			}
-		});
+		if (flag) {
+			pledgeButton.setImageResource(R.drawable.pledge_toggle);
+			pledgeButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					pledge();
+				}
+			});
+		} else {
+			pledgeButton.setImageResource(R.drawable.pledge);
+			pledgeButton.setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(final View v) {
+					verifyPledge(objectId);
+				}
+			});
+		}
 	}
 
 	private void share(final Dialog dialog) {
@@ -187,7 +252,11 @@ public class PositiveActionDetail extends AppCompatActivity {
 	}
 
 	private void pledge() {
-		startActivity(PledgeActivity.getIntent(this, positiveAction));
+		startActivity(PledgeActivity.getIntent(this, positiveAction, topicImgRes));
+	}
+
+	private void verifyPledge(String objectId) {
+		startActivity(PledgeVerificationActivity.getIntent(this, objectId));
 	}
 
 	@Override

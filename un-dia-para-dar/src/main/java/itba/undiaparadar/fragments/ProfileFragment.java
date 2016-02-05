@@ -17,12 +17,16 @@ import com.facebook.ProfileTracker;
 import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.LikeView;
 import com.facebook.share.widget.ShareButton;
+import com.parse.CountCallback;
+import com.parse.ParseException;
 
 import javax.inject.Inject;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
 import itba.undiaparadar.interfaces.TitleProvider;
+import itba.undiaparadar.services.PledgeService;
+import itba.undiaparadar.services.UserService;
 
 public class ProfileFragment extends Fragment implements TitleProvider {
 	private static final String UDPD_FACEBOOK = "https://www.facebook.com/UndiaparadarArgentina/?fref=ts";
@@ -32,6 +36,10 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 	@Inject
 	private ImageLoader imageLoader;
 	private View root;
+	@Inject
+	private PledgeService pledgeService;
+	@Inject
+	private UserService userService;
 
 	public static Fragment newInstance() {
 		return new ProfileFragment();
@@ -75,10 +83,22 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 	}
 
 	private void setupProfileInfo() {
-		final TextView positiveActionsShared = (TextView) root.findViewById(R.id.positive_actions_shared);
-		positiveActionsShared.setText(String.valueOf(5532));
+		final TextView positiveActionsTotal = (TextView) root.findViewById(R.id.positive_actions_total);
+		positiveActionsTotal.setText(String.valueOf(0));
 		final TextView positiveActionsDone = (TextView) root.findViewById(R.id.positive_actions_done);
-		positiveActionsDone.setText(String.valueOf(314));
+		positiveActionsDone.setText(String.valueOf(0));
+		pledgeService.getPledgeDone(userService.getUser().getUserId(), new CountCallback() {
+			@Override
+			public void done(int count, ParseException e) {
+				positiveActionsDone.setText(String.valueOf(count));
+			}
+		});
+		pledgeService.getPledgeTotal(userService.getUser().getUserId(), new CountCallback() {
+			@Override
+			public void done(int count, ParseException e) {
+				positiveActionsTotal.setText(String.valueOf(count));
+			}
+		});
 	}
 
 	private void updateView() {

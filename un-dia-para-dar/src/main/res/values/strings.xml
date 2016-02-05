@@ -48,7 +48,7 @@
     <string name="generic_error">Ocurrió un problema</string>
     <string name="no_connection">No hay conexión a internet</string>
     <string name="detail">Detalle</string>
-    <string name="positive_actions_shared">Acciones positivas compartidas</string>
+    <string name="positive_actions_total">Compromisos totales</string>
     <string name="positive_actions_done">Compromisos realizados</string>
     <string name="sit_relax_verification">Siéntese y relájese! Mientras verificamos
         su código de compromiso</string>

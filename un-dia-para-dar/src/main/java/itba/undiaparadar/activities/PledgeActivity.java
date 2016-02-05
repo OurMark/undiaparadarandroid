@@ -11,6 +11,8 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.SystemClock;
+import android.support.annotation.DrawableRes;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.NotificationCompat;
@@ -45,18 +47,21 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
 import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.UserService;
-import itba.undiaparadar.utils.DateUtils;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
 public class PledgeActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener,
 		TimePickerDialog.OnTimeSetListener, SaveCallback {
+	private static final int NO_DRAWABLE = -1;
 	private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("dd/MM/yyyy");
 	private static final SimpleDateFormat time12Formatter = new SimpleDateFormat("hh:mm a");
 	private static final SimpleDateFormat time24Formatter = new SimpleDateFormat("HH:mm");
 	private final java.text.DateFormat date12Format = new SimpleDateFormat( "dd/MM/yyy hh:mm:ss aa");
 	private final java.text.DateFormat date24Format = new SimpleDateFormat( "dd/MM/yyyy hh:mm:ss");
 	private static final String POSITIVE_ACTION = "POSITIVE_ACTION";
+	private static final String TOPIC_IMG_RES = "TOPIC_IMG_RES";
+	private static final String POSITIVE_ACTION_ID = "POSITIVE_ACTION_ID";
+	private static final String OBJECT_ID = "OBJECT_ID";
 	@Inject
 	private PledgeService pledgeService;
 	@Inject
@@ -70,11 +75,14 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	private Pledge pledge;
 	private Dialog dialog;
 	private Date pledgeDate;
+	private int topicImgRes;
 
 
-	public static Intent getIntent(final Context context, PositiveAction positiveAction) {
+
+	public static Intent getIntent(final Context context, PositiveAction positiveAction, @DrawableRes int topicImgRes) {
 		final Intent intent = new Intent(context, PledgeActivity.class);
 		intent.putExtra(POSITIVE_ACTION, positiveAction);
+		intent.putExtra(TOPIC_IMG_RES, topicImgRes);
 		return intent;
 	}
 
@@ -84,6 +92,7 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 		UnDiaParaDarApplication.injectMembers(this);
 		setContentView(R.layout.pledge_actiivty);
 		positiveAction = (PositiveAction) getIntent().getSerializableExtra(POSITIVE_ACTION);
+		topicImgRes = getIntent().getIntExtra(TOPIC_IMG_RES, NO_DRAWABLE);
 		getSupportActionBar().setTitle(R.string.pledge_action);
 		getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 		getSupportActionBar().setDisplayShowHomeEnabled(true);
@@ -258,14 +267,15 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	}
 
 	private void setupReminder() {
-		if (DateUtils.daysBetween(pledgeDate, new Date()) > 1) {
+//		if (DateUtils.daysBetween(pledgeDate, new Date()) > 1) {
 			final Calendar calendar = Calendar.getInstance();
 			calendar.setTime(pledgeDate);
 			calendar.set(Calendar.HOUR_OF_DAY, 8);
 			calendar.set(Calendar.MINUTE, 0);
 			calendar.set(Calendar.SECOND, 0);
-			scheduleNotification(getNotification(), calendar.getTimeInMillis());
-		}
+//			scheduleNotification(getNotification(), calendar.getTimeInMillis());
+		scheduleNotification(getNotification(), SystemClock.elapsedRealtime() + 1000);
+//		}
 	}
 
 	private void scheduleNotification(Notification notification, long delay) {
@@ -284,6 +294,11 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 		NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
 		builder.setContentTitle("Tenes un compromiso");
 		builder.setContentText(pledge.getPositiveActionTitle());
+		Bundle bundle = new Bundle();
+		bundle.putInt(TOPIC_IMG_RES, topicImgRes);
+		bundle.putLong(POSITIVE_ACTION_ID, positiveAction.getId());
+		bundle.putString(OBJECT_ID, pledge.getObjectId());
+		builder.addExtras(bundle);
 		builder.setSmallIcon(R.drawable.logo);
 		return builder.build();
 	}

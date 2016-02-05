@@ -1,5 +1,6 @@
 package itba.undiaparadar.services;
 
+import com.parse.CountCallback;
 import com.parse.FindCallback;
 import com.parse.GetCallback;
 import com.parse.SaveCallback;
@@ -14,4 +15,8 @@ public interface PledgeService {
     void retrievePledges(final String userId, final FindCallback<Pledge> findCallback);
 
     void savePledge(final Pledge pledge);
+
+    void getPledgeDone(final String userId, final CountCallback countCallback);
+
+    void getPledgeTotal(final String userId, final CountCallback countCallback);
 }

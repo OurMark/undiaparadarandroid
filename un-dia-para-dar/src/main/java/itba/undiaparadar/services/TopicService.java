@@ -27,4 +27,7 @@ public interface TopicService {
 		final Response.ErrorListener errorListener);
 
 	HashMap<Long, Topic> createTopics(final Context context);
+
+	void getPositiveActionById(final long positiveActionId, final Response.Listener<List<PositiveAction>> listener,
+							   final Response.ErrorListener errorListener);
 }
