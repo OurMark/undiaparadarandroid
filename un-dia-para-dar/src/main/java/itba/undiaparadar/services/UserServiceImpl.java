@@ -62,7 +62,7 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void getUserDetailsFromFB() {
 		Bundle parameters = new Bundle();
-		parameters.putString("fields", "email,name,picture,objectId");
+		parameters.putString("fields", "email,name,picture");
 		new GraphRequest(
 				AccessToken.getCurrentAccessToken(),
 				"/me",
@@ -72,18 +72,18 @@ public class UserServiceImpl implements UserService {
 					public void onCompleted(GraphResponse response) {
          /* handle the result */
 						try {
-							String userId = response.getJSONObject().getString("objectId");
-							user.setUserId(userId);
-							String email = response.getJSONObject().getString("email");
-							user.setEmail(email);
-							String name = response.getJSONObject().getString("name");
-							user.setName(name);
-							JSONObject picture = response.getJSONObject().getJSONObject("picture");
-							JSONObject data = picture.getJSONObject("data");
-							//  Returns a 50x50 profile picture
-							String pictureUrl = data.getString("url");
-							user.setPictureUrl(pictureUrl);
-							new ProfilePhotoAsync(pictureUrl).execute();
+							if (response != null && response.getJSONObject() != null) {
+								String email = response.getJSONObject().getString("email");
+								user.setEmail(email);
+								String name = response.getJSONObject().getString("name");
+								user.setName(name);
+								JSONObject picture = response.getJSONObject().getJSONObject("picture");
+								JSONObject data = picture.getJSONObject("data");
+								//  Returns a 50x50 profile picture
+								String pictureUrl = data.getString("url");
+								user.setPictureUrl(pictureUrl);
+								new ProfilePhotoAsync(pictureUrl).execute();
+							}
 						} catch (JSONException e) {
 							e.printStackTrace();
 						}

@@ -90,12 +90,18 @@ public class ProfileFragment extends Fragment implements TitleProvider {
 		pledgeService.getPledgeDone(userService.getUser().getUserId(), new CountCallback() {
 			@Override
 			public void done(int count, ParseException e) {
+				if (count < 0) {
+					count = 0;
+				}
 				positiveActionsDone.setText(String.valueOf(count));
 			}
 		});
 		pledgeService.getPledgeTotal(userService.getUser().getUserId(), new CountCallback() {
 			@Override
 			public void done(int count, ParseException e) {
+				if (count < 0) {
+					count = 0;
+				}
 				positiveActionsTotal.setText(String.valueOf(count));
 			}
 		});

@@ -68,9 +68,9 @@
         <receiver android:name=".model.NotificationPublisher" />
 
         <!-- Mac -->
-         <!--<meta-data-->
-         <!--android:name="com.google.android.geo.API_KEY"-->
-         <!--android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>-->
+         <meta-data
+         android:name="com.google.android.geo.API_KEY"
+         android:value="AIzaSyA6Oyeppf6cKOV41q3it-AkzzIop4Yq5n0"/>
 
         <!-- Masacre -->
         <!--<meta-data-->
@@ -78,9 +78,9 @@
             <!--android:value="AIzaSyAij63SIQ0QtgNyFiWU3xk1x1XltF9VpBI"/>-->
 
         <!-- OLX -->
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="AIzaSyB9zYzNtcVC87EI5jILN4jyL7I_EqACO-I"/>
+        <!--<meta-data-->
+            <!--android:name="com.google.android.geo.API_KEY"-->
+            <!--android:value="AIzaSyB9zYzNtcVC87EI5jILN4jyL7I_EqACO-I"/>-->
 
         <!-- PARSE -->
         <meta-data

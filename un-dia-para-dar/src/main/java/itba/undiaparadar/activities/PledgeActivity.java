@@ -28,6 +28,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.google.inject.Inject;
+import com.parse.ParseUser;
 import com.parse.SaveCallback;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -136,6 +137,10 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 						pledgeDate.setMinutes(dateTime.getMinutes());
 						pledge = new Pledge();
 						pledge.setCode(RandomStringUtils.random(6, true, true).toUpperCase());
+						if (userService.getUser().getUserId() == null) {
+							ParseUser parseUser = ParseUser.getCurrentUser();
+							userService.getUser().setUserId(parseUser.getObjectId());
+						}
 						pledge.setUserId(userService.getUser().getUserId());
 						pledge.setPositiveActionId(positiveAction.getId());
 						if (is24Hour) {
