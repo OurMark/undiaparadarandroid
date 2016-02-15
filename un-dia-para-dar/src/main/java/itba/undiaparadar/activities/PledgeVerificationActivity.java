@@ -60,7 +60,7 @@ public class PledgeVerificationActivity extends AppCompatActivity implements Get
 		sendButton.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(final View v) {
-				final String code = inputCode.getText().toString();
+				final String code = inputCode.getText().toString().toUpperCase();
 				if (pledge.getCode().equals(code)) {
 					pledge.setDone(PledgeStatus.DONE.ordinal());
 					initDialog();

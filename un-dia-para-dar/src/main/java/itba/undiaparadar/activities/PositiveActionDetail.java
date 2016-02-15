@@ -95,11 +95,13 @@ public class PositiveActionDetail extends AppCompatActivity {
 			topicService.getPositiveActionById(positiveActionId, new Response.Listener<List<PositiveAction>>() {
 				@Override
 				public void onResponse(List<PositiveAction> positiveActions) {
-					positiveAction = positiveActions.get(0);
-					dialog.dismiss();
-					setUpView();
-					setUpShareButton();
-					setUpPledgeButton(false, objectId);
+					if (!positiveActions.isEmpty()) {
+						positiveAction = positiveActions.get(0);
+						dialog.dismiss();
+						setUpView();
+						setUpShareButton();
+						setUpPledgeButton(false, objectId);
+					}
 				}
 			}, new Response.ErrorListener() {
 				@Override
