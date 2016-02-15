@@ -14,7 +14,10 @@ import android.widget.FrameLayout;
 import itba.undiaparadar.R;
 
 /**
- * Created by martin.purita on 1/18/16.
+ * This class represent an Activity that is open and close
+ * whit circular reveal animation
+ *
+ * @author Martin Purita - martinpurita@gmail.com
  */
 public abstract class CircularRevealActivity extends Activity {
     private static final int CIRCULAR_REVEAL_TRANSITION = 500;
@@ -22,7 +25,7 @@ public abstract class CircularRevealActivity extends Activity {
     private ViewTreeObserver.OnGlobalLayoutListener viewTreeObserverListener;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         overridePendingTransition(R.anim.do_not_move, R.anim.do_not_move);
         setContentView(getContentLayoutId());
@@ -52,18 +55,18 @@ public abstract class CircularRevealActivity extends Activity {
 
     /* default */ void exitReveal() {
         // get the center for the clipping circle
-        int cx = rootView.getMeasuredWidth() / 2;
-        int cy = rootView.getMeasuredHeight() / 2;
+        final int cx = rootView.getMeasuredWidth() / 2;
+        final int cy = rootView.getMeasuredHeight() / 2;
 
         // get the final radius for the clipping circle
-        int initialRadius = Math.max(rootView.getWidth(), rootView.getHeight()) / 2;
+        final int initialRadius = Math.max(rootView.getWidth(), rootView.getHeight()) / 2;
         revealAnimation(cx, cy, initialRadius, 0, true);
     }
 
     /* default */ void enterReveal() {
         // get the center for the clipping circle
-        int cx = rootView.getMeasuredWidth() / 2;
-        int cy = rootView.getMeasuredHeight() / 2;
+        final int cx = rootView.getMeasuredWidth() / 2;
+        final int cy = rootView.getMeasuredHeight() / 2;
 
         // get the final radius for the clipping circle
         int finalRadius = Math.max(rootView.getWidth(), rootView.getHeight()) / 2;
@@ -71,20 +74,20 @@ public abstract class CircularRevealActivity extends Activity {
     }
 
     private void revealAnimation(final int cx, final int cy, final int initialRadius,
-                                 final int finalRadius, final boolean isClosing) {
+        final int finalRadius, final boolean isClosing) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 
             // create the animator for this view (the start radius is zero)
-            Animator anim = ViewAnimationUtils.createCircularReveal(rootView, cx, cy, initialRadius, finalRadius);
+            final Animator anim = ViewAnimationUtils.createCircularReveal(rootView, cx, cy, initialRadius, finalRadius);
             anim.setDuration(CIRCULAR_REVEAL_TRANSITION);
             anim.addListener(new Animator.AnimatorListener() {
                 @Override
-                public void onAnimationStart(Animator animation) {
-
+                public void onAnimationStart(final Animator animation) {
+                    // No need to implement
                 }
 
                 @Override
-                public void onAnimationEnd(Animator animation) {
+                public void onAnimationEnd(final Animator animation) {
                     if (isClosing) {
                         rootView.setVisibility(View.INVISIBLE);
                         finish();
@@ -96,13 +99,13 @@ public abstract class CircularRevealActivity extends Activity {
                 }
 
                 @Override
-                public void onAnimationCancel(Animator animation) {
-
+                public void onAnimationCancel(final Animator animation) {
+                    //No need ti implement
                 }
 
                 @Override
-                public void onAnimationRepeat(Animator animation) {
-
+                public void onAnimationRepeat(final Animator animation) {
+                    //No need ti implement
                 }
             });
 
@@ -121,7 +124,7 @@ public abstract class CircularRevealActivity extends Activity {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(final MenuItem item) {
 
         if (item.getItemId() == android.R.id.home) {
             exitReveal();

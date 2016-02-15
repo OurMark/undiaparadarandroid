@@ -55,6 +55,7 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.model.Topic;
 import itba.undiaparadar.model.UnDiaParaDarMarker;
 import itba.undiaparadar.services.TopicService;
+import itba.undiaparadar.utils.Constants;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -379,10 +380,10 @@ public class MapFragment extends Fragment implements TitleProvider {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		super.onActivityResult(requestCode, resultCode, data);
 		if (requestCode == CHANGE_FILTER) {
-			if (resultCode == FilterActivity.FILTER_RESULT) {
+			if (resultCode == Constants.ResultCode.FILTER) {
 				final ArrayList<Topic> topicsFiltered = (ArrayList<Topic>) data
-						.getSerializableExtra(FilterActivity.TOPICS);
-				radius = data.getIntExtra(FilterActivity.RADIUS, NO_RADIUS);
+						.getSerializableExtra(Constants.ExtraKeys.TOPICS);
+				radius = data.getIntExtra(Constants.ExtraKeys.RADIUS, NO_RADIUS);
 				adapter.setItems(topicsFiltered);
 				refreshMap();
 			}
