@@ -7,10 +7,12 @@ import com.parse.ParseQuery;
 import com.parse.SaveCallback;
 
 import itba.undiaparadar.model.Pledge;
+import itba.undiaparadar.model.PledgeStatus;
 
 public class PledgeServiceImpl implements PledgeService {
     private static final String USER_ID = "userId";
     private static final String OBJECT_ID = "objectId";
+    private static final String DONE = "done";
 
     @Override
     public void retrievePledge(final String pledgeId, final GetCallback<Pledge> callback) {
@@ -28,7 +30,15 @@ public class PledgeServiceImpl implements PledgeService {
     public void retrievePledges(final String userId, final FindCallback<Pledge> findCallback) {
         ParseQuery<Pledge> query = ParseQuery.getQuery(Pledge.class);
         query.whereEqualTo(USER_ID, userId);
-        query.addAscendingOrder("done");
+        query.addAscendingOrder(DONE);
+        query.findInBackground(findCallback);
+    }
+
+    @Override
+    public void retrievePledges(final String userId, final FindCallback<Pledge> findCallback, final PledgeStatus pledgeStatus) {
+        ParseQuery<Pledge> query = ParseQuery.getQuery(Pledge.class);
+        query.whereEqualTo(USER_ID, userId).whereEqualTo(DONE, pledgeStatus.ordinal());
+        query.addAscendingOrder(DONE);
         query.findInBackground(findCallback);
     }
 
@@ -41,7 +51,7 @@ public class PledgeServiceImpl implements PledgeService {
     public void getPledgeDone(final String userId, final CountCallback countCallback) {
         ParseQuery<Pledge> query = ParseQuery.getQuery(Pledge.class);
         query.whereEqualTo(USER_ID, userId);
-        query.whereEqualTo("done", 1);
+        query.whereEqualTo(DONE, PledgeStatus.DONE.ordinal());
         query.countInBackground(countCallback);
     }
 

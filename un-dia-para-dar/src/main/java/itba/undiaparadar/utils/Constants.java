@@ -21,6 +21,8 @@ public final class Constants {
     public static class ExtraKeys {
         public static final String TOPICS = "topics";
         public static final String RADIUS = "radius";
+        public static final String DONE = "done";
+        public static final String PLEDGES = "pledges";
     }
 
     /**

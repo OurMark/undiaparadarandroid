@@ -10,10 +10,7 @@ import android.widget.TextView;
 
 import com.google.inject.Inject;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import itba.undiaparadar.R;
@@ -22,11 +19,8 @@ import itba.undiaparadar.activities.PledgeVerificationActivity;
 import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PledgeStatus;
 import itba.undiaparadar.services.PledgeService;
-import itba.undiaparadar.utils.DateUtils;
 
 public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapter.ViewHolder> {
-    private final java.text.DateFormat date12Format = new SimpleDateFormat( "dd/MM/yyy hh:mm:ss aa");
-    private final java.text.DateFormat date24Format = new SimpleDateFormat( "dd/MM/yyyy hh:mm:ss");
     @Inject
     private PledgeService pledgeService;
     private final List<Pledge> pledgeList = new ArrayList<>();
@@ -62,23 +56,11 @@ public class AchievementsAdapter extends RecyclerView.Adapter<AchievementsAdapte
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Pledge pledge = pledgeList.get(position);
         holder.positiveActionTitle.setText(pledge.getPositiveActionTitle());
-        final Date endDate = new Date();
 
-        try {
-            final Date startDate;
-            if (android.text.format.DateFormat.is24HourFormat(context)) {
-                startDate = date24Format.parse(pledge.getTargetDate());
-                holder.dateTime.setText(pledge.getTargetDate());
-            } else {
-                startDate = date12Format.parse(pledge.getTargetDate());
-                holder.dateTime.setText(pledge.getTargetDate());
-            }
-            if (DateUtils.daysBetween(endDate, startDate) > 7) {
-                pledge.setDone(PledgeStatus.FAILED.ordinal());
-                pledgeService.savePledge(pledge);
-            }
-        } catch (ParseException e) {
-
+        if (android.text.format.DateFormat.is24HourFormat(context)) {
+            holder.dateTime.setText(pledge.getTargetDate());
+        } else {
+            holder.dateTime.setText(pledge.getTargetDate());
         }
 
         if (pledge.getDone() == PledgeStatus.NEUTRAL.ordinal()) {
