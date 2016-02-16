@@ -16,6 +16,7 @@ import com.parse.ParseObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import itba.undiaparadar.helper.ApptimizeHelper;
 import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.module.ContextModule;
 import itba.undiaparadar.module.GsonModule;
@@ -47,6 +48,7 @@ public class UnDiaParaDarApplication extends MultiDexApplication {
 		ParseObject.registerSubclass(Pledge.class);
 		FacebookSdk.sdkInitialize(this);
 		ParseFacebookUtils.initialize(this);
+		ApptimizeHelper.initialize(this);
 		setUpInjector();
 		sharedPreferences = getApplicationContext().getSharedPreferences(SHARED_PREFERENCES, Context.MODE_PRIVATE);
 	}

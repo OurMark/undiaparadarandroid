@@ -41,6 +41,7 @@ import java.util.GregorianCalendar;
 
 import itba.undiaparadar.R;
 import itba.undiaparadar.UnDiaParaDarApplication;
+import itba.undiaparadar.helper.ApptimizeHelper;
 import itba.undiaparadar.model.NotificationPublisher;
 import itba.undiaparadar.model.Pledge;
 import itba.undiaparadar.model.PledgeStatus;
@@ -48,6 +49,7 @@ import itba.undiaparadar.model.PositiveAction;
 import itba.undiaparadar.services.PledgeService;
 import itba.undiaparadar.services.SettingsService;
 import itba.undiaparadar.services.UserService;
+import itba.undiaparadar.utils.DateUtils;
 import itba.undiaparadar.utils.GifDrawable;
 import itba.undiaparadar.utils.UnDiaParaDarDialog;
 
@@ -272,15 +274,16 @@ public class PledgeActivity extends AppCompatActivity implements DatePickerDialo
 	}
 
 	private void setupReminder() {
-//		if (DateUtils.daysBetween(pledgeDate, new Date()) > 1) {
+		if (ApptimizeHelper.isForDemo()) {
+			scheduleNotification(getNotification(), SystemClock.elapsedRealtime() + ApptimizeHelper.getNotificationTime());
+		} else if (DateUtils.daysBetween(pledgeDate, new Date()) > 1) {
 			final Calendar calendar = Calendar.getInstance();
 			calendar.setTime(pledgeDate);
 			calendar.set(Calendar.HOUR_OF_DAY, 8);
 			calendar.set(Calendar.MINUTE, 0);
 			calendar.set(Calendar.SECOND, 0);
-//			scheduleNotification(getNotification(), calendar.getTimeInMillis());
-		scheduleNotification(getNotification(), SystemClock.elapsedRealtime() + 1000);
-//		}
+			scheduleNotification(getNotification(), calendar.getTimeInMillis());
+		}
 	}
 
 	private void scheduleNotification(Notification notification, long delay) {
