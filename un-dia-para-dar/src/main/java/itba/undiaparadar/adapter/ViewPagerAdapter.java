@@ -21,10 +21,12 @@ public class ViewPagerAdapter extends FragmentStatePagerAdapter {
     public Fragment getItem(int position) {
         switch (position) {
             case 0:
-                return AchievementsTabFragment.newInstance(PledgeStatus.DONE);
+                return AchievementsTabFragment.newInstance();
             case 1:
-                return AchievementsTabFragment.newInstance(PledgeStatus.NEUTRAL);
+                return AchievementsTabFragment.newInstance(PledgeStatus.DONE);
             case 2:
+                return AchievementsTabFragment.newInstance(PledgeStatus.NEUTRAL);
+            case 3:
                 return AchievementsTabFragment.newInstance(PledgeStatus.FAILED);
             default:
                 return AchievementsTabFragment.newInstance(PledgeStatus.DONE);

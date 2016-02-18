@@ -40,6 +40,10 @@ public class AchievementsTabFragment extends Fragment implements TitleProvider, 
 	private Dialog dialog;
 	private PledgeStatus pledgeStatus;
 
+	public static Fragment newInstance() {
+		return new AchievementsTabFragment();
+	}
+
 	public static Fragment newInstance(final PledgeStatus pledgeStatus) {
 		final AchievementsTabFragment fragment = new AchievementsTabFragment();
 		final Bundle bundle = new Bundle();
@@ -64,7 +68,10 @@ public class AchievementsTabFragment extends Fragment implements TitleProvider, 
 	@Override
 	public void onViewCreated(final View view, @Nullable final Bundle savedInstanceState) {
 		super.onViewCreated(view, savedInstanceState);
-		pledgeStatus = (PledgeStatus) getArguments().getSerializable(Constants.ExtraKeys.DONE);
+		final Bundle arguments = getArguments();
+		if (arguments != null) {
+			pledgeStatus = (PledgeStatus) arguments.getSerializable(Constants.ExtraKeys.DONE);
+		}
 		final RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.recycler_view);
 		recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 		recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(), DividerItemDecoration.VERTICAL_LIST));

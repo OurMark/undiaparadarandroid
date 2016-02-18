@@ -66,7 +66,8 @@
     <string name="schedule">Horario:</string>
     <string name="parse_application_id">EQYn0fafGF0NFi7IyZDBzBUKWcewFKI6SsiMUIe8</string>
     <string name="parse_client_key">9nii0zRFoSxyzyspa1bqihXzdbaYAF561twEbB2j</string>
-    <string name="pledges_done">Confirmados</string>
+    <string name="pledges_done">Cumplido</string>
     <string name="pledges_neutral">Pendiente</string>
     <string name="pledges_failed">Fallados</string>
+    <string name="total">Total</string>
 </resources>

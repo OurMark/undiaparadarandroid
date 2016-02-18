@@ -36,10 +36,14 @@ public class PledgeServiceImpl implements PledgeService {
 
     @Override
     public void retrievePledges(final String userId, final FindCallback<Pledge> findCallback, final PledgeStatus pledgeStatus) {
-        ParseQuery<Pledge> query = ParseQuery.getQuery(Pledge.class);
-        query.whereEqualTo(USER_ID, userId).whereEqualTo(DONE, pledgeStatus.ordinal());
-        query.addAscendingOrder(DONE);
-        query.findInBackground(findCallback);
+        if (pledgeStatus == null) {
+            retrievePledges(userId, findCallback);
+        } else {
+            ParseQuery<Pledge> query = ParseQuery.getQuery(Pledge.class);
+            query.whereEqualTo(USER_ID, userId).whereEqualTo(DONE, pledgeStatus.ordinal());
+            query.addAscendingOrder(DONE);
+            query.findInBackground(findCallback);
+        }
     }
 
     @Override

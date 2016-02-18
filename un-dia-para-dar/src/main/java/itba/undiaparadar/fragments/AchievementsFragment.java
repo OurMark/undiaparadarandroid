@@ -58,6 +58,7 @@ public class AchievementsFragment extends Fragment implements TitleProvider {
 
 	private void setupViewPager(ViewPager viewPager) {
 		ViewPagerAdapter adapter = new ViewPagerAdapter(getFragmentManager());
+		adapter.addFrag(getString(R.string.total));
 		adapter.addFrag(getString(R.string.pledges_done));
 		adapter.addFrag(getString(R.string.pledges_neutral));
 		adapter.addFrag(getString(R.string.pledges_failed));
